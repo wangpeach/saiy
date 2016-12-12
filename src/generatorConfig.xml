@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!--"WEB-INF/lib/mysql-connector-java-5.1.33-bin.jar-->
+	<classPathEntry location="../WebContent/WEB-INF/lib/mysql-connector-java-5.1.33-bin.jar"></classPathEntry>
+	
+	<context id="MySql" targetRuntime="MyBatis3">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+			connectionURL="jdbc:mysql://192.168.1.69:3306/development"
+			userId="root" 
+			password="tiger">
+		</jdbcConnection>
+		
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false"></property>
+		</javaTypeResolver>
+		<javaModelGenerator targetPackage="com.jtsj.models" targetProject="../src">
+			<property name="enableSubPackages" value="true"></property>
+			<property name="trimStrings" value="true"></property>
+		</javaModelGenerator>
+		
+		<sqlMapGenerator targetPackage="com.jtsj.mapper" targetProject="../src">
+			<property name="enableSubPackages" value="true"></property>
+		</sqlMapGenerator>
+		
+		<javaClientGenerator type="XMLMAPPER" 
+			targetPackage="com.jtsj.mapper" 
+			implementationPackage="com.jtsj.mapper.impl" 
+			targetProject="../src">
+			<property name="enableSubPackages" value="true"></property>
+		</javaClientGenerator>
+		<!-- 配置要生成的文件，根据数据表生成底层代码 -->
+		<!-- <table tableName="example" domainObjectName="example"></table> -->
+		<!--<table tableName="sys_resact_rele" domainObjectName="ResActionRele"></table> 
+		<table tableName="sys_resaction" domainObjectName="ResAction"></table>  
+		<table tableName="cabinet" domainObjectName="Cabinet"></table>
+		<table tableName="cabinet_item" domainObjectName="CabinetItem"></table>
+		<table tableName="cabinet_type" domainObjectName="CabinetType"></table>
+		<table tableName="cases" domainObjectName="Cases"></table>
+		<table tableName="sys_role" domainObjectName="Role"></table> 
+		<table tableName="sys_resrole_rele" domainObjectName="RoleResRele"></table> 
+		<table tableName="sys_rolereleact_rele" domainObjectName="RoleActionRele"></table>
+		<table tableName="proff_photo" domainObjectName="ProffPhoto"></table>
+		<table tableName="status" domainObjectName="Status"></table>
+		<table tableName="browsecases" domainObjectName="BrowseCases"></table>
+		<table tableName="sys_role" domainObjectName="Role"></table>
+		<table tableName="sys_unit" domainObjectName="Unit"></table> 
+		<table tableName="sys_resources" domainObjectName="Resources"></table>
+		<table tableName="sys_user" domainObjectName="User"></table> 
+		<table tableName="sys_resact_rele" domainObjectName="ResActionRele"></table> 
+		<table tableName="mold_data" domainObjectName="Mold"></table>
+		<table tableName="proff" domainObjectName="Proff"></table> 
+		<table tableName="proff" domainObjectName="Proff"></table>
+		
+		<table tableName="sys_userrole_rele" domainObjectName="UserRoleRele"></table> 	
+		<table tableName="proff" domainObjectName="Proff"></table> 
+		<table tableName="sys_userrole_rele" domainObjectName="UserRoleRele"></table>-->
+		<table tableName="proff_gz" domainObjectName="ProffGz"></table> 
+	</context>
+</generatorConfiguration>

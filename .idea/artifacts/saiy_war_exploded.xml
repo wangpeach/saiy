@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="saiy:war exploded">
+    <output-path>D:/Program Files/apache-tomcat-7.0.73/webapps/saiy</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="saiy/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="saiy" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
