@@ -8,6 +8,6 @@ var app = {
 
 $(document).foundation();
 
-$.post(app.req_url, {limit: 1}, function(data) {
+$.get(app.req_url, {limit: 1}, function(data) {
     $(".test").text(data);
-}, "jsonp");
+}, "jsonp")
