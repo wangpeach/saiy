@@ -10,4 +10,4 @@ $(document).foundation();
 
 $.post(app.req_url, {limit: 1}, function(data) {
     $(".test").text(data);
-}, "json");
+}, "jsonp");
