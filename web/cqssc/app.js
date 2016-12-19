@@ -1,13 +1,43 @@
-/**
- * Created by rjora on 2016/12/16 0016.
- */
-
-var app = {
-    req_url: 'http://www.cp66607.com/api/cqssc?act=lishikaijianghaoma'
-}
-
 $(document).foundation();
 
-$.get(app.req_url, {limit: 1}, function(data) {
-    $(".test").text(data);
-}, "jsonp")
+var cqssc = (function() {
+    var config = {
+        peak: {
+            AM:[0, 2],
+            PM: [10, 12],
+            interval: 5
+        },
+        usually: {
+            times: [10, 22],
+            interval: 10
+        }
+    };
+
+    function cqssc() {
+        if (!(this instanceof cqssc)) {
+            return new cqssc();
+        }
+    }
+
+    cqssc.getAll = function() {
+        var defer = $.Deferred();
+        $.post("cqall", {}, function(data) {
+            defer.resolve(data);
+        });
+        return defer.promise();
+    };
+
+    cqssc.gethaoma = function(limit) {
+        var defer = $.Deferred();
+        $.post("cqhaoma", {"limit": limit}, function (data) {
+            defer.resolve(data);
+        });
+        return defer.promise();
+    };
+
+    cqssc.getAll().done(function (data) {
+        
+    });
+
+
+}());

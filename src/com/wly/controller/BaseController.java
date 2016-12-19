@@ -1,5 +1,14 @@
 package com.wly.controller;
 
+import com.wly.utils._HttpConnection;
+import com.wly.utils._HttpConnection.HttpMethod;
+import com.wly.utils._HttpConnection.HttpType;
+import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -12,17 +21,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
-
-import com.wly.utils.HttpConnection;
-import com.wly.utils.HttpConnection.HttpMethod;
-import com.wly.utils.HttpConnection.HttpType;
 
 public class BaseController {
 	private Logger log = Logger.getLogger(BaseController.class);
@@ -56,12 +54,12 @@ public class BaseController {
 	
 	/**
 	 * 报文转发
-	 * @param rui
+	 * @param
 	 * @return
 	 */
 	protected String sendRequest(String uri) {
 		this.printLog(log);
-		HttpConnection conn = new HttpConnection(HttpType.http, HttpMethod.POST, 3000);
+		_HttpConnection conn = new _HttpConnection(HttpType.http, HttpMethod.POST);
 		return conn.sendRequest(uri, this.modarg());
 	}
 	

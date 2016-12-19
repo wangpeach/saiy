@@ -12,23 +12,23 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class HttpConnection {
-	
-	public HttpConnection(HttpType arg) {
+public class _HttpConnection {
+
+	public _HttpConnection(HttpType arg) {
 		this.httpType = arg;
 	}
-	
-	public HttpConnection(HttpType arg, int timeout) {
+
+	public _HttpConnection(HttpType arg, int timeout) {
 		this.timeout = timeout;
 		this.httpType = arg;
 	}
-	
-	public HttpConnection(HttpType arg, HttpMethod httpMethod) {
+
+	public _HttpConnection(HttpType arg, HttpMethod httpMethod) {
 		this.requestMethod = httpMethod;
 		this.httpType = arg;
 	}
-	
-	public HttpConnection(HttpType arg, HttpMethod httpMethod, int timeout) {
+
+	public _HttpConnection(HttpType arg, HttpMethod httpMethod, int timeout) {
 		this.httpType = arg;
 		this.requestMethod = httpMethod;
 		this.timeout = timeout;
@@ -53,8 +53,8 @@ public class HttpConnection {
 		this.httpType = httpType;
 	}
 
-	private HttpMethod requestMethod = HttpMethod.POST;
-	private String httpMethod = "POST";
+	private HttpMethod requestMethod = HttpMethod.GET;
+	private String httpMethod = "GET";
 	
 	public HttpMethod getRequestMethod() {
 		return requestMethod;
@@ -84,7 +84,7 @@ public class HttpConnection {
 		URL url;
 		try {
 			url = new URL(arg);
-			HttpsURLConnection connect = (HttpsURLConnection)url.openConnection(); 
+			HttpsURLConnection connect = (HttpsURLConnection)url.openConnection();
 			connect.setRequestMethod(this.httpMethod);
 			connect.setHostnameVerifier(new HostnameVerifier() {
 				public boolean verify(String hostname, SSLSession session) {
@@ -92,22 +92,22 @@ public class HttpConnection {
 					return true;
 				}
 			});
-			
-			connect.setRequestProperty("Content-Type", 
+
+			connect.setRequestProperty("Content-Type",
 			        "application/x-www-form-urlencoded");
 			//设置输入输出参数
 			connect.setDoInput(true);
 			connect.setDoOutput(true);
-			
+
 			connect.setConnectTimeout(timeout);
-			
+
 			DataOutputStream out = new DataOutputStream(connect.getOutputStream());
 			//输入参数
 			out.write(arg1.getBytes("utf-8"));
-			
+
 			//发起请求
 			InputStream is = connect.getInputStream();
-			
+
 		    BufferedReader rd = new BufferedReader(new InputStreamReader(is, "utf-8"));
 		    StringBuilder result = new StringBuilder();
 		    String line;
@@ -147,7 +147,7 @@ public class HttpConnection {
 				connect.setRequestMethod(this.httpMethod);
 				_urlcon = connect;
 			} else {
-				HttpsURLConnection connect = (HttpsURLConnection)url.openConnection(); 
+				HttpsURLConnection connect = (HttpsURLConnection)url.openConnection();
 				connect.setRequestMethod(this.httpMethod);
 				connect.setHostnameVerifier(new HostnameVerifier() {
 					public boolean verify(String hostname, SSLSession session) {
@@ -164,7 +164,7 @@ public class HttpConnection {
 			e.printStackTrace();
 			System.out.println(arg1);
 			System.out.println("上面请求路径出错");
-		} 
+		}
 		return complete;
 	}
 	
@@ -208,7 +208,7 @@ public class HttpConnection {
 				}
 				pv = sbr.substring(0, sbr.length()-1).toString();
 			}
-//			out.writeUTF();
+			System.out.println(pv);
 			out.writeBytes(pv);
 			
 			//发起请求
