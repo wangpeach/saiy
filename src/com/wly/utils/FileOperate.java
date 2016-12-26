@@ -118,6 +118,25 @@ public class FileOperate {
 		}
 		return stream;
 	}
+
+	public static String readfile(String path) {
+		StringBuffer sb = new StringBuffer();
+
+		try {
+			InputStream is = FileOperate.getStream(path, false);
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			isr.close();
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
 	
 	public static List<InputStream> getFileStream(List<File> file) {
 		List<InputStream> streams = new ArrayList<InputStream>();

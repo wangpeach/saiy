@@ -135,7 +135,6 @@ public class _HttpConnection {
 	 * @return
 	 */
 	public String sendRequest(String arg1, Map<String, Object> arg2) {
-		System.out.println("start request..");
 		String complete = null;
 		URL url = null;
 		try {
@@ -228,7 +227,6 @@ public class _HttpConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("request end..");
 		return complete;
 	}
 	

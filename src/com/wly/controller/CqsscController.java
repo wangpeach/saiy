@@ -1,6 +1,7 @@
 package com.wly.controller;
 
 import com.wly.service.CqsscService;
+import com.wly.utils.Utils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -48,14 +49,18 @@ public class CqsscController extends BaseController{
     }
 
     public String all() {
-        Calendar cal = Calendar.getInstance();
-        String cur = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
+        String cur = request.getParameter("date");
+        if(!Utils.isNotNullOrEmpty(cur)) {
+            Calendar cal = Calendar.getInstance();
+            cur = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
+        }
         output(cqsscService.synchronize(cur));
         return null;
     }
 
     public static void main(String[] args) {
         CqsscService cs = new CqsscService();
-        System.out.println(cs.synchronize("2016-12-19"));
+        cs.holdCodes("2016-12-23");
+//        System.out.println(cs.synchronize("2016-12-19"));
     }
 }
