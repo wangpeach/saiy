@@ -28,15 +28,20 @@ var cqssc = (function() {
         return codes;
     }
 
-    cqssc.getAll = function(d) {
+    /**
+     * [获取所有数据]
+     * @param  {[type]} d [description]
+     * @return {[type]}   [description]
+     */
+    cqssc.getAllCodes = function(d) {
         var defer = $.Deferred();
         codes = cqssc.session();
         if (!codes) {
             $.post("cqall", { date: d }, function(data) {
                 if (!cqssc.session()) {
-                    sessionStorage.setItem("codes", JSON.stringify(data.data));
+                    sessionStorage.setItem("codes", JSON.stringify(data));
                 }
-                defer.resolve(data.data);
+                defer.resolve(data);
             }, 'json');
         } else {
             defer.resolve(codes);
@@ -44,39 +49,56 @@ var cqssc = (function() {
         return defer.promise();
     };
 
-    cqssc.gethaoma = function(limit) {
+    /**
+     * [getCode description]
+     * @param  {[type]} limit [description]
+     * @return {[type]}       [description]
+     */
+    cqssc.getCode = function(limit) {
         var defer = $.Deferred();
         $.post("cqhaoma", {
             "limit": limit
         }, function(data) {
-            cqssc.session(data.data);
+            cqssc.session(data);
             defer.resolve(data);
         }, 'json');
         return defer.promise();
     };
 
+    /**
+     * 全部数据加载完启动
+     * @return {[type]} [description]
+     */
     cqssc.start = function() {
         var date = new Date();
-        var minutes = 0,
-            seconds = 0;
+        var hour = 0,
+            minutes = 0,
+            seconds = 0,
+            cal = new Calendar();
         var interval = setInterval(function() {
-            if (cqssc.config.curterm == 19) {
-                clearInterval(interval);
-                // 8小时
+            //2点后停止（23期是最后一期），早上10点开始
+            hour = date.getHours();
+            minutes = date.getMinutes();
+            seconds = date.getSeconds();
+            if (cqssc.config.curterm == 24 && hour <= 9 && minutes <= 58) {
+                var cur = new Date();
+                var startDate = new Date();
+                startDate.setHours(9);
+                startDate.setMinutes(58);
+                seconds = cal.dateDiff(startDate, cur);
+                // 剩余秒数
+
+            } else {
+                if (minutes.toString().endsWith("1") && seconds % 5 == 0) {
+                    cqssc.getCode().done(function(data) {
+                        //surplus throw into ..
+                        
+                    });
+                }
+                if (minutes.toString().endsWith("8")) {
+                    // open codes surplus ..
+                }
             }
-            minutes = date.getMinutes(), seconds = date.getSeconds();
-
-            if (minutes.toString().endsWith("1") && seconds % 5 == 0) {
-                cqssc.gethaoma().done(function(data) {
-                    //surplus throw into ..
-
-                });
-            }
-
-            if (minutes.toString().endsWith("8")) {
-                // open codes surplus ..
-            }
-
         }, 1000)
     };
 
@@ -89,7 +111,6 @@ var cqssc = (function() {
     cqssc.fill = function(codeJson, i) {
         //指针移向下一期
         cqssc.config.curterm++;
-
         var col = $("[data-inx='" + i + "']").find(".columns");
         $(col[0]).text(codeJson.expect.substring(codeJson.expect.length - 3));
         var codes = codeJson.opencode.split(",");
@@ -115,7 +136,7 @@ var cqssc = (function() {
      * @param  {[type]}
      * @return {[type]}
      */
-    cqssc.getAll().done(function(data) {
+    cqssc.getAllCodes().done(function(data) {
         var datas = data.reverse();
         var rows = $(".data-row");
         for (var i = 0; i < 120; i++) {
@@ -152,7 +173,7 @@ var cqssc = (function() {
                 date = cal.getCustomDate(-2);
                 break;
         }
-        cqssc.getAll(date).done(function(data) {
+        cqssc.getAllCodes(date).done(function(data) {
             var datas = data.reverse();
             for (var i = 0; i < datas.length; i++) {
                 cqssc.fill(datas[i], i);

@@ -10,11 +10,11 @@ import javax.annotation.Resource;
 @Service(value = "historyScheduler")
 public class HistoryScheduler {
 
-	@Resource
-	private CqsscService cqsscService;
+    @Resource
+    private CqsscService cqsscService;
 
-	//每晚备份
-	public void exec() {
-		cqsscService.holdCodes(null);
-	}
+    //每晚备份
+    public void exec() {
+        cqsscService.holdCodes(null);
+    }
 }

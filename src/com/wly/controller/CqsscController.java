@@ -1,16 +1,14 @@
 package com.wly.controller;
 
 import com.wly.service.CqsscService;
-import com.wly.utils.Utils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import java.util.Calendar;
 
 @Controller
 @Scope(value = "prototype")
-public class CqsscController extends BaseController{
+public class CqsscController extends BaseController {
 
     private int limit;
 
@@ -24,6 +22,7 @@ public class CqsscController extends BaseController{
         this.day = day;
     }
 
+
     public int getLimit() {
         return limit;
     }
@@ -31,8 +30,6 @@ public class CqsscController extends BaseController{
     public void setLimit(int limit) {
         this.limit = limit;
     }
-
-
 
     @Resource
     private CqsscService cqsscService;
@@ -43,24 +40,21 @@ public class CqsscController extends BaseController{
     }
 
     public String haoma() {
-        System.out.println(request.getParameter("limit"));
-        output(cqsscService.reqHaoMa(limit, day));
+        String code = cqsscService.reqHaoMa(limit, day);
+        cqsscService.putCode(code);
+        output(code);
         return null;
     }
 
     public String all() {
-        String cur = request.getParameter("date");
-        if(!Utils.isNotNullOrEmpty(cur)) {
-            Calendar cal = Calendar.getInstance();
-            cur = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
-        }
-        output(cqsscService.synchronize(cur));
+        String day = request.getParameter("date");
+        output(cqsscService.synchronize(day));
         return null;
     }
 
     public static void main(String[] args) {
         CqsscService cs = new CqsscService();
-        cs.holdCodes("2016-12-23");
+//        cs.holdCodes("2016-12-23");
 //        System.out.println(cs.synchronize("2016-12-19"));
     }
 }

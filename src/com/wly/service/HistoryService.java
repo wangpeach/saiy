@@ -4,9 +4,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class HistoryService {
-	
-	private String URL = "";
-	
-	
-	
+
+    private String URL = "";
+
+
 }
