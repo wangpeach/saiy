@@ -1,17 +1,13 @@
 package com.wly.service;
 
 import com.google.gson.Gson;
-import com.opensymphony.xwork2.ActionContext;
 import com.wly.utils.FileOperate;
 import com.wly.utils.Utils;
 import com.wly.utils._HttpConnection;
-import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class CqsscService extends BaseService {
@@ -19,7 +15,7 @@ public class CqsscService extends BaseService {
     //	private static final String url = "http://f.apiplus.cn/cqssc-%s.json";
     private static final String url = "http://t.apiplus.cn/%s.do?token=demo&code=cqssc&format=json";
     public static final String SAVEPAHT = "D://lshm//";
-
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * 获取某一天的数据
@@ -30,26 +26,13 @@ public class CqsscService extends BaseService {
     public String synchronize(String day) {
         String codes = null;
         Calendar cal = Calendar.getInstance();
-        String curday = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
+//        cal.add(Calendar.MONTH, 1);
+        String curday = dateFormat.format(cal.getTime());
         // 获取历史数据
-        if (Utils.isNotNullOrEmpty(day) && !curday.equals(day)) {
-            codes = this.readCodes(day);
+        if (!Utils.isNotNullOrEmpty(day)) {
+            day = curday;
         }
-        //获取今天数据
-        if (!Utils.isNotNullOrEmpty(codes)) {
-            //今天数据是否已经缓存，已缓存直接返回
-            ActionContext context = ServletActionContext.getContext();
-            Map<String, Object> app = context.getApplication();
-
-            if(app.get("codes") != null) {
-                codes = app.get("codes").toString();
-            }
-            if(!Utils.isNotNullOrEmpty(codes)) {
-                codes = this.reqHaoMa(-1, curday);
-                app.put("codes", codes);
-                context.setApplication(app);
-            }
-        }
+        codes = this.readCodes(day);
         return codes;
     }
 
@@ -74,7 +57,8 @@ public class CqsscService extends BaseService {
         }
         _HttpConnection conn = new _HttpConnection(_HttpConnection.HttpType.http, _HttpConnection.HttpMethod.GET);
         String result = conn.sendRequest(reqUrl, arg);
-        return this.toJson(this.handleJson(result));
+        result = this.toJson(this.handleJson(result));
+        return result;
     }
 
     /**
@@ -106,45 +90,81 @@ public class CqsscService extends BaseService {
         String day = date;
         if (!Utils.isNotNullOrEmpty(day)) {
             Calendar cal = Calendar.getInstance();
-            day = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
+//            cal.add(Calendar.MONTH, 1);
+            day = dateFormat.format(cal.getTime());
         }
         String path = SAVEPAHT + day + ".json";
         //获取项目目录
         //FileOperate.getRootPath("saiy");
         //获取历史
         String codesJson = this.reqHaoMa(-1, day);
-        FileOperate.createNewFile(codesJson, path);
+        FileOperate.saveFile(codesJson, path);
         return codesJson;
     }
 
+
     /**
      * 存放最近数据
-     * @param json
+     *
+     * @param json 需要存放的数据
+     * @return 是否已存放
      */
-    public void putCode(String json) {
-        ActionContext context = ServletActionContext.getContext();
-        Map<String, Object> app = context.getApplication();
-
-        String codesJson = app.get("codes").toString();
-
+    public boolean putCode(String json) {
+        boolean puted = false;
         Gson gson = new Gson();
+        Map<String, Object> code = (Map<String, Object>) gson.fromJson(json, List.class).get(0);
 
-        Map<String, Object> code = (Map<String, Object>)gson.fromJson(json, List.class).get(0);
+        Calendar cal = Calendar.getInstance();
+        //最后一期数据在24:01左右开奖,所以日期向前推1天
+        if (code.get("expect").toString().endsWith("120")) {
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+        }
+        String day  = dateFormat.format(cal.getTime());
 
-        List<Map<String, Object>> codes = gson.fromJson(codesJson, List.class);
-        codes.add(0, code);
+        String codesJson = "";
+        String path = SAVEPAHT + day + ".json";
+        if (FileOperate.isExists(path)) {
+            codesJson = FileOperate.readfile(path);
+        }
 
-        app.put("codes", this.toJson(codes));
-        context.setApplication(app);
+        List<Map<String, Object>> codes = null;
+
+        if (!Utils.isNotNullOrEmpty(codesJson)) {
+            codes = new ArrayList<Map<String, Object>>();
+            codes.add(0, code);
+            FileOperate.saveFile(this.toJson((codes)), path);
+            puted = true;
+        } else {
+            codes = gson.fromJson(codesJson, List.class);
+            //新的一期
+            if (!codes.get(0).get("expect").equals(code.get("expect"))) {
+                codes.add(0, code);
+                FileOperate.saveFile(this.toJson((codes)), path);
+                puted = true;
+            }
+        }
+        return puted;
     }
 
+    /**
+     * 处理请求的数据，只需要开奖号码
+     *
+     * @param json
+     * @return
+     */
     public List<Map<String, Object>> handleJson(String json) {
         Gson gson = new Gson();
-        Map<String, Object> map  =gson.fromJson(json, Map.class);
+        Map<String, Object> map = gson.fromJson(json, Map.class);
         List<Map<String, Object>> codes = (List<Map<String, Object>>) map.get("data");
         return codes;
     }
 
+    /**
+     * 将开奖号码转换成json数据
+     *
+     * @param codes
+     * @return
+     */
     public String toJson(List<Map<String, Object>> codes) {
         Gson gson = new Gson();
         return gson.toJson(codes, List.class);

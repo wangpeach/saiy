@@ -40,9 +40,9 @@ public class CqsscController extends BaseController {
     }
 
     public String haoma() {
-        String code = cqsscService.reqHaoMa(limit, day);
-        cqsscService.putCode(code);
-        output(code);
+//        String code = cqsscService.reqHaoMa(limit, day);
+        //获取文件第一条数据
+//        output(code);
         return null;
     }
 

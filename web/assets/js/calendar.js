@@ -34,7 +34,11 @@ var Calendar = function() {
 
     this.getCustomDate = function(n) {
         var uom = new Date(new Date() - 0 + n * 86400000);
-        uom = uom.getFullYear() + "-" + (uom.getMonth() + 1) + "-" + uom.getDate();
+        var month = uom.getMonth() + 1;
+        var day = uom.getDate();
+        month = (month < 10 ? ("0" + month) : month);
+        day = (day < 10 ? ("0" + day) : day);
+        uom = uom.getFullYear() + "-" + month + "-" + day;
         return uom;
     }
 

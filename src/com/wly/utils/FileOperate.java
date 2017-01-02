@@ -47,11 +47,14 @@ public class FileOperate {
      * @param fullPath
      * @return
      */
-    public static void createNewFile(String content, String fullPath) {
+    public static void saveFile(String content, String fullPath) {
         File file = new File(fullPath);
         try {
-            file.createNewFile();
+            if(!file.exists()) {
+                file.createNewFile();
+            }
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write("");
             bw.write(content);
             bw.flush();
             bw.close();
