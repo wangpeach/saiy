@@ -12,7 +12,6 @@ import java.util.*;
 @Service
 public class CqsscService extends BaseService {
 
-    //	private static final String url = "http://f.apiplus.cn/cqssc-%s.json";
     private static final String url = "http://t.apiplus.cn/%s.do?token=demo&code=cqssc&format=json";
     public static final String SAVEPAHT = "D://lshm//";
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,6 +71,11 @@ public class CqsscService extends BaseService {
         String path = SAVEPAHT + day + ".json";
         if (FileOperate.isExists(path)) {
             codes = FileOperate.readfile(path);
+            Gson gson = new Gson();
+            List list = gson.fromJson(codes, List.class);
+            if(list.size() < 120) {
+                codes = this.holdCodes(day);
+            }
         } else {
             //本地文件不存在情况下请求数据后保存
             codes = holdCodes(day);
@@ -90,7 +94,6 @@ public class CqsscService extends BaseService {
         String day = date;
         if (!Utils.isNotNullOrEmpty(day)) {
             Calendar cal = Calendar.getInstance();
-//            cal.add(Calendar.MONTH, 1);
             day = dateFormat.format(cal.getTime());
         }
         String path = SAVEPAHT + day + ".json";

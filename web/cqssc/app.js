@@ -34,6 +34,7 @@ var cqssc = (function() {
      * @return {[type]}   [description]
      */
     cqssc.getAllCodes = function(d) {
+        var inx = layer.load(1);
         var defer = $.Deferred();
         codes = cqssc.session();
         if (!codes) {
@@ -42,6 +43,7 @@ var cqssc = (function() {
                     sessionStorage.setItem("codes", JSON.stringify(data));
                 }
                 defer.resolve(data);
+                layer.close(inx);
             }, 'json');
         } else {
             defer.resolve(codes);
@@ -92,7 +94,7 @@ var cqssc = (function() {
                 if (minutes.toString().endsWith("1") && seconds % 5 == 0) {
                     cqssc.getCode().done(function(data) {
                         //surplus throw into ..
-                        
+
                     });
                 }
                 if (minutes.toString().endsWith("8")) {
@@ -101,6 +103,13 @@ var cqssc = (function() {
             }
         }, 1000)
     };
+
+    cqssc.iteration = function(codes) {
+        codes = codes.reverse();
+        for (var i = 0; i < codes.length; i++) {
+            cqssc.fill(codes[i], i);
+        }
+    }
 
     /**
      * 填充数据
@@ -136,51 +145,54 @@ var cqssc = (function() {
      * @param  {[type]}
      * @return {[type]}
      */
-    cqssc.getAllCodes().done(function(data) {
-        var datas = data.reverse();
+    cqssc.getAllCodes().done(function(codes) {
         var rows = $(".data-row");
         for (var i = 0; i < 120; i++) {
             $(rows[i]).attr("data-inx", i);
         }
-        for (var i = 0; i < datas.length; i++) {
-            cqssc.fill(datas[i], i);
-        }
+        cqssc.iteration(codes);
     });
 
     /**
-     * 切换开奖结果分析
+     * 获取某日数据
      * @param  {[type]}
      * @param  {[type]}
      * @return {[type]}
      */
     $("#header a.swdate").click(function(event) {
         /* Act on the event */
-        $(".data-row > .columns").empty();
-        sessionStorage.removeItem("codes");
-        if($(this).hasClass("active")) return false;
-        $(this).parent().find('a').removeClass('active');
-        $(this).addClass('active');
-        $(".cus-date").text("自选");
-        var date = "", cal = new Calendar();
-        switch ($(this).data("val")) {
-            case 'tod':
-                date = new Date().Format("yyyy-MM-dd");
-                break;
-            case 'ysd':
-                date = cal.getCustomDate(-1);
-                break;
-            case 'bysd':
-                date = cal.getCustomDate(-2);
-                break;
-        }
-        cqssc.getAllCodes(date).done(function(data) {
-            var datas = data.reverse();
-            for (var i = 0; i < datas.length; i++) {
-                cqssc.fill(datas[i], i);
+        if (!$(this).hasClass('active')) {
+            $(".data-row > .columns").empty();
+            sessionStorage.removeItem("codes");
+            if ($(this).hasClass("active")) return false;
+            $(this).parent().find('a').removeClass('active');
+            $(this).addClass('active');
+            $(".cus-date").text("自选");
+            var date = "",
+                cal = new Calendar();
+            switch ($(this).data("val")) {
+                case 'tod':
+                    date = new Date().Format("yyyy-MM-dd");
+                    break;
+                case 'ysd':
+                    date = cal.getCustomDate(-1);
+                    break;
+                case 'bysd':
+                    date = cal.getCustomDate(-2);
+                    break;
             }
-        });
+            cqssc.getAllCodes(date).done(function(codes) {
+                cqssc.iteration(codes);
+            });
+        }
     });
 
+    /**
+     * 切换开奖数据分析
+     * @param  {[type]}
+     * @param  {[type]}
+     * @return {[type]}
+     */
     $("#header a.killtype").click(function(event) {
         /* Act on the event */
         var target = $("." + $(this).data("for") + "");
@@ -203,6 +215,11 @@ var cqssc = (function() {
         onSelect: function(formattedDate, date, inst) {
             $(".cus-date").text(formattedDate).parent().find('a').removeClass('active');
             $(".cus-date").addClass('active');
+            $(".data-row > .columns").empty();
+            sessionStorage.removeItem("codes");
+            cqssc.getAllCodes(formattedDate).done(function(codes) {
+                cqssc.iteration(codes);
+            });
         }
     })
 }());

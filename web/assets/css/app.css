@@ -45,7 +45,7 @@ body {
 }
 .cq > #header .button.secondary {
 	font-size: 13px;
-	color: #FFF4B7;
+	color: #fde9a1;
 	background-color: #2d2d2d;
 }
 .cq > #header .button.secondary.active {
@@ -91,7 +91,7 @@ body {
 }
 .cq>.container>.code>.col .Tl.columns {
 	height: 30px;
-	color: #FFF4D2;
+	color: #fde9a1;
 	border-bottom: 1px solid #262626;
 }
 .cq>.container>.code>.col .Tl.columns.trigger {

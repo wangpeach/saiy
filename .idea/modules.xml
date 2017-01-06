@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/saiy.iml" filepath="$PROJECT_DIR$/saiy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../spring-mvc/spring-mvc.iml" filepath="$PROJECT_DIR$/../spring-mvc/spring-mvc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../springbase/springbase.iml" filepath="$PROJECT_DIR$/../springbase/springbase.iml" />
     </modules>
   </component>
 </project>
