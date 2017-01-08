@@ -76,6 +76,8 @@ var cqssc = (function() {
         var hour = 0,
             minutes = 0,
             seconds = 0,
+            //剩余多少秒获取数据
+            surplusSeconds = 0,
             cal = new Calendar();
         var interval = setInterval(function() {
             //2点后停止（23期是最后一期），早上10点开始
@@ -88,22 +90,35 @@ var cqssc = (function() {
                 startDate.setHours(9);
                 startDate.setMinutes(58);
                 seconds = cal.dateDiff(startDate, cur);
-                // 剩余秒数
-
+                // 剩余更新秒数
+                //
             } else {
-                if (minutes.toString().endsWith("1") && seconds % 5 == 0) {
-                    cqssc.getCode().done(function(data) {
-                        //surplus throw into ..
+                // 凌晨0点到2点 每5分钟请求一次，10点到 24点 每 10.50分钟请求一次
+                if (hour > 0 && hour < 2) {
 
-                    });
-                }
-                if (minutes.toString().endsWith("8")) {
-                    // open codes surplus ..
+                } else {
+                    if (minutes.toString().endsWith("0") && seconds > 50 && seconds % 2 == 0) {
+                        cqssc.getCode().done(function(data) {
+                            //surplus throw into ..
+                            if (data) {
+                                cqssc.fill(data, cqssc.config.curterm);
+                            }
+                        });
+                    }
+                    if (minutes.toString().endsWith("8")) {
+                        // open codes surplus ..
+                        //
+                    }
                 }
             }
-        }, 1000)
+        }, 1000);
     };
 
+    /**
+     * 迭代数据
+     * @param  {[type]} codes [description]
+     * @return {[type]}       [description]
+     */
     cqssc.iteration = function(codes) {
         codes = codes.reverse();
         for (var i = 0; i < codes.length; i++) {

@@ -10,8 +10,8 @@
     <context:component-scan base-package="com.wly.controller,com.wly.scheduler,com.wly.service" />
     <task:scheduled-tasks scheduler="myScheduler">
         <!--<task:scheduled ref="weChatService" method="flush_access_token" initial-delay="0" fixed-delay="7000000" />-->
-        <task:scheduled ref="historyScheduler" method="exec" cron="0 0/10 10-23 * * *" />
-        <task:scheduled ref="historyScheduler" method="exec" cron="0 0/5 00-02 * * *" />
+        <task:scheduled ref="historyScheduler" method="exec" cron="0/50 0/10 10-23 * * *" />
+        <task:scheduled ref="historyScheduler" method="exec" cron="0/50 0/5 00-02 * * *" />
     </task:scheduled-tasks>
     <task:scheduler id="myScheduler" pool-size="1" />
 </beans>
