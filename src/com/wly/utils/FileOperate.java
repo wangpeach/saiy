@@ -364,7 +364,11 @@ public class FileOperate {
         }
     }
 
-    //获取项目完整路径
+    /**
+     * 获取项目完整路径
+     * @param cut 传入项目名获取根路经
+     * @return
+     */
     public static String getRootPath(String cut) {
 //		return ServletActionContext.getServletContext().getRealPath("/");
         String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();

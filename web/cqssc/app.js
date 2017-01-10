@@ -20,14 +20,6 @@ var cqssc = (function() {
         }
     }
 
-    cqssc.session = function(item) {
-        var codes = $.parseJSON(sessionStorage.getItem("codes"));
-        if (item) {
-            codes.push(item);
-        }
-        return codes;
-    }
-
     /**
      * [获取所有数据]
      * @param  {[type]} d [description]
@@ -35,19 +27,11 @@ var cqssc = (function() {
      */
     cqssc.getAllCodes = function(d) {
         var defer = $.Deferred();
-        codes = cqssc.session();
-        if (!codes) {
-            var inx = layer.load(1);
-            $.post("cqall", { date: d }, function(data) {
-                if (!cqssc.session()) {
-                    sessionStorage.setItem("codes", JSON.stringify(data));
-                }
-                defer.resolve(data);
-                layer.close(inx);
-            }, 'json');
-        } else {
-            defer.resolve(codes);
-        }
+        var inx = layer.load(1);
+        $.post("cqall", { date: d }, function(data) {
+            defer.resolve(data);
+            layer.close(inx);
+        }, 'json');
         return defer.promise();
     };
 
@@ -56,12 +40,11 @@ var cqssc = (function() {
      * @param  {[type]} limit [description]
      * @return {[type]}       [description]
      */
-    cqssc.getCode = function(limit) {
+    cqssc.getCode = function(term) {
         var defer = $.Deferred();
         $.post("cqhaoma", {
-            "limit": limit
+            "term": term
         }, function(data) {
-            cqssc.session(data);
             defer.resolve(data);
         }, 'json');
         return defer.promise();
@@ -72,8 +55,8 @@ var cqssc = (function() {
      * @return {[type]} [description]
      */
     cqssc.start = function() {
-        var date = new Date();
-        var hour = 0,
+        var date = undefined,
+            hour = 0,
             minutes = 0,
             seconds = 0,
             //剩余多少秒获取数据
@@ -82,16 +65,22 @@ var cqssc = (function() {
             prompt = '',
             cal = new Calendar();
         var interval = setInterval(function() {
+            date = new Date();
             //2点后停止（23期是最后一期），早上10点开始
             hour = date.getHours();
             minutes = date.getMinutes();
             seconds = date.getSeconds();
+            //获取当前元素坐标
+            var target = $("div[data-inx='" + (cqssc.config.curterm) + "']");
+            var crd = $(target).offset();
+            //当前提示应该在那一列
+            var curColumn = Math.floor(cqssc.config.curterm / 20);
+
             if (cqssc.config.curterm == 24 && hour <= 9 && minutes <= 58) {
-                var cur = new Date();
                 var startDate = new Date();
                 startDate.setHours(9);
                 startDate.setMinutes(58);
-                seconds = cal.dateDiff(startDate, cur);
+                seconds = cal.dateDiff(startDate, date);
                 // 剩余更新秒数
                 //
             } else {
@@ -99,21 +88,52 @@ var cqssc = (function() {
                 if (hour > 0 && hour < 2) {
 
                 } else {
-                    if (minutes.toString().endsWith("0") && seconds > 50 && seconds % 2 == 0) {
-                        prompt = "正在更新数据.."
-                        cqssc.getCode().done(function(data) {
+                    if (minutes.toString().endsWith("0") && seconds > 51) {
+                        $(".tips[data-inx='" + curColumn + "']").show().text('正在同步数据').animate({
+                            top: crd.top
+                        });
+                        cqssc.getCode(cqssc.config.curterm).done(function(data) {
                             //surplus throw into ..
                             if (data) {
-                                cqssc.fill(data, cqssc.config.curterm);
+                                cqssc.fill(data, cqssc.config.curterm, true);
                             }
                         });
-                    }
-                    if (minutes.toString().endsWith("8") || (minutes.toString().endsWith("0") && seconds )) {
-                        // open codes surplus ..
-                        if(surplusSeconds == 0) {
-                            surplusSeconds = 150;
+                    } else {
+                        if (minutes.toString().endsWith("9") || (minutes.toString().endsWith("0") && seconds <= 51)) {
+                            // open codes surplus ..
+                            if (surplusSeconds == 0) {
+                                surplusSeconds = 110;
+                                //剩余获取数据时间
+
+                                // var stopTime = new Date();
+                                // if(minutes >= 59) {
+                                //     if(hour > 23) {
+                                //         stopTime.setDays();
+                                //         stopTime.setHours(0);
+                                //     }
+                                // }
+                            }
+                            // $(target).text("剩余开奖时间  " + cal.formatSeconds(surplusSeconds--));
+                            $(".tips[data-inx='" + curColumn + "']").show().text('剩余获取数据时间  ' + cal.formatSeconds(surplusSeconds--)).animate({
+                                top: crd.top
+                            });
+                        } else {
+                            if (surplusSeconds == 0) {
+                                var stopTime = new Date();
+                                var min = stopTime.getMinutes().toString();
+                                if (min.length == 1) {
+                                    min = 9;
+                                } else {
+                                    min = parseInt(min.charAt(0) + "9");
+                                }
+                                stopTime.setMinutes(min);
+                                stopTime.setSeconds(0);
+                                surplusSeconds = cal.dateDiff(stopTime, date);
+                            }
+                            $(".tips[data-inx='" + curColumn + "']").show().text('剩余时间  ' + cal.formatSeconds(surplusSeconds--)).animate({
+                                top: crd.top
+                            });
                         }
-                        prompt = "剩余更新数据" + cal.formatSeconds(surplusSeconds--);
                     }
                 }
             }
@@ -127,18 +147,23 @@ var cqssc = (function() {
      */
     cqssc.iteration = function(codes) {
         codes = codes.reverse();
+        var remTips = false;
         for (var i = 0; i < codes.length; i++) {
-            cqssc.fill(codes[i], i);
+            if (i == codes.length - 1) {
+                remTips = true;
+            }
+            cqssc.fill(codes[i], i, remTips);
         }
     }
 
     /**
      * 填充数据
-     * @param  {[type]} codeJson [description]
-     * @param  {[type]} i        [description]
+     * @param  {[type]} codeJson [数据]
+     * @param  {[type]} i        [当前元素索引]
+     * @param  {[type]} remTips  [是否移除前面列的提示面板]
      * @return {[type]}          [description]
      */
-    cqssc.fill = function(codeJson, i) {
+    cqssc.fill = function(codeJson, i, remTips) {
         //指针移向下一期
         cqssc.config.curterm++;
         var col = $("[data-inx='" + i + "']").find(".columns");
@@ -146,6 +171,15 @@ var cqssc = (function() {
         var codes = codeJson.opencode.split(",");
         for (var j = 0; j < codes.length; j++) {
             $(col[1]).append('<span>' + codes[j] + '</span>');
+        }
+        // 移除当前列前面的提示列
+        if (remTips) {
+            var tarcol = Math.floor((cqssc.config.curterm) / 20);
+            $(".tips").each(function(inx, item) {
+                if (parseInt($(item).data("inx")) < tarcol) {
+                    $(item).remove();
+                }
+            });
         }
     }
 
@@ -159,8 +193,6 @@ var cqssc = (function() {
 
     };
 
-    // cqssc.start();
-
     /**
      * 获取数据
      * @param  {[type]}
@@ -172,6 +204,9 @@ var cqssc = (function() {
             $(rows[i]).attr("data-inx", i);
         }
         cqssc.iteration(codes);
+        if (codes.length < 120) {
+            cqssc.start();
+        }
     });
 
     /**
@@ -202,6 +237,7 @@ var cqssc = (function() {
                     date = cal.getCustomDate(-2);
                     break;
             }
+            cqssc.config.curterm = 0;
             cqssc.getAllCodes(date).done(function(codes) {
                 cqssc.iteration(codes);
             });

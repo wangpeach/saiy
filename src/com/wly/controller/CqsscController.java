@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,8 @@ public class CqsscController extends BaseController {
         this.limit = limit;
     }
 
+    ServletContext context = request.getServletContext();
+
     @Resource
     private CqsscService cqsscService;
 
@@ -49,21 +52,30 @@ public class CqsscController extends BaseController {
     public synchronized String haoma() {
         String result = "";
         String term = request.getParameter("term");
-        Object curTerm = request.getServletContext().getAttribute("curterm");
+        Object curTerm = context.getAttribute("curterm");
+        Gson gson = new Gson();
+        // 没有缓存最新数据则缓存它
         if(curTerm == null) {
-
+            Map<String, Object> code = cqsscService.getLastTerm();
+            result = gson.toJson(code);
+            context.setAttribute("curterm", result);
         } else {
-            Gson gson = new Gson();
+            // 最新数据已经缓存则对比是否与当前期一致，如果一致则同步最新数据，不一致说明是最新的一期数据，直接返回
             Map<String, String> map = gson.fromJson(curTerm.toString(), Map.class);
             if(!map.get("expect").endsWith(term)) {
-
+                Map<String, Object> code = cqsscService.getLastTerm();
+                if(!code.get("expect").toString().endsWith(term)) {
+                    result = gson.toJson(code);
+                    context.setAttribute("curterm", result);
+                } else {
+                    map = new HashMap<String, String>();
+                    map.put("warning", "数据暂未同步");
+                    result = gson.toJson(map, Map.class);
+                }
             } else {
-                map = new HashMap<String, String>();
-                map.put("warning", "数据暂未同步");
-                result = gson.toJson(map, Map.class);
+                result = gson.toJson(map);
             }
         }
-        //获取文件第一条数据
         output(result);
         return null;
     }

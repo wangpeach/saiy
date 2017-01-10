@@ -3,6 +3,20 @@ body {
 	height: 100%;
 	background-color: #464646;
 }
+
+.tips {
+	position: absolute;
+	top: 0px;
+	width: 180px;
+	height: 27px;
+	font-size: 13px;
+    color: #ffefa0;
+    text-align: center;
+    line-height: 27px;
+    padding-left: 25px;
+    display: none;
+}
+
 .cq > #header {
 	width: 1630px;
 	margin: 0px auto;
@@ -78,12 +92,11 @@ body {
 }
 .cq>.container>.code>.col {
 	width: 16.666%;
-	height: 100%;
+	/* height: 100%; */
 	float: left;
-}
-.cq>.container>.code>.col {
 	border: 1px solid #080808;
 	border-left: 0px;
+	border-bottom: 0px;
 	background: #3c3c3c;
 }
 .cq>.container>.code>.col:first-child {
@@ -116,6 +129,8 @@ body {
 	padding-right: 0.5rem;
 }
 .cq>.container>.code>.col .data-row {
+	height: 26.75px;
+    line-height: 27px;
 	background: #525252;
 	border-bottom: 1px solid #262626;
 }

@@ -405,13 +405,13 @@ var Calendar = function() {
                 theMinute = parseInt(theMinute % 60);
             }
         }
-        var result = "" + parseInt(theSecond) + "秒";
-        if (theMinute > 0) {
-            result = "" + parseInt(theMinute) + "分" + result;
-        }
-        if (theHour > 0) {
-            result = "" + parseInt(theHour) + "小时" + result;
-        }
+        var result = "" + (theSecond.toString().length == 1 ? ("0" + theSecond) : theSecond);
+        // if (theMinute > 0) {
+            result = "" + (theMinute.toString().length == 1 ? ("0" + theMinute) : theMinute) + ":" + result;
+        // }
+        // if (theHour > 0) {
+            result = "" + (theHour.toString().length == 1 ? ("0" + theHour) : theHour) + ":" + result;
+        // }
         return result;
     }
 

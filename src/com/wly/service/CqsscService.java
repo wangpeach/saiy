@@ -15,6 +15,7 @@ public class CqsscService extends BaseService {
     private static final String url = "http://t.apiplus.cn/%s.do?token=demo&code=cqssc&format=json";
     public static final String SAVEPAHT = "D://lshm//";
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private String curDay = dateFormat.format(Calendar.getInstance().getTime());
 
     /**
      * 获取某一天的数据
@@ -23,14 +24,10 @@ public class CqsscService extends BaseService {
      * @return
      */
     public String synchronize(String day) {
-
         String codes = null;
-        Calendar cal = Calendar.getInstance();
-//        cal.add(Calendar.MONTH, 1);
-        String curday = dateFormat.format(cal.getTime());
         // 获取历史数据
         if (!Utils.isNotNullOrEmpty(day)) {
-            day = curday;
+            day = curDay;
         }
         codes = this.readCodes(day);
         return codes;
@@ -72,6 +69,13 @@ public class CqsscService extends BaseService {
         String path = SAVEPAHT + day + ".json";
         if (FileOperate.isExists(path)) {
             codes = FileOperate.readfile(path);
+            if(!curDay.equals(day)) {
+                Gson gson = new Gson();
+                int codeSize = gson.fromJson(codes, List.class).size();
+                if(codeSize < 120) {
+                     codes = this.holdCodes(day);
+                }
+            }
         } else {
             //本地文件不存在情况下请求数据后保存
             codes = holdCodes(day);
@@ -79,9 +83,15 @@ public class CqsscService extends BaseService {
         return codes;
     }
 
-    public String getLastTerm(String term) {
-
-        return null;
+    /**
+     * 从本地获取今天最新一期数据
+     * @return
+     */
+    public Map<String, Object> getLastTerm() {
+        String codesStr = this.readCodes(curDay);
+        Gson gson = new Gson();
+        List<Map<String, Object>> codes =  gson.fromJson(codesStr, List.class);
+        return codes.get(0);
     }
 
     /**
@@ -93,12 +103,9 @@ public class CqsscService extends BaseService {
      */
     public String holdCodes(String day) {
         if (!Utils.isNotNullOrEmpty(day)) {
-            Calendar cal = Calendar.getInstance();
-            day = dateFormat.format(cal.getTime());
+            day = curDay;
         }
         String path = SAVEPAHT + day + ".json";
-        //获取项目目录
-        //FileOperate.getRootPath("saiy");
         //获取历史
         String codesJson = this.reqHaoMa(-1, day);
         FileOperate.saveFile(codesJson, path, true);
@@ -151,7 +158,6 @@ public class CqsscService extends BaseService {
 
     /**
      * 处理请求的数据，只需要开奖号码
-     *
      * @param json
      * @return
      */
