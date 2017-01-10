@@ -1,10 +1,13 @@
 package com.wly.controller;
 
+import com.google.gson.Gson;
 import com.wly.service.CqsscService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Scope(value = "prototype")
@@ -39,10 +42,29 @@ public class CqsscController extends BaseController {
         return null;
     }
 
-    public String haoma() {
-//        String code = cqsscService.reqHaoMa(limit, day);
+    /**
+     * 获取最新数据
+     * @return
+     */
+    public synchronized String haoma() {
+        String result = "";
+        String term = request.getParameter("term");
+        Object curTerm = request.getServletContext().getAttribute("curterm");
+        if(curTerm == null) {
+
+        } else {
+            Gson gson = new Gson();
+            Map<String, String> map = gson.fromJson(curTerm.toString(), Map.class);
+            if(!map.get("expect").endsWith(term)) {
+
+            } else {
+                map = new HashMap<String, String>();
+                map.put("warning", "数据暂未同步");
+                result = gson.toJson(map, Map.class);
+            }
+        }
         //获取文件第一条数据
-//        output(code);
+        output(result);
         return null;
     }
 

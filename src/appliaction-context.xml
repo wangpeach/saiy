@@ -7,7 +7,9 @@
 	http://www.springframework.org/schema/task/spring-task-4.1.xsd">
     <!-- bean definitions here -->
     <context:annotation-config />
-    <context:component-scan base-package="com.wly.controller,com.wly.scheduler,com.wly.service" />
+    <context:component-scan base-package="com.wly.controller,com.wly.scheduler,com.wly.service">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+    </context:component-scan>
     <task:scheduled-tasks scheduler="myScheduler">
         <!--<task:scheduled ref="weChatService" method="flush_access_token" initial-delay="0" fixed-delay="7000000" />-->
         <task:scheduled ref="historyScheduler" method="exec" cron="0/50 0/10 10-23 * * *" />

@@ -23,6 +23,7 @@ public class CqsscService extends BaseService {
      * @return
      */
     public String synchronize(String day) {
+
         String codes = null;
         Calendar cal = Calendar.getInstance();
 //        cal.add(Calendar.MONTH, 1);
@@ -43,7 +44,7 @@ public class CqsscService extends BaseService {
      * @return
      */
     public String reqHaoMa(int limit, String day) {
-
+//        System.out.println("测试：" + ServletActionContext.getServletContext().getAttribute("curterm"));
         Map<String, Object> arg = new HashMap<String, Object>();
         String reqUrl = "";
         if (Utils.isNotNullOrEmpty(limit) && limit > 0) {
@@ -71,11 +72,6 @@ public class CqsscService extends BaseService {
         String path = SAVEPAHT + day + ".json";
         if (FileOperate.isExists(path)) {
             codes = FileOperate.readfile(path);
-            Gson gson = new Gson();
-            List list = gson.fromJson(codes, List.class);
-            if(list.size() < 120) {
-                codes = this.holdCodes(day);
-            }
         } else {
             //本地文件不存在情况下请求数据后保存
             codes = holdCodes(day);
@@ -83,15 +79,19 @@ public class CqsscService extends BaseService {
         return codes;
     }
 
+    public String getLastTerm(String term) {
+
+        return null;
+    }
+
     /**
      * 保存当天数据到文件
      * D://lshm//yyyy-MM-dd.json
      *
-     * @param date
+     * @param day
      * @return 数据
      */
-    public String holdCodes(String date) {
-        String day = date;
+    public String holdCodes(String day) {
         if (!Utils.isNotNullOrEmpty(day)) {
             Calendar cal = Calendar.getInstance();
             day = dateFormat.format(cal.getTime());
@@ -101,7 +101,7 @@ public class CqsscService extends BaseService {
         //FileOperate.getRootPath("saiy");
         //获取历史
         String codesJson = this.reqHaoMa(-1, day);
-        FileOperate.saveFile(codesJson, path);
+        FileOperate.saveFile(codesJson, path, true);
         return codesJson;
     }
 
@@ -135,14 +135,14 @@ public class CqsscService extends BaseService {
         if (!Utils.isNotNullOrEmpty(codesJson)) {
             codes = new ArrayList<Map<String, Object>>();
             codes.add(0, code);
-            FileOperate.saveFile(this.toJson((codes)), path);
+            FileOperate.saveFile(this.toJson((codes)), path, true);
             puted = true;
         } else {
             codes = gson.fromJson(codesJson, List.class);
             //新的一期
             if (!codes.get(0).get("expect").equals(code.get("expect"))) {
                 codes.add(0, code);
-                FileOperate.saveFile(this.toJson((codes)), path);
+                FileOperate.saveFile(this.toJson((codes)), path, true);
                 puted = true;
             }
         }
@@ -172,4 +172,5 @@ public class CqsscService extends BaseService {
         Gson gson = new Gson();
         return gson.toJson(codes, List.class);
     }
+
 }

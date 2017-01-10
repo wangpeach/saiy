@@ -34,10 +34,10 @@ var cqssc = (function() {
      * @return {[type]}   [description]
      */
     cqssc.getAllCodes = function(d) {
-        var inx = layer.load(1);
         var defer = $.Deferred();
         codes = cqssc.session();
         if (!codes) {
+            var inx = layer.load(1);
             $.post("cqall", { date: d }, function(data) {
                 if (!cqssc.session()) {
                     sessionStorage.setItem("codes", JSON.stringify(data));
@@ -78,6 +78,8 @@ var cqssc = (function() {
             seconds = 0,
             //剩余多少秒获取数据
             surplusSeconds = 0,
+            //提示
+            prompt = '',
             cal = new Calendar();
         var interval = setInterval(function() {
             //2点后停止（23期是最后一期），早上10点开始
@@ -98,6 +100,7 @@ var cqssc = (function() {
 
                 } else {
                     if (minutes.toString().endsWith("0") && seconds > 50 && seconds % 2 == 0) {
+                        prompt = "正在更新数据.."
                         cqssc.getCode().done(function(data) {
                             //surplus throw into ..
                             if (data) {
@@ -105,9 +108,12 @@ var cqssc = (function() {
                             }
                         });
                     }
-                    if (minutes.toString().endsWith("8")) {
+                    if (minutes.toString().endsWith("8") || (minutes.toString().endsWith("0") && seconds )) {
                         // open codes surplus ..
-                        //
+                        if(surplusSeconds == 0) {
+                            surplusSeconds = 150;
+                        }
+                        prompt = "剩余更新数据" + cal.formatSeconds(surplusSeconds--);
                     }
                 }
             }

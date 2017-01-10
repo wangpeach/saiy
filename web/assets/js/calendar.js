@@ -388,12 +388,40 @@ var Calendar = function() {
     };
 
     /**
+     * 将秒转换为 HH:mm:ss
+     * @param  {[type]} value [description]
+     * @return {[type]}       [description]
+     */
+    this.formatSeconds = function(value) {
+        var theSecond = parseInt(value);
+        var theMinute = 0;
+        var theHour = 0;
+        if (theSecond > 60) {
+            theMinute = parseInt(theSecond / 60);
+            theSecond = parseInt(theSecond % 60);
+
+            if (theMinute > 60) {
+                theHour = parseInt(theMinute / 60);
+                theMinute = parseInt(theMinute % 60);
+            }
+        }
+        var result = "" + parseInt(theSecond) + "秒";
+        if (theMinute > 0) {
+            result = "" + parseInt(theMinute) + "分" + result;
+        }
+        if (theHour > 0) {
+            result = "" + parseInt(theHour) + "小时" + result;
+        }
+        return result;
+    }
+
+    /**
      * 计算两个时间相差秒数
      * @param  {[type]} date1 [description]
      * @param  {[type]} date2 [description]
      * @return {[type]}       [description]
      */
-    this.dateDiff = function (date1, date2) {
+    this.dateDiff = function(date1, date2) {
         var type1 = typeof date1,
             type2 = typeof date2;
         if (type1 == 'string')
@@ -412,7 +440,7 @@ var Calendar = function() {
      * @param  {[type]} string [description]
      * @return {[type]}        [description]
      */
-    this.stringToTime = function (string) {
+    this.stringToTime = function(string) {
         var f = string.split(' ', 2);
         var d = (f[0] ? f[0] : '').split('-', 3);
         var t = (f[1] ? f[1] : '').split(':', 3);

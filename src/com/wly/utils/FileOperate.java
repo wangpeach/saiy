@@ -47,7 +47,7 @@ public class FileOperate {
      * @param fullPath
      * @return
      */
-    public static void saveFile(String content, String fullPath) {
+    public static void saveFile(String content, String fullPath, boolean cover) {
         File file = new File(fullPath);
         try {
             if(!file.exists()) {
@@ -123,7 +123,7 @@ public class FileOperate {
         return stream;
     }
 
-    public static String readfile(String path) {
+    public static synchronized String readfile(String path) {
         StringBuffer sb = new StringBuffer();
 
         try {

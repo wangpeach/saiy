@@ -37,9 +37,4 @@ public class HistoryScheduler {
         }
         cqsscService.holdCodes(null);
     }
-
-    public static void main(String[] args) {
-        Calendar cal1 = Calendar.getInstance();
-//        cal1.
-    }
 }
