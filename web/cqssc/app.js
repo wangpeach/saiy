@@ -63,6 +63,13 @@ var cqssc = (function() {
             surplusSeconds = 0,
             //提示
             prompt = '',
+            // 是否允许请求数据
+            loopreq = false,
+            // 同步数据提示，800毫秒更新一次，每次追加一个（.）6次重置为1 重新开始
+            loopInterval = 1,
+            // 同步数据定时器对象
+            syning = undefined,
+            tipsMsg = '正在同步数据',
             cal = new Calendar();
         var interval = setInterval(function() {
             date = new Date();
@@ -88,37 +95,74 @@ var cqssc = (function() {
                 if (hour > 0 && hour < 2) {
 
                 } else {
-                    if (minutes.toString().endsWith("0") && seconds > 51) {
-                        $(".tips[data-inx='" + curColumn + "']").show().text('正在同步数据').animate({
-                            top: crd.top
-                        });
-                        cqssc.getCode(cqssc.config.curterm).done(function(data) {
-                            //surplus throw into ..
-                            if (data) {
-                                cqssc.fill(data, cqssc.config.curterm, true);
-                            }
-                        });
-                    } else {
-                        if (minutes.toString().endsWith("9") || (minutes.toString().endsWith("0") && seconds <= 51)) {
-                            // open codes surplus ..
-                            if (surplusSeconds == 0) {
-                                surplusSeconds = 110;
-                                //剩余获取数据时间
+                    // 开始同步数据
+                    if (loopreq) {
+                        //同步数据提示
+                        if (!syning) {
+                            syning = setInterval(function() {
+                                tipsMsg;
+                                if (loopInterval > 6) {
+                                    loopInterval = 1;
+                                    tipsMsg = '正在同步数据';
+                                }
+                                tipsMsg += ".";
+                                loopInterval++;
+                                $(".tips[data-inx='" + curColumn + "']").show().html(tipsMsg).animate({
+                                    top: crd.top
+                                });
+                            }, 800);
+                        }
 
-                                // var stopTime = new Date();
-                                // if(minutes >= 59) {
-                                //     if(hour > 23) {
-                                //         stopTime.setDays();
-                                //         stopTime.setHours(0);
-                                //     }
-                                // }
+                        // 2秒发送一次请求
+                        if (seconds % 2 > 0) {
+                            cqssc.getCode(cqssc.config.curterm).done(function(data) {
+                                if (data && !data.warning) {
+                                    // 数据已同步，停止请求
+                                    clearInterval(syning);
+                                    syning = undefined;
+                                    loopreq = false;
+                                    cqssc.fill(data, cqssc.config.curterm, true);
+                                }
+                            });
+                        }
+                    } else {
+                        if (minutes.toString().endsWith("9") || (minutes.toString().endsWith("0") && seconds <= 52)) {
+                            // open codes surplus ..
+                            if (surplusSeconds <= 1) {
+                                //剩余获取数据时间
+                                var stopTime = new Date();
+                                if (minutes >= 59) {
+                                    if (hour > 23) {
+                                        //当前日期加一天, 明天凌晨0分52秒获取数据
+                                        stopTime = cal.getCustomDate(1);
+                                        stopTime.setHours(0);
+                                        stopTime.setMinutes(0);
+                                        stopTime.setSeconds(52);
+                                    } else {
+                                        //当前时间加一小时，下一小时0分52秒开始获取数据
+                                        stopTime.setHours(hour + 1);
+                                        stopTime.setMinutes(0);
+                                        stopTime.setSeconds(52);
+                                    }
+                                } else {
+                                    var min = minutes.toString();
+                                    if (min.length > 1 && !min.endsWith("0")) {
+                                        var minFirstChar = parseInt(min.charAt(0));
+                                        stopTime.setMinutes(parseInt((minFirstChar + 1)) + "0");
+                                    }
+                                    stopTime.setSeconds(52);
+                                }
+                                surplusSeconds = cal.dateDiff(stopTime, date);
                             }
-                            // $(target).text("剩余开奖时间  " + cal.formatSeconds(surplusSeconds--));
-                            $(".tips[data-inx='" + curColumn + "']").show().text('剩余获取数据时间  ' + cal.formatSeconds(surplusSeconds--)).animate({
+                            $(".tips[data-inx='" + curColumn + "']").show().html('剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--)).animate({
                                 top: crd.top
                             });
+                            //计时完成同步数据
+                            if (surplusSeconds <= 0) {
+                                loopreq = true;
+                            }
                         } else {
-                            if (surplusSeconds == 0) {
+                            if (surplusSeconds <= 1) {
                                 var stopTime = new Date();
                                 var min = stopTime.getMinutes().toString();
                                 if (min.length == 1) {
@@ -130,7 +174,7 @@ var cqssc = (function() {
                                 stopTime.setSeconds(0);
                                 surplusSeconds = cal.dateDiff(stopTime, date);
                             }
-                            $(".tips[data-inx='" + curColumn + "']").show().text('剩余时间  ' + cal.formatSeconds(surplusSeconds--)).animate({
+                            $(".tips[data-inx='" + curColumn + "']").show().html('剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--)).animate({
                                 top: crd.top
                             });
                         }

@@ -51,21 +51,27 @@ public class CqsscController extends BaseController {
      */
     public synchronized String haoma() {
         String result = "";
-        String term = request.getParameter("term");
+        //客户端索引从0开始，所以在这里+1才是正确的期号
+        int term = Integer.parseInt(request.getParameter("term")) + 1;
         Object curTerm = context.getAttribute("curterm");
         Gson gson = new Gson();
         // 没有缓存最新数据则缓存它
         if(curTerm == null) {
             Map<String, Object> code = cqsscService.getLastTerm();
-            result = gson.toJson(code);
-            context.setAttribute("curterm", result);
+            context.setAttribute("curterm", gson.toJson(code));
         } else {
             // 最新数据已经缓存则对比是否与当前期一致，如果一致则同步最新数据，不一致说明是最新的一期数据，直接返回
             Map<String, String> map = gson.fromJson(curTerm.toString(), Map.class);
-            if(!map.get("expect").endsWith(term)) {
+            String _expect = map.get("expect");
+            int expect = Integer.parseInt(_expect.substring(_expect.length() - 3));
+            if(expect < term) {
                 Map<String, Object> code = cqsscService.getLastTerm();
-                if(!code.get("expect").toString().endsWith(term)) {
+                _expect = code.get("expect").toString();
+                expect = Integer.parseInt(_expect.substring(_expect.length() - 3));
+                System.out.println(map);
+                if(expect == term) {
                     result = gson.toJson(code);
+                    System.out.println(result);
                     context.setAttribute("curterm", result);
                 } else {
                     map = new HashMap<String, String>();
