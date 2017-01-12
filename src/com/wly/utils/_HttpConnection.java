@@ -229,7 +229,14 @@ public class _HttpConnection {
             complete = result.toString();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println("请求超时..,3三秒后重新请求");
+            try {
+                Thread.sleep(3);
+                this.send(connect, arg);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
         }
         return complete;
     }

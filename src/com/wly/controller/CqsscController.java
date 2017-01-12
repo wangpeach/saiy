@@ -68,10 +68,8 @@ public class CqsscController extends BaseController {
                 Map<String, Object> code = cqsscService.getLastTerm();
                 _expect = code.get("expect").toString();
                 expect = Integer.parseInt(_expect.substring(_expect.length() - 3));
-                System.out.println(map);
                 if(expect == term) {
                     result = gson.toJson(code);
-                    System.out.println(result);
                     context.setAttribute("curterm", result);
                 } else {
                     map = new HashMap<String, String>();
