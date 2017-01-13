@@ -1,6 +1,6 @@
 $(document).foundation();
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     var cq = {
         config: {
             peak: {
@@ -34,10 +34,10 @@ jQuery(document).ready(function($) {
          * @param  {[type]} d [description]
          * @return {[type]}   [description]
          */
-        getAllCodes: function(d) {
+        getAllCodes: function (d) {
             var defer = $.Deferred();
             var inx = layer.load(1);
-            $.post("cqall", { date: d }, function(data) {
+            $.post("cqall", {date: d}, function (data) {
                 defer.resolve(data);
                 layer.close(inx);
             }, 'json');
@@ -49,11 +49,11 @@ jQuery(document).ready(function($) {
          * @param  {[type]} limit [description]
          * @return {[type]}       [description]
          */
-        getCode: function(term) {
+        getCode: function (term) {
             var defer = $.Deferred();
             $.post("cqhaoma", {
                 "term": term
-            }, function(data) {
+            }, function (data) {
                 defer.resolve(data);
             }, 'json');
             return defer.promise();
@@ -63,20 +63,24 @@ jQuery(document).ready(function($) {
          * @param {[type]} term [description]
          * @param {[type]} text [description]
          */
-        setTipsPos: function(term, text) {
+        setTipsPos: function (term, text) {
+            if (term > 120) {
+                term = 0;
+                $("div[data-row] > .columns").empty().text('');
+            }
             var target = $("div[data-inx='" + (term) + "']");
             var top = $(target).offset().top;
             var curColumn = Math.floor(term / 20);
             var tipstar = tipstar = $(".tips[data-inx='" + curColumn + "']");
-            if (term % 20 == 0) {
-                $(tipstar).hide();
-                tipstar = $(".tips[data-inx='" + curColumn + "']");
-            } else {
-                var oldpx = parseFloat(tipstar.get(0).style.top.replace(/px/i, ''));
-                if (oldpx > top) {
-                    top = oldpx;
-                }
+            // if (term % 20 == 0) {
+            //     $(tipstar).hide();
+            //     tipstar = $(".tips[data-inx='" + curColumn + "']");
+            // } else {
+            var oldpx = parseFloat(tipstar.get(0).style.top.replace(/px/i, ''));
+            if (oldpx > top) {
+                top = oldpx;
             }
+            // }
             if (text) {
                 $(tipstar).html(text);
             }
@@ -89,7 +93,7 @@ jQuery(document).ready(function($) {
          * 全部数据加载完启动
          * @return {[type]} [description]
          */
-        start: function() {
+        start: function () {
             var date = undefined,
                 hour = 0,
                 minutes = 0,
@@ -101,14 +105,14 @@ jQuery(document).ready(function($) {
                 // 是否允许请求数据
                 loopreq = false,
                 cal = new Calendar();
-            cq.interval = setInterval(function() {
+            cq.interval = setInterval(function () {
                 date = new Date();
                 //2点后停止（23期是最后一期），早上10点开始
                 hour = date.getHours();
                 minutes = date.getMinutes();
                 seconds = date.getSeconds();
-
-                if (cq.curterm == 24 && hour <= 9 && minutes <= 58) {
+                // ------------------ 每小时 58 -59 分钟时 会显示正在同步数据问题 -----------------
+                if (cq.curterm == 23 && hour <= 9 && minutes <= 58) {
                     if (surplusSeconds <= 1) {
                         var startDate = new Date();
                         startDate.setHours(9);
@@ -116,7 +120,7 @@ jQuery(document).ready(function($) {
                         surplusSeconds = cal.dateDiff(startDate, date);
                     }
                     // 剩余更新秒数
-                    cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
+                    cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
                 } else {
                     // 开始同步数据
                     if (loopreq = (sessionStorage.getItem("loopreq") == "true" ? true : false)) {
@@ -125,17 +129,17 @@ jQuery(document).ready(function($) {
                         if (seconds % 2 > 0) {
                             cq.setTipsPos(cq.curterm, '正在同步数据..');
 
-                            cq.getCode(cq.curterm).done(function(data) {
+                            cq.getCode(cq.curterm).done(function (data) {
                                 if (data && !data.warning) {
                                     // 数据已同步，停止请求
                                     loopreq = false;
                                     sessionStorage.setItem("loopreq", false);
                                     cq.setTipsPos(cq.curterm + 1, null);
-                                    var timeout = setTimeout(function() {
+                                    var timeout = setTimeout(function () {
                                         cq.openCodes.push(data);
                                         cq.fill(data, cq.curterm, true);
                                         clearTimeout(timeout);
-                                    }, 1500);
+                                    }, 1200);
                                 }
                             });
                         }
@@ -145,8 +149,8 @@ jQuery(document).ready(function($) {
                         /**
                          * [0-2] > [10-24]
                          */
-                        if (hour > 0 && hour < 2) {
-                            if ((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) || (min.endsWith("9") || min.endsWith("0") && seconds <= 50)) {
+                        if ((hour > 22 && hour < 24) || (hour >= 0 && hour < 2)) {
+                            if ((min.endsWith("4") || (min.endsWith("5") && seconds <= 51)) || (min.endsWith("9") || min.endsWith("0") && seconds <= 51)) {
                                 if (surplusSeconds <= 1) {
                                     //剩余获取数据时间
                                     if (minutes >= 59) {
@@ -174,7 +178,7 @@ jQuery(document).ready(function($) {
                                             min = firstMin + "" + lastMin;
                                             stopTime.setMinutes(parseInt(min));
                                         }
-                                        stopTime.setSeconds(50);
+                                        stopTime.setSeconds(51);
                                         // 剩余同步秒数
                                         surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                     }
@@ -193,7 +197,8 @@ jQuery(document).ready(function($) {
                                     if (lastMin < 4) {
                                         lastMin = parseInt(min.length == 1 ? 4 : (min.charAt(0) + "4"));
                                     } else {
-                                        lastMin = parseInt(min.length == 1 ? 9 : (min.charAt(0) + "9"));;
+                                        lastMin = parseInt(min.length == 1 ? 9 : (min.charAt(0) + "9"));
+                                        ;
                                     }
                                     stopTime.setMinutes(lastMin);
                                     stopTime.setSeconds(0);
@@ -260,7 +265,7 @@ jQuery(document).ready(function($) {
          * @param  {[type]} codes [description]
          * @return {[type]}       [description]
          */
-        iteration: function(codes) {
+        iteration: function (codes) {
             codes = codes.reverse();
             // 临时保存数据
             cq.openCodes = codes;
@@ -280,21 +285,20 @@ jQuery(document).ready(function($) {
          * @param  {[type]} remTips  [是否移除前面列的提示面板]
          * @return {[type]}          [description]
          */
-        fill: function(codeJson, i, remTips) {
+        fill: function (codeJson, i, remTips) {
             //指针移向下一期
             cq.curterm++;
+            cq.curterm = cq.curterm > 120 ? 0 : cq.curterm;
             var col = $("[data-inx='" + i + "']").find(".columns");
             $(col[0]).text(codeJson.expect.substring(codeJson.expect.length - 3));
             var codes = codeJson.opencode.split(",");
             for (var j = 0; j < codes.length; j++) {
                 $(col[1]).append('<span>' + codes[j] + '</span>');
             }
-
-
-            // 移除当前列前面的提示列
+            // 隐藏当前列前面的提示列
             if (remTips) {
                 var tarcol = Math.floor((cq.curterm) / 20);
-                $(".tips").each(function(inx, item) {
+                $(".tips").each(function (inx, item) {
                     if (parseInt($(item).data("inx")) < tarcol) {
                         $(item).hide();
                     }
@@ -308,7 +312,7 @@ jQuery(document).ready(function($) {
          * @param  {号码}
          * @return {[]}
          */
-        analysis: function(kill, code) {
+        analysis: function (kill, code) {
 
         }
     }
@@ -319,7 +323,7 @@ jQuery(document).ready(function($) {
      * @param  {[type]}
      * @return {[type]}
      */
-    cq.getAllCodes().done(function(codes) {
+    cq.getAllCodes().done(function (codes) {
         var rows = $(".data-row");
         for (var i = 0; i < 120; i++) {
             $(rows[i]).attr("data-inx", i);
@@ -336,11 +340,13 @@ jQuery(document).ready(function($) {
      * @param  {[type]}
      * @return {[type]}
      */
-    $("#header a.swdate").click(function(event) {
+    $("#header a.swdate").click(function (event) {
         /* Act on the event */
         if (!$(this).hasClass('active')) {
             $(".data-row > .columns").empty();
+            $(".tips").hide();
             sessionStorage.removeItem("codes");
+
             if ($(this).hasClass("active")) return false;
             $(this).parent().find('a').removeClass('active');
             $(this).addClass('active');
@@ -360,7 +366,7 @@ jQuery(document).ready(function($) {
             }
             cq.curterm = 0;
             clearInterval(cq.interval);
-            cq.getAllCodes(date).done(function(codes) {
+            cq.getAllCodes(date).done(function (codes) {
                 cq.iteration(codes);
                 if (codes.length < 120) {
                     cq.start();
@@ -375,18 +381,18 @@ jQuery(document).ready(function($) {
      * @param  {[type]}
      * @return {[type]}
      */
-    $("#header a.killtype").click(function(event) {
+    $("#header a.killtype").click(function (event) {
         /* Act on the event */
         var target = $("." + $(this).data("for") + "");
         $(target).text($(this).text()).addClass('trigger');
         $(this).parent().find('a').removeClass('active');
         $(this).addClass('active');
-        setTimeout(function() {
+        setTimeout(function () {
             $(target).removeClass('trigger');
         }, 800);
     });
 
-    $(".cus-date").click(function(event) {
+    $(".cus-date").click(function (event) {
         /* Act on the event */
         $(".datepicker-here").trigger('focus');
     });
@@ -397,12 +403,13 @@ jQuery(document).ready(function($) {
     $('#cusdatebtn').datepicker({
         autoClose: true,
         maxDate: new Date(), // Now can select only dates, which goes after today
-        onSelect: function(formattedDate, date, inst) {
+        onSelect: function (formattedDate, date, inst) {
             $(".cus-date").text(formattedDate).parent().find('a').removeClass('active');
             $(".cus-date").addClass('active');
             $(".data-row > .columns").empty();
+            $(".tips").hide();
             sessionStorage.removeItem("codes");
-            cq.getAllCodes(formattedDate).done(function(codes) {
+            cq.getAllCodes(formattedDate).done(function (codes) {
                 cq.iteration(codes);
                 if (codes.length < 120) {
                     cq.start();

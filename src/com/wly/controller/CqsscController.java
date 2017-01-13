@@ -53,6 +53,9 @@ public class CqsscController extends BaseController {
         String result = "";
         //客户端索引从0开始，所以在这里+1才是正确的期号
         int term = Integer.parseInt(request.getParameter("term")) + 1;
+        if(term > 120) {
+            term = 1;
+        }
         Object curTerm = context.getAttribute("curterm");
         Gson gson = new Gson();
         // 没有缓存最新数据则缓存它

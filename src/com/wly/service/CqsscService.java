@@ -16,7 +16,7 @@ public class CqsscService extends BaseService {
     private static final String url = "http://t.apiplus.cn/%s.do?token=demo&code=cqssc&format=json";
     public static final String SAVEPAHT = "D://lshm//";
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private String curDay = dateFormat.format(Calendar.getInstance().getTime());
+    private String curDay = null;
 
     /**
      * 获取某一天的数据
@@ -28,7 +28,7 @@ public class CqsscService extends BaseService {
         String codes = null;
         // 获取历史数据
         if (!Utils.isNotNullOrEmpty(day)) {
-            day = curDay;
+            day = dateFormat.format(Calendar.getInstance().getTime());
         }
         codes = this.readCodes(day);
         return codes;
@@ -73,6 +73,7 @@ public class CqsscService extends BaseService {
         String path = SAVEPAHT + day + ".json";
         if (FileOperate.isExists(path)) {
             codes = FileOperate.readfile(path);
+            curDay = dateFormat.format(Calendar.getInstance().getTime());
             if(!curDay.equals(day)) {
                 Gson gson = new Gson();
                 int codeSize = gson.fromJson(codes, List.class).size();
@@ -92,6 +93,7 @@ public class CqsscService extends BaseService {
      * @return
      */
     public Map<String, Object> getLastTerm() {
+        curDay = dateFormat.format(Calendar.getInstance().getTime());
         String codesStr = this.readCodes(curDay);
         Gson gson = new Gson();
         List<Map<String, Object>> codes =  gson.fromJson(codesStr, List.class);
@@ -107,7 +109,7 @@ public class CqsscService extends BaseService {
      */
     public String holdCodes(String day) {
         if (!Utils.isNotNullOrEmpty(day)) {
-            day = curDay;
+            day = dateFormat.format(Calendar.getInstance().getTime());
         }
         String path = SAVEPAHT + day + ".json";
         //获取历史
