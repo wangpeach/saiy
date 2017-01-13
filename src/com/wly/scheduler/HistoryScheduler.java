@@ -23,7 +23,13 @@ public class HistoryScheduler {
             while (!stop) {
                 System.out.println("尝试第"+ i +"次获取...");
                 String code = cqsscService.reqHaoMa(1, null);
-                stop = cqsscService.putCode(code);
+                if(code != null) {
+                    stop = cqsscService.putCode(code);
+                } else {
+                    System.out.println("");
+                    System.out.println("请求错误，8秒后重试..");
+                    System.out.println("");
+                }
                 if (stop) {
                     System.out.println(code);
                     System.out.println("已成功获取数据，退出！");

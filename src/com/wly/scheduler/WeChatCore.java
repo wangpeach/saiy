@@ -9,6 +9,7 @@ import com.wly.utils.Utils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class WeChatCore {
     /**
      * 更新 Token
      */
-    public void flush_access_token() {
+    public void flush_access_token(){
         System.out.println("START UPDATE TOKEN..");
         Token token = Token.getInstance();
         token.setRenew(true);
@@ -40,7 +41,12 @@ public class WeChatCore {
         arg.put("appid", appID);
         arg.put("secret", appsecret);
         _HttpConnection conn = new _HttpConnection(HttpType.https, HttpMethod.GET);
-        String tokenJson = conn.sendRequest(WXInterface.TOKEN_URL, arg);
+        String tokenJson = null;
+        try {
+            tokenJson = conn.sendRequest(WXInterface.TOKEN_URL, arg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (Utils.isNotNullOrEmpty(tokenJson)) {
             JsonParser gson = new JsonParser();
             JsonObject jo = gson.parse(tokenJson).getAsJsonObject();
@@ -70,7 +76,12 @@ public class WeChatCore {
         Map<String, Object> arg = new HashMap<String, Object>();
         arg.put("access_token", Token.getInstance().getAccessToken());
         _HttpConnection conn = new _HttpConnection(HttpType.https, HttpMethod.GET);
-        return conn.sendRequest(WXInterface.WXIP, arg);
+        try {
+            return conn.sendRequest(WXInterface.WXIP, arg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String createMenu(String menuJson) {
@@ -83,6 +94,11 @@ public class WeChatCore {
         Map<String, Object> arg = new HashMap<String, Object>();
         arg.put("access_token", Token.getInstance().getAccessToken());
         _HttpConnection conn = new _HttpConnection(HttpType.https, HttpMethod.POST);
-        return conn.sendRequest(WXInterface.GET_MENU, arg);
+        try {
+            return conn.sendRequest(WXInterface.GET_MENU, arg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -106,6 +106,9 @@ body {
 	color: #fde9a1;
 	border-bottom: 1px solid #262626;
 }
+.cq>.container>.code>.col .Tl.columns.Tl-3:hover {
+	background: brown;
+}
 .cq>.container>.code>.col .Tl.columns.trigger {
 	color: #FFF4D2;
 	animation-name: trigger;

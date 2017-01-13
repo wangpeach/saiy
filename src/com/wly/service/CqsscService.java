@@ -6,6 +6,7 @@ import com.wly.utils.Utils;
 import com.wly.utils._HttpConnection;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -41,7 +42,6 @@ public class CqsscService extends BaseService {
      * @return
      */
     public String reqHaoMa(int limit, String day) {
-//        System.out.println("测试：" + ServletActionContext.getServletContext().getAttribute("curterm"));
         Map<String, Object> arg = new HashMap<String, Object>();
         String reqUrl = "";
         if (Utils.isNotNullOrEmpty(limit) && limit > 0) {
@@ -53,8 +53,12 @@ public class CqsscService extends BaseService {
             reqUrl = String.format((url + ("&date=" + day)), "daily");
         }
         _HttpConnection conn = new _HttpConnection(_HttpConnection.HttpType.http, _HttpConnection.HttpMethod.GET);
-        String result = conn.sendRequest(reqUrl, arg);
-        result = this.toJson(this.handleJson(result));
+        String result = null;
+        try {
+            result = this.toJson(this.handleJson(conn.sendRequest(reqUrl, arg)));
+        } catch (IOException e) {
+            result = null;
+        }
         return result;
     }
 
@@ -107,7 +111,18 @@ public class CqsscService extends BaseService {
         }
         String path = SAVEPAHT + day + ".json";
         //获取历史
-        String codesJson = this.reqHaoMa(-1, day);
+        String codesJson = null;
+        while(codesJson == null) {
+            codesJson = this.reqHaoMa(-1, day);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if(codesJson == null) {
+
+        }
         FileOperate.saveFile(codesJson, path, true);
         return codesJson;
     }

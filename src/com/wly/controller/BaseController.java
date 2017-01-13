@@ -61,7 +61,12 @@ public class BaseController {
     protected String sendRequest(String uri) {
         this.printLog(log);
         _HttpConnection conn = new _HttpConnection(HttpType.http, HttpMethod.POST);
-        return conn.sendRequest(uri, this.modarg());
+        try {
+            return conn.sendRequest(uri, this.modarg());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

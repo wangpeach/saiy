@@ -136,10 +136,9 @@ public class _HttpConnection {
      * @param arg2 请求参数
      * @return
      */
-    public String sendRequest(String arg1, Map<String, Object> arg2) {
+    public String sendRequest(String arg1, Map<String, Object> arg2) throws IOException {
         String complete = null;
         URL url = null;
-        try {
             url = new URL(arg1);
             //建立连接
             URLConnection _urlcon = null;
@@ -160,12 +159,6 @@ public class _HttpConnection {
             }
             _urlcon = this.setConnect(_urlcon);
             complete = this.send(_urlcon, arg2);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println(arg1);
-            System.out.println("上面请求路径出错");
-        }
         return complete;
     }
 
@@ -192,52 +185,40 @@ public class _HttpConnection {
      * @param arg
      * @return
      */
-    private String send(URLConnection connect, Map<String, Object> arg) {
+    private String send(URLConnection connect, Map<String, Object> arg) throws IOException {
         String complete = null;
         DataOutputStream out;
-        try {
-            out = new DataOutputStream(connect.getOutputStream());
-            //输入参数
-            String pv = "";
-            StringBuilder sbr = new StringBuilder();
-            if (arg != null && !arg.isEmpty()) {
-                Set<String> paramNames = arg.keySet();
-                Iterator<String> iterator = paramNames.iterator();
-                while (iterator.hasNext()) {
-                    String paramName = iterator.next();
-                    sbr.append(paramName + "=");
-                    sbr.append(arg.get(paramName));
-                    sbr.append("&");
-                }
-                pv = sbr.substring(0, sbr.length() - 1).toString();
+        out = new DataOutputStream(connect.getOutputStream());
+        //输入参数
+        String pv = "";
+        StringBuilder sbr = new StringBuilder();
+        if (arg != null && !arg.isEmpty()) {
+            Set<String> paramNames = arg.keySet();
+            Iterator<String> iterator = paramNames.iterator();
+            while (iterator.hasNext()) {
+                String paramName = iterator.next();
+                sbr.append(paramName + "=");
+                sbr.append(arg.get(paramName));
+                sbr.append("&");
             }
-            System.out.println(pv);
-            out.writeBytes(pv);
-
-            //发起请求
-            InputStream is = connect.getInputStream();
-
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, "utf-8"));
-            StringBuilder result = new StringBuilder();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            rd.close();
-            out.flush();
-            out.close();
-            complete = result.toString();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-//            e.printStackTrace();
-            System.out.println("请求超时..,3三秒后重新请求");
-            try {
-                Thread.sleep(3);
-                this.send(connect, arg);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
+            pv = sbr.substring(0, sbr.length() - 1).toString();
         }
+        System.out.println(pv);
+        out.writeBytes(pv);
+
+        //发起请求
+        InputStream is = connect.getInputStream();
+
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        StringBuilder result = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        rd.close();
+        out.flush();
+        out.close();
+        complete = result.toString();
         return complete;
     }
 
