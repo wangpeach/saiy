@@ -93,7 +93,12 @@ public class CqsscService extends BaseService {
      * @return
      */
     public Map<String, Object> getLastTerm() {
-        curDay = dateFormat.format(Calendar.getInstance().getTime());
+        Calendar cal = Calendar.getInstance();
+        //获取第120期数据
+        if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) < 4) {
+            cal.set(Calendar.DAY_OF_MONTH, - 1);
+        }
+        curDay = dateFormat.format(cal.getTime());
         String codesStr = this.readCodes(curDay);
         Gson gson = new Gson();
         List<Map<String, Object>> codes =  gson.fromJson(codesStr, List.class);
@@ -158,7 +163,7 @@ public class CqsscService extends BaseService {
 
         if (!Utils.isNotNullOrEmpty(codesJson)) {
             codes = new ArrayList<Map<String, Object>>();
-            codes.add(0, code);
+            codes.add(code);
             FileOperate.saveFile(this.toJson((codes)), path, true);
             puted = true;
         } else {

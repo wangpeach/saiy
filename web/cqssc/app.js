@@ -13,10 +13,14 @@ jQuery(document).ready(function ($) {
                 interval: 10
             }
         },
-        //解析结果
+        /**
+         * 解析结果
+         */
         anlycol: undefined,
 
-        //当前期号
+        /**
+         * 当前期号
+         */
         curterm: 0,
         /**
          * 定时器
@@ -28,6 +32,15 @@ jQuery(document).ready(function ($) {
          * @type {[type]}
          */
         openCodes: undefined,
+        /**
+         * 是否已经同步数据，
+         * 数据同步成功后 20秒之内设置为ture ，不会再同步数据
+         * 因为系统设置同步时间为 开奖时间范围50秒，有时开奖会在50秒之前，
+         * 可能是由于数据在同一时间返回造成一直显示正在同步数据，
+         * 因此添加此属性，在数据同步完成后设置为 true， 20秒之后再次设置为 false
+         */
+        syned: false,
+
 
         /**
          * [获取所有数据]
@@ -150,8 +163,8 @@ jQuery(document).ready(function ($) {
                         /**
                          * [0-2] > [10-24]
                          */
-                        if ((hour > 22 && hour < 24) || (hour >= 0 && hour < 2)) {
-                            if ((min.endsWith("4") || (min.endsWith("5") && seconds <= 45)) || (min.endsWith("9") || min.endsWith("0") && seconds <= 45)) {
+                        if ((hour >= 22 && hour < 24) || (hour >= 0 && hour < 2)) {
+                            if ((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) || (min.endsWith("9") || min.endsWith("0") && seconds <= 50)) {
                                 if (surplusSeconds <= 1) {
                                     //剩余获取数据时间
                                     if (minutes >= 59) {
@@ -179,7 +192,7 @@ jQuery(document).ready(function ($) {
                                             min = firstMin + "" + lastMin;
                                             stopTime.setMinutes(parseInt(min));
                                         }
-                                        stopTime.setSeconds(45);
+                                        stopTime.setSeconds(50);
                                         // 剩余同步秒数
                                         surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                     }
@@ -208,22 +221,22 @@ jQuery(document).ready(function ($) {
                                 cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
                             }
                         } else {
-                            if (min.toString().endsWith("9") || (min.toString().endsWith("0") && seconds <= 45)) {
+                            if (min.toString().endsWith("9") || (min.toString().endsWith("0") && seconds <= 50)) {
                                 // open codes surplus ..
                                 if (surplusSeconds <= 1) {
                                     //剩余获取数据时间
                                     if (minutes >= 59) {
                                         if (hour > 23) {
-                                            //当前日期加一天, 明天凌晨0分45秒获取数据
+                                            //当前日期加一天, 明天凌晨0分50秒获取数据
                                             stopTime = cal.getCustomDate(1);
                                             stopTime.setHours(0);
                                             stopTime.setMinutes(0);
-                                            stopTime.setSeconds(45);
+                                            stopTime.setSeconds(50);
                                         } else {
-                                            //当前时间加一小时，下一小时0分45秒开始获取数据
+                                            //当前时间加一小时，下一小时0分50秒开始获取数据
                                             stopTime.setHours(hour + 1);
                                             stopTime.setMinutes(0);
-                                            stopTime.setSeconds(45);
+                                            stopTime.setSeconds(50);
                                         }
                                     } else {
                                         if (min.length == 1) {
@@ -232,7 +245,7 @@ jQuery(document).ready(function ($) {
                                             var minFirstChar = parseInt(min.charAt(0));
                                             stopTime.setMinutes(parseInt((minFirstChar + 1)) + "0");
                                         }
-                                        stopTime.setSeconds(45);
+                                        stopTime.setSeconds(50);
                                     }
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
@@ -410,6 +423,8 @@ jQuery(document).ready(function ($) {
             $(".data-row > .columns").empty();
             $(".tips").hide();
             sessionStorage.removeItem("codes");
+            cq.curterm = 0;
+            clearInterval(cq.interval);
             cq.getAllCodes(formattedDate).done(function (codes) {
                 cq.iteration(codes);
                 if (codes.length < 120) {
