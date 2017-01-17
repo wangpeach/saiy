@@ -41,7 +41,12 @@ jQuery(document).ready(function ($) {
          */
         syned: false,
 
-
+        lockLittle: function() {
+            cq.syned = true;
+            setTimeout(function() {
+                cq.syned = false;
+            }, 10000);
+        },
         /**
          * [获取所有数据]
          * @param  {[type]} d [description]
@@ -138,11 +143,14 @@ jQuery(document).ready(function ($) {
                                 if (data && !data.warning) {
                                     // 数据已同步，停止请求
                                     loopreq = false;
+                                    //加锁20秒
+                                    cq.lockLittle();
                                     sessionStorage.setItem("loopreq", false);
                                     var nextTerm = cq.curterm + 1, wating = 1200;
                                     //今天最后一期，数据同步后3秒刷新页面
                                     if(nextTerm > 120) {
                                         wating = 0;
+                                        clearInterval(cql.interval);
                                         $('.tips').hide();
                                         var renovate = setTimeout(function() {
                                             window.location.reload();
@@ -164,8 +172,9 @@ jQuery(document).ready(function ($) {
                          * [0-2] > [10-24]
                          */
                         if ((hour >= 22 && hour < 24) || (hour >= 0 && hour < 2)) {
-                            if ((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) || (min.endsWith("9") || min.endsWith("0") && seconds <= 50)) {
-                                if (surplusSeconds <= 1) {
+                            if (((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) && !cq.syned) || ((min.endsWith("9") || min.endsWith("0") && seconds <= 50) && !cq.syned)) {
+                                console.log(surplusSeconds);
+                                if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
                                     if (minutes >= 59) {
                                         //当前时间加一小时，下一小时0分52秒开始获取数据
@@ -212,7 +221,6 @@ jQuery(document).ready(function ($) {
                                         lastMin = parseInt(min.length == 1 ? 4 : (min.charAt(0) + "4"));
                                     } else {
                                         lastMin = parseInt(min.length == 1 ? 9 : (min.charAt(0) + "9"));
-                                        ;
                                     }
                                     stopTime.setMinutes(lastMin);
                                     stopTime.setSeconds(0);
@@ -221,9 +229,9 @@ jQuery(document).ready(function ($) {
                                 cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
                             }
                         } else {
-                            if (min.toString().endsWith("9") || (min.toString().endsWith("0") && seconds <= 50)) {
+                            if ((min.toString().endsWith("9") && !cq.syned) || ((min.toString().endsWith("0") && seconds <= 50) && !cq.syned)) {
                                 // open codes surplus ..
-                                if (surplusSeconds <= 1) {
+                                if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
                                     if (minutes >= 59) {
                                         if (hour > 23) {

@@ -39,6 +39,7 @@ body {
 	display: initial;
 	border: 1px solid rgba(255, 0, 0, 0);
 	background: rgba(255, 0, 0, 0);
+    position: absolute;
 }
 
 .cq > #header > .row.action {
@@ -47,9 +48,22 @@ body {
 	height: 100%;
 	padding: 2.5rem 0px;
 }
-.cq > #header > .row.action > .small-2.columns {
-	padding: 0px;
+
+/*开奖号码区域宽度*/
+.cq > #header > .row.action > .tarday {
+    width: auto;
+    max-width: 22%;
+    padding-left:0px;
 }
+/* 前中后三区域宽度 */
+.cq > #header > .row.action > .TH3 {
+    width: 14%;
+}
+/* 前后二区域宽度 */
+.cq > #header > .row.action > .LA2 {
+    width: 11%;
+}
+
 .cq > #header > .row.action .button-group {
 	margin-bottom: 0rem;
 }
@@ -79,7 +93,6 @@ body {
 .cq>.container>.advice, .cq>.container>.cencus {
 	width: 230px;
 	height: 100%;
-	/* border: 1px solid red; */
 }
 
 /**
@@ -106,7 +119,7 @@ body {
 	color: #fde9a1;
 	border-bottom: 1px solid #262626;
 }
-.cq>.container>.code>.col .Tl.columns.Tl-3:hover {
+.cq>.container>.code>.col .Tl.columns.Tl3:hover {
 	background: brown;
 }
 .cq>.container>.code>.col .Tl.columns.trigger {
