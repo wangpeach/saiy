@@ -1,6 +1,7 @@
-body {
+html, body {
 	width: 100%;
 	height: 100%;
+	min-height: 860px;
 	background-color: #464646;
 }
 
@@ -78,6 +79,10 @@ body {
 .cq > #header .button.secondary.active {
 	background: brown;
 }
+
+/**
+ * 开奖区域
+ */
 .cq>.container {
 	width: 1590px;
 	height: 800px;
@@ -90,19 +95,31 @@ body {
 .cq>.container>div:last-child {
 	margin-right: 0px;
 }
+/**
+ * 左右两边区域
+ */
 .cq>.container>.advice, .cq>.container>.cencus {
 	width: 230px;
 	height: 100%;
+	background: #494949;
+	border: 1px solid #252525;
 }
+
+
+
 
 /**
  * 号码区域
  */
 .cq>.container>.code {
 	width: 1100px;
+	height: 100%;
+}
+.cq>.container>.code>.opened {
+	width: 100%;
 	height: 585px;
 }
-.cq>.container>.code>.col {
+.cq>.container>.code>.opened>.col {
 	width: 16.666%;
 	/* height: 100%; */
 	float: left;
@@ -111,18 +128,18 @@ body {
 	border-bottom: 0px;
 	background: #3c3c3c;
 }
-.cq>.container>.code>.col:first-child {
+.cq>.container>.code>.opened>.col:first-child {
 	border-left: 1px solid #080808;
 }
-.cq>.container>.code>.col .Tl.columns {
+.cq>.container>.code>.opened>.col .Tl.columns {
 	height: 30px;
 	color: #fde9a1;
 	border-bottom: 1px solid #262626;
 }
-.cq>.container>.code>.col .Tl.columns.Tl3:hover {
+.cq>.container>.code>.opened>.col .Tl.columns.Tl3:hover {
 	background: brown;
 }
-.cq>.container>.code>.col .Tl.columns.trigger {
+.cq>.container>.code>.opened>.col .Tl.columns.trigger {
 	color: #FFF4D2;
 	animation-name: trigger;
 	animation-duration: 0.3s;
@@ -136,31 +153,46 @@ body {
 		background-color: rgba(255, 255, 255, 0);
 	}
 }
-.cq>.container>.code>.col .columns {
+.cq>.container>.code>.opened>.col .columns {
 	font-size: 12px;
 	color: white;
 	line-height: 30px;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 }
-.cq>.container>.code>.col .data-row {
+.cq>.container>.code>.opened>.col .data-row {
 	height: 27.75px;
     line-height: 27px;
 	background: #525252;
 	border-bottom: 1px solid #262626;
 }
-.cq>.container>.code>.col .data-row .columns {
+.cq>.container>.code>.opened>.col .data-row .columns {
 	height: 27.75px;
 	border-right: 0px;
 	border-top: 0px;
 }
-.cq>.container>.code>.col .data-row .columns:first-child {
+.cq>.container>.code>.opened>.col .data-row .columns:first-child {
 	border-left: 0px;
 }
-.cq>.container>.code>.col .data-row:last-child .columns {
+.cq>.container>.code>.opened>.col .data-row:last-child .columns {
 	border-bottom: 0px;
 }
 
 /**
- * END
+ * 统计区
  */
+.cq>.container>.code>.curcencus {
+	width: 100%;
+	height: 200px;
+	margin-top: 15px;
+	background: #494949;
+	border: 1px solid #252525;
+}
+
+
+footer {
+	width: 100%;
+	color: #AAAAAA;
+	text-align: center;
+	margin-top: 30px;
+}

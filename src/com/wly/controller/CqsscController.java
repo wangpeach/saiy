@@ -76,7 +76,7 @@ public class CqsscController extends BaseController {
                     context.setAttribute("curterm", result);
                 } else {
                     map = new HashMap<String, String>();
-                    map.put("warning", "数据暂未同步");
+                    map.put("warning", "no syn");
                     result = gson.toJson(map, Map.class);
                 }
             } else {
