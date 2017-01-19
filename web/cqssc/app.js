@@ -11,12 +11,41 @@ jQuery(document).ready(function ($) {
             usually: {
                 times: [10, 22],
                 interval: 10
-            }
+            },
+            notification: false
         },
         /**
          * 解析结果
          */
-        anlycol: undefined,
+        anlycol: {
+            q3: {
+                zu6: 0,
+                zu3: 0,
+                baozi: 0,
+            },
+            z3: {
+                zu6: 0,
+                zu3: 0,
+                baozi: 0,
+            },
+            h3: {
+                zu6: 0,
+                zu3: 0,
+                baozi: 0,
+            },
+            q2: {
+                duizi: 0,
+                shun: 0
+            },
+            h2: {
+                duizi: 0,
+                shun: 0
+            }
+        },
+        /**
+         * 通知对象
+         */
+        noti: undefined,
 
         /**
          * 当前期号
@@ -126,11 +155,16 @@ jQuery(document).ready(function ($) {
                     if (surplusSeconds <= 1) {
                         stopTime.setHours(10);
                         stopTime.setMinutes(0);
-                        stopTime.setSeconds(52);
+                        stopTime.setSeconds(50);
                         surplusSeconds = cal.dateDiff(stopTime, date);
                     }
                     // 剩余更新秒数
                     cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
+                    //计时完成同步数据
+                    if (surplusSeconds <= 1) {
+                        loopreq = true;
+                        sessionStorage.setItem("loopreq", true);
+                    }
                 } else {
                     // 开始同步数据
                     if (loopreq = (sessionStorage.getItem("loopreq") == "true" ? true : false)) {
@@ -157,6 +191,9 @@ jQuery(document).ready(function ($) {
                                         }, 3000);
                                     } else {
                                         cq.setTipsPos(nextTerm, null);
+                                    }
+                                    if(cq.config.notification) {
+                                        new Notification('极限数据', { body: "数据已同步, 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
                                     }
                                     var timeout = setTimeout(function () {
                                         cq.openCodes.push(data);
@@ -443,4 +480,26 @@ jQuery(document).ready(function ($) {
     });
 
 
+    /**
+     * [是否接受通知]
+     */
+    $("#usenotification").change(function(event) {
+        /* Act on the event */
+        var msg = undefined;
+        if(window.Notification) {
+            if(this.checked) {
+                cq.config.notification = this.checked;
+                msg = '已开启通知!';
+            } else {
+                msg = '已关闭通知!';
+            }
+            var noti = new Notification('极限数据', { body: msg, icon: 'cqssc/shiicon.ico' });
+            noti.onshow = function() {
+                setTimeout(noti.close.bind(noti), 3000);
+            }
+        } else {
+            this.checked = false;
+            layer.msg("您的浏览器不支持通知");
+        }
+    });
 });

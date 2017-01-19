@@ -54,7 +54,7 @@ html, body {
 .cq > #header > .row.action > .tarday {
     width: auto;
     max-width: 22%;
-    padding-left:0px;
+    padding-left:1px;
 }
 /* 前中后三区域宽度 */
 .cq > #header > .row.action > .TH3 {
@@ -172,6 +172,7 @@ html, body {
 	border-top: 0px;
 }
 .cq>.container>.code>.opened>.col .data-row .columns:first-child {
+	color: #dedede;
 	border-left: 0px;
 }
 .cq>.container>.code>.opened>.col .data-row:last-child .columns {
@@ -192,7 +193,10 @@ html, body {
 
 footer {
 	width: 100%;
+	min-width: 1590px;
 	color: #AAAAAA;
 	text-align: center;
 	margin-top: 30px;
+	font-size: 16px;
+	text-shadow: rgb(8, 8, 8) 1px 1px 5px;
 }
