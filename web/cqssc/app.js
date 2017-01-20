@@ -42,10 +42,6 @@ jQuery(document).ready(function ($) {
                 shun: 0
             }
         },
-        /**
-         * 通知对象
-         */
-        noti: undefined,
 
         /**
          * 当前期号
@@ -76,6 +72,21 @@ jQuery(document).ready(function ($) {
                 cq.syned = false;
             }, 10000);
         },
+
+        /**
+         * 最后一次点击的分析按钮, 3秒后清空
+         * @type {[type]}
+         */
+        lastAnlAction: undefined,
+        lastwat3f: undefined,
+        wating3ToUfd: function() {
+            if(cq.lastwat3f) { clearTimeout(cq.lastwat3f);  cq.lastwat3f = undefined;}
+            cq.lastwat3f = setTimeout(function() {
+                cq.lastAnlAction = undefined;
+                clearTimeout(cq.lastwat3f);
+            }, 3000);
+        },
+
         /**
          * [获取所有数据]
          * @param  {[type]} d [description]
@@ -110,11 +121,11 @@ jQuery(document).ready(function ($) {
          * @param {[type]} term [description]
          * @param {[type]} text [description]
          */
-        setTipsPos: function (term, text) {
+        setTipsPos: function (term, text, css) {
             var target = $("div[data-inx='" + (term) + "']");
             var top = $(target).offset().top;
             var curColumn = Math.floor(term / 20);
-            var tipstar = tipstar = $(".tips[data-inx='" + curColumn + "']");
+            var tipstar = $(".tips[data-inx='" + curColumn + "']").css(css);
             var oldpx = parseFloat(tipstar.get(0).style.top.replace(/px/i, ''));
             if (oldpx > top) {
                 top = oldpx;
@@ -159,7 +170,7 @@ jQuery(document).ready(function ($) {
                         surplusSeconds = cal.dateDiff(stopTime, date);
                     }
                     // 剩余更新秒数
-                    cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
+                    cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
                     //计时完成同步数据
                     if (surplusSeconds <= 1) {
                         loopreq = true;
@@ -171,7 +182,7 @@ jQuery(document).ready(function ($) {
 
                         // 2秒发送一次请求
                         if (seconds % 2 > 0) {
-                            cq.setTipsPos(cq.curterm, '正在同步数据..');
+                            cq.setTipsPos(cq.curterm, '正在同步数据..' , {'color': '#f183d3'});
 
                             cq.getCode(cq.curterm).done(function (data) {
                                 if (data && !data.warning) {
@@ -190,7 +201,7 @@ jQuery(document).ready(function ($) {
                                             window.location.reload();
                                         }, 3000);
                                     } else {
-                                        cq.setTipsPos(nextTerm, null);
+                                        cq.setTipsPos(nextTerm, null , {'color': '#f183d3'});
                                     }
                                     if(cq.config.notification) {
                                         new Notification('极限数据', { body: "数据已同步, 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
@@ -209,6 +220,7 @@ jQuery(document).ready(function ($) {
                          * [0-2] > [10-24]
                          */
                         if ((hour >= 22 && hour < 24) || (hour >= 0 && hour < 2)) {
+                            console.log(4);
                             if (((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) && !cq.syned) || ((min.endsWith("9") || min.endsWith("0") && seconds <= 50) && !cq.syned)) {
                                 console.log(surplusSeconds);
                                 if (surplusSeconds <= 10) {
@@ -243,7 +255,7 @@ jQuery(document).ready(function ($) {
                                         surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                     }
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
+                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
                                 //计时完成同步数据
                                 if (surplusSeconds <= 1) {
                                     loopreq = true;
@@ -252,6 +264,7 @@ jQuery(document).ready(function ($) {
                             } else {
                                 //剩余投注时间
                                 if (surplusSeconds <= 1) {
+                                    console.log(3);
                                     var lastMin = parseInt(min.charAt(min.length - 1));
                                     // 每5分钟一期，投注时间小于4分钟或者9分钟
                                     if (lastMin < 4) {
@@ -263,10 +276,11 @@ jQuery(document).ready(function ($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
+                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {});
                             }
                         } else {
                             if ((min.toString().endsWith("9") && !cq.syned) || ((min.toString().endsWith("0") && seconds <= 50) && !cq.syned)) {
+                                console.log(2);
                                 // open codes surplus ..
                                 if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
@@ -294,13 +308,14 @@ jQuery(document).ready(function ($) {
                                     }
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
+                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
                                 //计时完成同步数据
                                 if (surplusSeconds <= 1) {
                                     loopreq = true;
                                     sessionStorage.setItem("loopreq", true);
                                 }
                             } else {
+                                console.log(1);
                                 if (surplusSeconds <= 1) {
                                     if (min.length == 1) {
                                         min = 9;
@@ -311,7 +326,7 @@ jQuery(document).ready(function ($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--));
+                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {});
                             }
                         }
                     }
@@ -442,12 +457,35 @@ jQuery(document).ready(function ($) {
      */
     $("#header a.killtype").click(function (event) {
         /* Act on the event */
-        var target = $("." + $(this).data("for") + "");
-        $(target).text($(this).text()).addClass('trigger');
-        $(this).parent().find('a').removeClass('active');
+        // var target = $("." + $(this).data("for") + "");
+        // $(target).text($(this).text()).addClass('trigger');
+        if($(this).hasClass('active')) {
+            return false;
+        }
+        // var last = $("#header a.killtype").last();
+        // if($(last).hasClass('active')) {
+        //     cq.lastAnlAction = last;
+        // } else {
+            var actives = $("#header a.killtype.active");
+            if(!cq.lastAnlAction) {
+                cq.lastAnlAction = $(actives).first();
+            } else {
+                $(actives).each(function(index, el) {
+                    if(cq.lastAnlAction != el) {
+                        console.log($(cq.lastAnlAction).text() + "-" + $(el).text());
+                        cq.lastAnlAction = el;
+                    }
+                });
+            }
+            // cq.wating3ToUfd();
+        // }
+
+        $(cq.lastAnlAction).removeClass('active');
         $(this).addClass('active');
+        // cq.lastAnlAction = $("#header a.killtype.active").last();
+        
         setTimeout(function () {
-            $(target).removeClass('trigger');
+            // $(target).removeClass('trigger');
         }, 800);
     });
 
@@ -486,17 +524,32 @@ jQuery(document).ready(function ($) {
     $("#usenotification").change(function(event) {
         /* Act on the event */
         var msg = undefined;
-        if(window.Notification) {
-            if(this.checked) {
-                cq.config.notification = this.checked;
-                msg = '已开启通知!';
-            } else {
-                msg = '已关闭通知!';
-            }
+
+        if(this.checked) {
+            msg = '已开启通知!';
+        } else {
+            msg = '已关闭通知!';
+        }
+
+        var notifun = function() {
             var noti = new Notification('极限数据', { body: msg, icon: 'cqssc/shiicon.ico' });
             noti.onshow = function() {
                 setTimeout(noti.close.bind(noti), 3000);
             }
+        }
+
+        if(window.Notification) {
+            if(Notification.permission !== "granted") {
+                Notification.requestPermission(function(state) {
+                    if(Notification.permission !== state) {
+                        Notification.permission = state;
+                        notifun();
+                    }
+                });
+            } else {
+                notifun();
+            }
+            cq.config.notification = this.checked;
         } else {
             this.checked = false;
             layer.msg("您的浏览器不支持通知");

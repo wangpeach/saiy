@@ -127,9 +127,6 @@ public class CqsscService extends BaseService {
                 e.printStackTrace();
             }
         }
-        if(codesJson == null) {
-
-        }
         FileOperate.saveFile(codesJson, path, true);
         return codesJson;
     }

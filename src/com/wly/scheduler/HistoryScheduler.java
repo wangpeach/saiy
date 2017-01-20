@@ -17,6 +17,7 @@ public class HistoryScheduler {
     private Calendar cal = Calendar.getInstance();
 
     public void exec() {
+        System.out.println("开始调度..");
         boolean stop = false;
         int i = 1;
         try {
@@ -32,7 +33,7 @@ public class HistoryScheduler {
                 }
                 if (stop) {
                     System.out.println(code);
-                    System.out.println("已成功获取数据，退出！");
+                    System.out.println("调度完成,已成功获取数据，退出！");
                 } else {
                     i++;
                     Thread.sleep(8000);
@@ -41,6 +42,5 @@ public class HistoryScheduler {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        cqsscService.holdCodes(null);
     }
 }
