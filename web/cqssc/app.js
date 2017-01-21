@@ -74,18 +74,16 @@ jQuery(document).ready(function ($) {
         },
 
         /**
-         * 最后一次点击的分析按钮, 3秒后清空
-         * @type {[type]}
+         * 最后一次点击的分析按钮
+         * 最后一次分析结果对应的列
+         * 程序自动控制
          */
         lastAnlAction: undefined,
-        lastwat3f: undefined,
-        wating3ToUfd: function() {
-            if(cq.lastwat3f) { clearTimeout(cq.lastwat3f);  cq.lastwat3f = undefined;}
-            cq.lastwat3f = setTimeout(function() {
-                cq.lastAnlAction = undefined;
-                clearTimeout(cq.lastwat3f);
-            }, 3000);
-        },
+        lastAnlRank: undefined,
+        /**
+         * 当前分析的
+         */
+        // curAnlAction: ['后三', '后二'],
 
         /**
          * [获取所有数据]
@@ -220,16 +218,22 @@ jQuery(document).ready(function ($) {
                          * [0-2] > [10-24]
                          */
                         if ((hour >= 22 && hour < 24) || (hour >= 0 && hour < 2)) {
-                            console.log(4);
                             if (((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) && !cq.syned) || ((min.endsWith("9") || min.endsWith("0") && seconds <= 50) && !cq.syned)) {
-                                console.log(surplusSeconds);
                                 if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
                                     if (minutes >= 59) {
                                         //当前时间加一小时，下一小时0分52秒开始获取数据
                                         stopTime.setHours(hour + 1);
+                                        if (hour > 23) {
+                                            //当前日期加一天, 明天凌晨0分50秒获取数据
+                                            stopTime = cal.getCustomDate(1);
+                                            stopTime.setHours(0);
+
+                                        } else {
+                                            //当前时间加一小时，下一小时0分50秒开始获取数据
+                                            stopTime.setHours(hour + 1);
+                                        }
                                         stopTime.setMinutes(0);
-                                        stopTime.setSeconds(50);
                                     } else {
                                         var firstMin = 0,
                                             lastMin = parseInt(min.charAt(min.length - 1));
@@ -250,10 +254,10 @@ jQuery(document).ready(function ($) {
                                             min = firstMin + "" + lastMin;
                                             stopTime.setMinutes(parseInt(min));
                                         }
-                                        stopTime.setSeconds(50);
-                                        // 剩余同步秒数
-                                        surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                     }
+                                    stopTime.setSeconds(50);
+                                    // 剩余同步秒数
+                                    surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
                                 cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
                                 //计时完成同步数据
@@ -264,7 +268,6 @@ jQuery(document).ready(function ($) {
                             } else {
                                 //剩余投注时间
                                 if (surplusSeconds <= 1) {
-                                    console.log(3);
                                     var lastMin = parseInt(min.charAt(min.length - 1));
                                     // 每5分钟一期，投注时间小于4分钟或者9分钟
                                     if (lastMin < 4) {
@@ -276,11 +279,10 @@ jQuery(document).ready(function ($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {});
+                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#ffefa0'});
                             }
                         } else {
                             if ((min.toString().endsWith("9") && !cq.syned) || ((min.toString().endsWith("0") && seconds <= 50) && !cq.syned)) {
-                                console.log(2);
                                 // open codes surplus ..
                                 if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
@@ -289,14 +291,11 @@ jQuery(document).ready(function ($) {
                                             //当前日期加一天, 明天凌晨0分50秒获取数据
                                             stopTime = cal.getCustomDate(1);
                                             stopTime.setHours(0);
-                                            stopTime.setMinutes(0);
-                                            stopTime.setSeconds(50);
                                         } else {
                                             //当前时间加一小时，下一小时0分50秒开始获取数据
                                             stopTime.setHours(hour + 1);
-                                            stopTime.setMinutes(0);
-                                            stopTime.setSeconds(50);
                                         }
+                                        stopTime.setMinutes(0);
                                     } else {
                                         if (min.length == 1) {
                                             stopTime.setMinutes(10);
@@ -304,8 +303,8 @@ jQuery(document).ready(function ($) {
                                             var minFirstChar = parseInt(min.charAt(0));
                                             stopTime.setMinutes(parseInt((minFirstChar + 1)) + "0");
                                         }
-                                        stopTime.setSeconds(50);
                                     }
+                                    stopTime.setSeconds(50);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
                                 cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
@@ -315,7 +314,6 @@ jQuery(document).ready(function ($) {
                                     sessionStorage.setItem("loopreq", true);
                                 }
                             } else {
-                                console.log(1);
                                 if (surplusSeconds <= 1) {
                                     if (min.length == 1) {
                                         min = 9;
@@ -326,7 +324,7 @@ jQuery(document).ready(function ($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {});
+                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#ffefa0'});
                             }
                         }
                     }
@@ -457,37 +455,44 @@ jQuery(document).ready(function ($) {
      */
     $("#header a.killtype").click(function (event) {
         /* Act on the event */
-        // var target = $("." + $(this).data("for") + "");
-        // $(target).text($(this).text()).addClass('trigger');
         if($(this).hasClass('active')) {
             return false;
         }
-        // var last = $("#header a.killtype").last();
-        // if($(last).hasClass('active')) {
-        //     cq.lastAnlAction = last;
-        // } else {
-            var actives = $("#header a.killtype.active");
-            if(!cq.lastAnlAction) {
-                cq.lastAnlAction = $(actives).first();
-            } else {
-                $(actives).each(function(index, el) {
-                    if(cq.lastAnlAction != el) {
-                        console.log($(cq.lastAnlAction).text() + "-" + $(el).text());
-                        cq.lastAnlAction = el;
-                    }
-                });
+
+        var actives = $("#header a.killtype.active");
+        if(cq.lastAnlAction) {
+            $(actives).each(function(index, el) {
+                if(cq.lastAnlAction != el) {
+                    cq.lastAnlAction = el;
+                    return false;
+                }
+            });
+            cq.lastAnlRank = (cq.lastAnlRank == "AN1" ? "AN2" : "AN1");
+        } else {
+            cq.lastAnlAction = $(actives).first();
+            if(!cq.lastAnlRank) {
+                cq.lastAnlRank = "AN1";
             }
-            // cq.wating3ToUfd();
-        // }
+        }
 
         $(cq.lastAnlAction).removeClass('active');
         $(this).addClass('active');
-        // cq.lastAnlAction = $("#header a.killtype.active").last();
-        
+        cq.lastAnlAction = this;
+
+        var trigger = $("."+ cq.lastAnlRank +"");
+        $(trigger).addClass("trigger").text($(this).text());
         setTimeout(function () {
-            // $(target).removeClass('trigger');
+            $(trigger).removeClass('trigger');
         }, 800);
     });
+
+    // $(".AN1,.AN2").click(function() {
+    //     var an = $(this).hasClass("AN1") ? 'AN1' : 'AN2';
+    //     var reverse = (an == 'AN1' ? 'AN2' : 'AN1');
+    //     cq.lastAnlRank = (cq.lastAnlRank ? reverse : an);
+    //     $("."+ reverse +"").removeClass('active');
+    //     $("."+ an +"").addClass('active');
+    // });
 
     $(".cus-date").click(function (event) {
         /* Act on the event */

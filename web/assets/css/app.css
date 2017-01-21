@@ -134,12 +134,17 @@ html, body {
 .cq>.container>.code>.opened>.col .Tl.columns {
 	height: 30px;
 	color: #fde9a1;
+	text-align: center;
 	border-bottom: 1px solid #262626;
 }
-.cq>.container>.code>.opened>.col .Tl.columns.AN1:hover, .cq>.container>.code>.opened>.col .Tl.columns.AN2:hover {
-	background: brown;
-	cursor: pointer;
-}
+/*.cq>.container>.code>.opened>.col .Tl.columns.AN1:hover, .cq>.container>.code>.opened>.col .Tl.columns.AN2:hover {*/
+	/*border-bottom: 2px solid chartreuse;*/
+	/*cursor: pointer;*/
+/*}*/
+/*.cq>.container>.code>.opened>.col .Tl.columns.AN1.active, .cq>.container>.code>.opened>.col .Tl.columns.AN2.active {*/
+	/*border-bottom: 2px solid chartreuse;*/
+/*}*/
+
 .cq>.container>.code>.opened>.col .Tl.columns.trigger {
 	color: #FFF4D2;
 	animation-name: trigger;

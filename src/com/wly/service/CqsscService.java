@@ -28,7 +28,11 @@ public class CqsscService extends BaseService {
         String codes = null;
         // 获取历史数据
         if (!Utils.isNotNullOrEmpty(day)) {
-            day = dateFormat.format(Calendar.getInstance().getTime());
+            Calendar cal = Calendar.getInstance();
+            if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) <= 50) {
+                cal.add(Calendar.DAY_OF_MONTH, -1);
+            }
+            day = dateFormat.format(cal.getTime());
         }
         codes = this.readCodes(day);
         return codes;
