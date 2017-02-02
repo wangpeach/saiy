@@ -18,45 +18,119 @@ jQuery(document).ready(function ($) {
          * 解析结果
          */
         anlycol: {
-            q3: {
-                zu6: 0,
-                zu3: 0,
-                baozi: 0,
+            Q3: {zu6: 0, zu3: 0, baozi: 0},
+            Z3: {zu6: 0, zu3: 0, baozi: 0},
+            H3: {zu6: 0, zu3: 0, baozi: 0},
+            Q2: {duizi: 0, shun: 0},
+            H2: {duizi: 0, shun: 0},
+            '__*': {count: 0, _property_1: 0, _property_2: 0},
+            __0: {count: 0, _property_1: 0, _property_2: 0},
+            __1: {count: 0, _property_1: 0, _property_2: 0},
+            __2: {count: 0, _property_1: 0, _property_2: 0},
+            __3: {count: 0, _property_1: 0, _property_2: 0},
+            __4: {count: 0, _property_1: 0, _property_2: 0},
+            __5: {count: 0, _property_1: 0, _property_2: 0},
+            __6: {count: 0, _property_1: 0, _property_2: 0},
+            __7: {count: 0, _property_1: 0, _property_2: 0},
+            __8: {count: 0, _property_1: 0, _property_2: 0},
+            __9: {count: 0, _property_1: 0, _property_2: 0},
+            _0wqbsg_: {
+                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
             },
-            z3: {
-                zu6: 0,
-                zu3: 0,
-                baozi: 0,
+            _1wqbsg_: {
+                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
             },
-            h3: {
-                zu6: 0,
-                zu3: 0,
-                baozi: 0,
+            _2wqbsg_: {
+                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
             },
-            q2: {
-                duizi: 0,
-                shun: 0
+            _3wqbsg_: {
+                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
             },
-            h2: {
-                duizi: 0,
-                shun: 0
+            _4wqbsg_: {
+                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
+                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
             }
         },
 
         /**
-         * 当前期号
+         * 当前期号，标记号码执行到哪一期，只用于今天
          */
         curterm: 0,
+        /**
+         * 当前期号，标记号码执行到哪一期, 只用于今天之前
+         * @type {Number}
+         */
+        beforeterm: 0,
+
         /**
          * 定时器
          * @type {[type]}
          */
         interval: undefined,
         /**
+         * 计时位置追踪
+         * @type {Boolean}
+         */
+        timerTrace: true,
+        /**
          * 数据
          * @type {[type]}
          */
         openCodes: undefined,
+        /**
+         * 提示音对象
+         * @type {[type]}
+         */
+        notiMedia: undefined,
         /**
          * 是否已经同步数据，
          * 数据同步成功后 20秒之内设置为ture ，不会再同步数据
@@ -81,9 +155,9 @@ jQuery(document).ready(function ($) {
         lastAnlAction: undefined,
         lastAnlRank: undefined,
         /**
-         * 当前分析的
+         * 当前分析的类型
          */
-        // curAnlAction: ['后三', '后二'],
+        curAnlAction: ['H3', 'H2'],
 
         /**
          * [获取所有数据]
@@ -92,7 +166,7 @@ jQuery(document).ready(function ($) {
          */
         getAllCodes: function (d) {
             var defer = $.Deferred();
-            var inx = layer.load(1);
+            var inx = layer.load(2);
             $.post("cqall", {date: d}, function (data) {
                 defer.resolve(data);
                 layer.close(inx);
@@ -120,20 +194,25 @@ jQuery(document).ready(function ($) {
          * @param {[type]} text [description]
          */
         setTipsPos: function (term, text, css) {
-            var target = $("div[data-inx='" + (term) + "']");
-            var top = $(target).offset().top;
-            var curColumn = Math.floor(term / 20);
-            var tipstar = $(".tips[data-inx='" + curColumn + "']").css(css);
-            var oldpx = parseFloat(tipstar.get(0).style.top.replace(/px/i, ''));
-            if (oldpx > top) {
-                top = oldpx;
+            if(cq.timerTrace) {
+                var target = $("div[data-inx='" + (term) + "']");
+                var top = $(target).offset().top;
+                var curColumn = Math.floor(term / 20);
+                var tipstar = $(".tips[data-inx='" + curColumn + "']").css(css);
+                var oldpx = parseFloat(tipstar.get(0).style.top.replace(/px/i, ''));
+                if (oldpx > top) {
+                    top = oldpx;
+                }
+                if (text) {
+                    $(tipstar).html(text);
+                }
+                $(tipstar).show().animate({
+                    top: top
+                });
+                $("#timer").empty();
+            } else {
+                $("#timer").html(text).css(css);
             }
-            if (text) {
-                $(tipstar).html(text);
-            }
-            $(tipstar).show().animate({
-                top: top
-            });
         },
 
         /**
@@ -202,11 +281,13 @@ jQuery(document).ready(function ($) {
                                         cq.setTipsPos(nextTerm, null , {'color': '#f183d3'});
                                     }
                                     if(cq.config.notification) {
-                                        new Notification('极限数据', { body: "数据已同步, 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
+                                        new Notification('极限数据: 数据已同步', { body: "期号："+ nextTerm +", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
                                     }
                                     var timeout = setTimeout(function () {
                                         cq.openCodes.push(data);
-                                        cq.fill(data, cq.curterm, true);
+                                        if(cq.timerTrace) {
+                                            cq.fill(data, cq.curterm, true, true);    
+                                        }
                                         clearTimeout(timeout);
                                     }, wating);
                                 }
@@ -338,6 +419,21 @@ jQuery(document).ready(function ($) {
          * @return {[type]}       [description]
          */
         iteration: function (codes) {
+            for (item in cq.anlycol) {
+                if (cq.anlycol.hasOwnProperty(item)) {
+                    if(item.startsWith("__")) {
+                        cq.anlycol[item].count = 0;
+                    } else if(item.endsWith("2")) {
+                        cq.anlycol[item].duizi = 0,
+                        cq.anlycol[item].shun = 0
+                    } else {
+                        cq.anlycol[item].zu6 = 0;
+                        cq.anlycol[item].zu3 = 0;
+                        cq.anlycol[item].baozi = 0;
+                    }
+                }
+            }
+
             codes = codes.reverse();
             // 临时保存数据
             cq.openCodes = codes;
@@ -346,8 +442,11 @@ jQuery(document).ready(function ($) {
                 if (i == codes.length - 1) {
                     remTips = true;
                 }
-                cq.fill(codes[i], i, remTips);
+                cq.fill(codes[i], i, remTips, false);
             }
+            // cq.cencus(cq.openCodes);
+
+            cq.refPanel();
         },
 
         /**
@@ -355,18 +454,69 @@ jQuery(document).ready(function ($) {
          * @param  {[type]} codeJson [数据]
          * @param  {[type]} i        [当前元素索引]
          * @param  {[type]} remTips  [是否移除前面列的提示面板]
+         * @param  {[type]} [_refpanel] [是否刷新各形态统计]
          * @return {[type]}          [description]
          */
-        fill: function (codeJson, i, remTips) {
+        fill: function (codeJson, i, remTips, _refpanel) {
             //指针移向下一期
-            cq.curterm++;
-            cq.curterm = cq.curterm > 120 ? 0 : cq.curterm;
+            if(cq.timerTrace) {
+                cq.curterm++;
+                cq.curterm = cq.curterm > 120 ? 0 : cq.curterm;
+            } else {
+                cq.beforeterm++;
+            }
+
             var col = $("[data-inx='" + i + "']").find(".columns");
             $(col[0]).text(codeJson.expect.substring(codeJson.expect.length - 3));
             var codes = codeJson.opencode.split(",");
             for (var j = 0; j < codes.length; j++) {
-                $(col[1]).append('<span>' + codes[j] + '</span>');
+                $(col[1]).append('<span data-val="'+ codes[j] +'">' + codes[j] + '</span>');
+
+                /**
+                 * 统计 每个数字出现次数
+                 */
+                cq.anlycol["__"+ [codes[j]] ].count++;
+
+                /**
+                 * 计算遗漏
+                 * @type {[type]}
+                 */
+                var wqbsg = cq.anlycol["_" + j + "wqbsg_"];
+                for (prop in wqbsg) {
+                    if (wqbsg.hasOwnProperty(prop)) {
+                        if(prop.endsWith([codes[j]])) {
+                            wqbsg[prop].curmiss = 0;
+                            wqbsg[prop].lasterm = cq.timerTrace ? cq.curterm : cq.beforeterm;
+                        } else {
+                            wqbsg[prop].curmiss++;
+                            if(wqbsg[prop].curmiss > wqbsg[prop].maxmiss) {
+                                wqbsg[prop].maxmiss = wqbsg[prop].curmiss;
+                            }
+                            cq.anlycol["_" + j + "wqbsg_"][prop] = wqbsg[prop];
+                        }
+                    }
+                }
+                
             }
+
+            // 分析已选中形态
+            var An1Res = cq.analysis(cq.curAnlAction[0], codes.join(""));
+            if(An1Res) {
+                $(col[2]).css({color: An1Res.color}).text(An1Res.text);
+            }
+            var An2Res = cq.analysis(cq.curAnlAction[1], codes.join(""));
+            if(An2Res) {
+                $(col[3]).css({color: An2Res.color}).text(An2Res.text);
+            }
+
+            // 统计各形态出现次数
+            cq.cencus(codeJson);
+
+            //更新统计面板
+            if(_refpanel) {
+                cq.refPanel();
+            }
+
             // 隐藏当前列前面的提示列
             if (remTips) {
                 var tarcol = Math.floor((cq.curterm) / 20);
@@ -379,15 +529,239 @@ jQuery(document).ready(function ($) {
         },
 
         /**
+         * 统计各形态共出现次数
+         * @return {[type]} [description]
+         */
+        cencus: function(code) {
+            var killtypes = ["Q3", "Z3", "H3", "Q2", "H2"];
+            for (var i = 0; i < killtypes.length; i++) {
+                var result = cq.analysis(killtypes[i], code.opencode.split(",").join(""));
+                if(result.type) {
+                    cq.anlycol[killtypes[i]][result.type]++;
+                }
+            }
+        },
+
+        /**
+         * 更新统计面板
+         * @return {[type]} [description]
+         */
+        refPanel: function() {
+            /**
+             * BEGIN
+             * 每个数字出现次数，和进度条比例
+             */
+            var codearise = new Array(), pushedArise = "";
+            for (var i = 0; i < 10; i++) {
+                codearise.push(cq.anlycol['__' + i].count);
+            }
+            codearise = codearise.sort().reverse();
+
+            for (var i = 0; i < 10; i++) {
+                // 每个数字出现顺序
+                for (var j = 0; j < 10; j++) {
+                    if(codearise[i] == cq.anlycol['__' + j].count && !pushedArise.includes(j)) {
+                        pushedArise += j;
+                    }
+                }
+                //进度条显示
+                var ratio = (codearise[i] / codearise[0]) * 100;
+                $("._" + i + "progress").attr({
+                    'aria-valuenow': ratio
+                }).find('.progress-meter').css('width', ratio + '%');
+                $("._" + i + "arise").text(codearise[i]);
+            }
+            //填充 数字
+            codearise = pushedArise.split("");
+            for (var i = 0; i < codearise.length; i++) {
+                $("._" + i + "coderow").data('val', codearise[i])
+                $("._" + i + "code").html(codearise[i] + "&nbsp;&nbsp;");
+            }
+            /**
+             * END
+             */
+            
+
+
+            /**
+             * BEGIN
+             * 更新各形态出现次数
+             */
+            for (prop in cq.anlycol) {
+                if (cq.anlycol.hasOwnProperty(prop) && !prop.startsWith('_')) {
+                    for (item in cq.anlycol[prop]) {
+                        if (cq.anlycol[prop].hasOwnProperty(item)) {
+                            $("."+ prop + item).text(cq.anlycol[prop][item]);
+                        }
+                    }
+                }
+            }
+            /**
+             * END
+             */
+            
+
+            /**
+             * BEGIN
+             * 更新遗漏
+             */
+            for (var i = 0; i < 5; i++) {
+                var _wqbsg = cq.anlycol["_" + i + "wqbsg_"];
+                for (var j = 0; j < 10; j++) {
+                    var messcode = _wqbsg["_" + j];
+                    var targetParent = $("#_missing_" + i + ">.columns:eq("+ (j+1) +")");
+
+                    $(targetParent).find('.has-tip').attr('title', ("最后出现在" + messcode.lasterm + "期, 当前遗漏 " + messcode.curmiss + "期, 最大遗漏 " + messcode.maxmiss + "期"));
+                    
+                    $(targetParent).find('.curMissing').text(messcode.curmiss);
+                    $(targetParent).find('.maxMissing').text(messcode.maxmiss);
+                }
+            }
+            /**
+             * END
+             */
+
+            console.log(cq.anlycol);
+        },
+
+        /**
+         * 切换数据分析
+         * @param  {[type]}
+         * @param  {[type]}
+         * @return {[type]}
+         */
+        swipAnaly: function(kill, _an) {
+            for (var i = 0; i < cq.openCodes.length; i++) {
+                var code = cq.openCodes[i];
+                if(i == 43) {
+                    console.log(code);
+                }
+                var anres = cq.analysis(kill, code.opencode.split(",").join(""));
+                var col = $("[data-inx='" + i + "']").find(".columns");
+                if(anres) {
+                    $(_an == "AN1" ? col[2] : col[3]).removeAttr('style').text('').css({color: anres.color}).text(anres.text);
+                }
+            }
+        },
+
+        /**
          * 分析数据
          * @param  {分析类型}
          * @param  {号码}
          * @return {[]}
          */
         analysis: function (kill, code) {
-
+            var result = undefined;
+            switch (kill) {
+                case "Q3":
+                    result = cq._3Analy(code.substr(0, 3).split(""));
+                    break;
+                case "Z3":
+                    result = cq._3Analy(code.substr(1, 3).split(""));
+                    break;
+                case "H3":
+                    result = cq._3Analy(code.substr(2, 3).split(""));
+                    break;
+                case "Q2":
+                    result = cq._2Analy(code.substr(0, 2).split(""));
+                    break;
+                case "H2":
+                    result = cq._2Analy(code.substr(3, 2).split(""));
+                    break;
+                case "W":
+                    result = cq._1Analy(code.substr(0, 1));
+                    break;
+                case "Q":
+                    result = cq._1Analy(code.substr(1, 1));
+                    break;
+                case "B":
+                    result = cq._1Analy(code.substr(2, 1));
+                    break;
+                case "S":
+                    result = cq._1Analy(code.substr(3, 1));
+                    break;
+                case "G":
+                    result = cq._1Analy(code.substr(4, 1));
+                    break;
+            }
+            return result;
+        },
+        /**
+         * 分析组六
+         * @param  {[type]}
+         * @return {[type]}
+         */
+        _3Analy: function(code) {
+            var result = {}, maxcter = 0;
+            for (var i = 0; i < code.length; i++) {
+                var counter = 0;
+                for (var j = 0; j < code.length; j++) {
+                    if(i != j) {
+                        if(code[i] == code[j]) {
+                            counter++;
+                            if(counter > maxcter) {
+                                maxcter = counter;
+                            }
+                        }
+                    }
+                }
+                if(maxcter == 1) {
+                    result.type = "zu3";
+                    result.text = "组三";
+                    result.color = "darkorange";
+                } else if(maxcter == 2) {
+                    result.type = "baozi";
+                    result.text = "豹子";
+                    result.color = "fuchsia";
+                } else {
+                    result.type = "zu6";
+                    result.text = "组六";
+                    result.color = 'chartreuse'; 
+                }
+            }
+            return result;
+        },
+        /**
+         * 分析前后二
+         * @param  {[type]}
+         * @return {[type]}
+         */
+        _2Analy: function (code) {
+            var result = {};
+            if(code[0] == code[1]) {
+                result.type = "duizi";
+                result.text = "对子";
+                result.color = "crimson";
+            } else {
+                var _positive_1_9_ = Math.abs(code[0] - code[1]) || Math.abs(code[1] - code[0]);
+                if(_positive_1_9_ == 1 || _positive_1_9_ == 9) {
+                    result.type = "shun";
+                    result.text = "连号";
+                    result.color = "burlywood";
+                }
+            }
+            return result;
+        },
+        /**
+         * 定位分析
+         * @param  {[type]}
+         * @return {[type]}
+         */
+        _1Analy: function(code) {
+            var result = {}
+            code = parseInt(code);
+            result.text = (code < 5 ? '小' : '大');
+            if(code % 2 == 0) {
+                result.color = 'darksalmon';
+                result.text += "双"
+            } else {
+                result.color = 'palegreen';
+                result.text += "单"
+            }
+            return result;
         }
     }
+
 
 
     /**
@@ -400,10 +774,29 @@ jQuery(document).ready(function ($) {
         for (var i = 0; i < 120; i++) {
             $(rows[i]).attr("data-inx", i);
         }
-        cq.iteration(codes);
-        if (codes.length < 120) {
-            cq.start();
+
+        if(codes.msg) {
+            layer.alert(codes.msg);
+        } else {
+            cq.iteration(codes);
+            if (codes && codes.length > 0 && codes.length < 120) {
+                cq.start();
+            }
         }
+
+        // 获取近7日开奖号码形态统计
+        $.post('cqcencusLast7', {}, function(data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            for (var i = 0; i < data.length; i++) {
+                var target = $(".curcencus .cenlast" + i);
+                $(target).find('.calendar').text(data[i].date);
+                $(target).find('.zu6').text(data[i].zu6);
+                $(target).find('.zu3').text(data[i].zu3);
+                $(target).find('.baozi').text(data[i].baozi);
+                $(target).find('.duizi').text(data[i].duizi);
+                $(target).find('.shun').text(data[i].shun);
+            }
+        }, 'json');
     });
 
     /**
@@ -415,7 +808,7 @@ jQuery(document).ready(function ($) {
     $("#header a.swdate").click(function (event) {
         /* Act on the event */
         if (!$(this).hasClass('active')) {
-            $(".data-row > .columns").empty();
+            $(".opened .data-row > .columns").empty();
             $(".tips").hide();
             sessionStorage.removeItem("codes");
 
@@ -423,10 +816,17 @@ jQuery(document).ready(function ($) {
             $(this).parent().find('a').removeClass('active');
             $(this).addClass('active');
             $(".cus-date").text("自选");
+
+            //那天遗漏提示
+            $(".missingTitle").text($(this).text());
+
             var date = "",
                 cal = new Calendar();
+            cq.timerTrace = false;
             switch ($(this).data("val")) {
                 case 'tod':
+                    cq.curterm = 0;
+                    cq.timerTrace = true;
                     date = new Date().Format("yyyy-MM-dd");
                     break;
                 case 'ysd':
@@ -436,12 +836,16 @@ jQuery(document).ready(function ($) {
                     date = cal.getCustomDate(-2);
                     break;
             }
-            cq.curterm = 0;
-            clearInterval(cq.interval);
+            // clearInterval(cq.interval);
+
             cq.getAllCodes(date).done(function (codes) {
-                cq.iteration(codes);
-                if (codes.length < 120) {
-                    cq.start();
+                if(codes.msg) {
+                    layer.alert(codes.msg);
+                } else {
+                    cq.iteration(codes);
+                    if (codes && codes.length > 0 && codes.length < 120 && !cq.interval) {
+                        cq.start();
+                    }
                 }
             });
         }
@@ -460,6 +864,19 @@ jQuery(document).ready(function ($) {
         }
 
         var actives = $("#header a.killtype.active");
+
+        //删除分析结果显示列选中状态
+        if($("."+ cq.lastAnlRank +"").hasClass('active')) {
+            var letcol = $("."+ cq.lastAnlRank +":first").text();
+            $(actives).each(function(index, el) {
+                if($(el).text() != letcol) {
+                    cq.lastAnlAction = el;
+                }
+            });
+            $("."+ cq.lastAnlRank +"").removeClass('active');
+            cq.lastAnlRank = (cq.lastAnlRank == "AN1" ? "AN2" : "AN1");
+        }
+
         if(cq.lastAnlAction) {
             $(actives).each(function(index, el) {
                 if(cq.lastAnlAction != el) {
@@ -479,6 +896,13 @@ jQuery(document).ready(function ($) {
         $(this).addClass('active');
         cq.lastAnlAction = this;
 
+        cq.curAnlAction[(cq.lastAnlRank == "AN1" ? 0 : 1)] = $(this).data("val");
+
+        /**
+         * 点击相应分析按钮 重新分析数据
+         */
+        cq.swipAnaly($(this).data("val"), cq.lastAnlRank);
+
         var trigger = $("."+ cq.lastAnlRank +"");
         $(trigger).addClass("trigger").text($(this).text());
         setTimeout(function () {
@@ -486,13 +910,18 @@ jQuery(document).ready(function ($) {
         }, 800);
     });
 
-    // $(".AN1,.AN2").click(function() {
-    //     var an = $(this).hasClass("AN1") ? 'AN1' : 'AN2';
-    //     var reverse = (an == 'AN1' ? 'AN2' : 'AN1');
-    //     cq.lastAnlRank = (cq.lastAnlRank ? reverse : an);
-    //     $("."+ reverse +"").removeClass('active');
-    //     $("."+ an +"").addClass('active');
-    // });
+    /**
+     * 自选分析结果显示列
+     * @param  {[type]}
+     * @return {[type]}
+     */
+    $(".AN1,.AN2").click(function() {
+        var an = $(this).hasClass("AN1") ? 'AN1' : 'AN2';
+        cq.lastAnlRank = an;
+        var reverse = (an == 'AN1' ? 'AN2' : 'AN1');
+        $("."+ reverse +"").removeClass('active');
+        $("."+ an +"").addClass('active');
+    });
 
     $(".cus-date").click(function (event) {
         /* Act on the event */
@@ -508,18 +937,35 @@ jQuery(document).ready(function ($) {
         onSelect: function (formattedDate, date, inst) {
             $(".cus-date").text(formattedDate).parent().find('a').removeClass('active');
             $(".cus-date").addClass('active');
-            $(".data-row > .columns").empty();
+            $(".opened .data-row > .columns").empty();
             $(".tips").hide();
             sessionStorage.removeItem("codes");
-            cq.curterm = 0;
-            clearInterval(cq.interval);
+            
+            // clearInterval(cq.interval);
+            if(formattedDate != new Date().Format("yyyy-MM-dd")) {
+                cq.curterm = 0;
+                cq.timerTrace = false;
+            }
+            $(".missingTitle").text(formattedDate + " ");
             cq.getAllCodes(formattedDate).done(function (codes) {
-                cq.iteration(codes);
-                if (codes.length < 120) {
-                    cq.start();
+                if(codes.msg) {
+                    layer.alert(codes.msg);
+                } else {
+                    cq.iteration(codes);
+                    if (codes.length < 120 && !cq.interval) {
+                        cq.start();
+                    }
                 }
             });
         }
+    });
+
+    $(".cencus > .row").mouseenter(function(event) {
+        /* Act on the event */
+        $('.opened span[data-val="'+ $(this).data('val') +'"]').addClass('active');
+    }).mouseleave(function(event) {
+        /* Act on the event */
+        $('.opened span[data-val="'+ $(this).data('val') +'"]').removeClass('active');
     });
 
 

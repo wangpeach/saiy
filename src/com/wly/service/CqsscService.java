@@ -4,19 +4,41 @@ import com.google.gson.Gson;
 import com.wly.utils.FileOperate;
 import com.wly.utils.Utils;
 import com.wly.utils._HttpConnection;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
+import sun.misc.Regexp;
 
-import java.io.IOException;
+import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class CqsscService extends BaseService {
 
     private static final String url = "http://t.apiplus.cn/%s.do?token=demo&code=cqssc&format=json";
-    public static final String SAVEPAHT = "D://lshm//";
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private String savePath = "";
+    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private String curDay = null;
+
+    public CqsscService() {
+        this.savePath = this.properties().getProperty("holdPath");
+    }
+
+    public Properties properties() {
+        Properties prop = new Properties();
+        try {
+            InputStream stream = new FileInputStream(Utils.srcPath() + "config.properties");
+            prop.load(stream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prop;
+    }
 
     /**
      * 获取某一天的数据
@@ -35,6 +57,14 @@ public class CqsscService extends BaseService {
             day = dateFormat.format(cal.getTime());
         }
         codes = this.readCodes(day);
+
+        if(codes.startsWith("-*-")) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            codes = codes.replace("-*-", "");
+            map.put("msg", codes);
+            Gson gson = new Gson();
+            codes = gson.toJson(map);
+        }
         return codes;
     }
 
@@ -45,7 +75,8 @@ public class CqsscService extends BaseService {
      * @param day   指定日期数据
      * @return
      */
-    public String reqHaoMa(int limit, String day) {
+    public synchronized String reqHaoMa(int limit, String day) {
+
         Map<String, Object> arg = new HashMap<String, Object>();
         String reqUrl = "";
         if (Utils.isNotNullOrEmpty(limit) && limit > 0) {
@@ -62,6 +93,7 @@ public class CqsscService extends BaseService {
             result = this.toJson(this.handleJson(conn.sendRequest(reqUrl, arg)));
         } catch (IOException e) {
             result = null;
+            System.out.println(e);
         }
         return result;
     }
@@ -74,9 +106,10 @@ public class CqsscService extends BaseService {
      */
     public String readCodes(String day) {
         String codes = null;
-        String path = SAVEPAHT + day + ".json";
+        String path = savePath + day + ".json";
         if (FileOperate.isExists(path)) {
             codes = FileOperate.readfile(path);
+            // 如果不是读取今天的数据，检查数据是否完整，不完整则重新请求数据
             curDay = dateFormat.format(Calendar.getInstance().getTime());
             if(!curDay.equals(day)) {
                 Gson gson = new Gson();
@@ -120,18 +153,41 @@ public class CqsscService extends BaseService {
         if (!Utils.isNotNullOrEmpty(day)) {
             day = dateFormat.format(Calendar.getInstance().getTime());
         }
-        String path = SAVEPAHT + day + ".json";
-        //获取历史
         String codesJson = null;
-        while(codesJson == null) {
-            codesJson = this.reqHaoMa(-1, day);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            //在某一时间段暂停开奖
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(dateFormat.parse(day));
+
+            Calendar stopday = Calendar.getInstance();
+            stopday.setTime(dateFormat.parse(this.properties().getProperty("stopday")));
+
+            Calendar startday = Calendar.getInstance();
+            startday.setTime(dateFormat.parse(this.properties().getProperty("startday")));
+
+            if(cal.before(stopday) || cal.after(startday)) {
+                String path = savePath + day + ".json";
+                //获取历史
+                while(codesJson == null) {
+                    codesJson = this.reqHaoMa(-1, day);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                FileOperate.saveFile(codesJson, path, true);
+            } else {
+                try {
+                    String msg = new String(this.properties().getProperty("msg").getBytes("iso-8859-1"), "GBK");
+                    codesJson = "-*-" + msg;
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        FileOperate.saveFile(codesJson, path, true);
         return codesJson;
     }
 
@@ -155,7 +211,7 @@ public class CqsscService extends BaseService {
         String day  = dateFormat.format(cal.getTime());
 
         String codesJson = "";
-        String path = SAVEPAHT + day + ".json";
+        String path = savePath + day + ".json";
         if (FileOperate.isExists(path)) {
             codesJson = FileOperate.readfile(path);
         }
@@ -177,6 +233,154 @@ public class CqsscService extends BaseService {
             }
         }
         return puted;
+    }
+
+    /**
+     * 统计近7天开奖号码形态
+     * @return
+     */
+    public String cencusLast7() {
+        Calendar cal = Calendar.getInstance();
+        List<Map<String, Object>> last7 = new ArrayList<Map<String, Object>>();
+        for (int i = 1; i < 8; i++) {
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            String day = dateFormat.format(cal.getTime());
+            String codes = this.readCodes(day);
+
+            Map<String, Object> res = null;
+            if(!codes.startsWith("-*-")) {
+                res = this.analyCurb(codes);
+            } else {
+                res = new HashMap<String, Object>();
+                res.put("zu6", "--");
+                res.put("zu3", "--");
+                res.put("baozi", "--");
+                res.put("duizi", "--");
+                res.put("shun", "--");
+            }
+            res.put("date", dateFormat.format(cal.getTime()));
+            last7.add(res);
+        }
+        Gson gson = new Gson();
+        String result = gson.toJson(last7);
+        return result;
+    }
+
+    /**
+     * 分析组六，组三，豹子，前后二对子, 统计数量
+     * @param jsonCodes 某一天的开奖号码
+     * @return 各形态数量
+     */
+    private Map<String, Object> analyCurb(String jsonCodes) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        int zu6 = 0, zu3 = 0, baozi = 0, duizi = 0, shun = 0;
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> codes = gson.fromJson(jsonCodes, List.class);
+
+        List<Map<String, Object>> analyRes = new ArrayList<Map<String, Object>>();
+
+        if(codes != null && codes.size() > 0) {
+
+            for (int i = 0; i < codes.size(); i++) {
+                String code = codes.get(i).get("opencode").toString().replace(",", "");
+                analyRes.add(_3Analy(code.substring(0, 3)));
+                analyRes.add(_3Analy(code.substring(1, 4)));
+                analyRes.add(_3Analy(code.substring(2, 5)));
+                analyRes.add(_2Analy(code.substring(0, 2)));
+                analyRes.add(_2Analy(code.substring(3, 5)));
+            }
+        }
+
+        for (Map<String, Object> item: analyRes) {
+            if(item != null && item.size()> 0 && item.get("type") != null) {
+                String type = item.get("type").toString();
+                switch (type) {
+                    case "zu6":
+                        zu6++;
+                        break;
+                    case "zu3":
+                        zu3++;
+                        break;
+                    case "baozi":
+                        baozi++;
+                        break;
+                    case "duizi":
+                        duizi++;
+                        break;
+                    case "shun":
+                        shun++;
+                        break;
+                }
+            }
+        }
+        result.put("zu6", zu6);
+        result.put("zu3", zu3);
+        result.put("baozi", baozi);
+        result.put("duizi", duizi);
+        result.put("shun", shun);
+        return result;
+    }
+
+    /**
+     * 分析前中后三
+     * @param codeStr
+     * @return
+     */
+    private Map<String, Object> _3Analy (String codeStr) {
+        char[] code = codeStr.toCharArray();
+        Map<String, Object> result = new HashMap<String, Object>();
+        int maxcter = 0;
+        for (int i = 0; i < code.length; i++) {
+            int counter = 0;
+            for (int j = 0; j < code.length; j++) {
+                if(i != j) {
+                    if(code[i] == code[j]) {
+                        counter++;
+                        if(counter > maxcter) {
+                            maxcter = counter;
+                        }
+                    }
+                }
+            }
+            if(maxcter == 1) {
+                result.put("type", "zu3");
+                result.put("text", "组三");
+            } else if(maxcter == 2) {
+                result.put("type", "baozi");
+                result.put("text", "豹子");
+            } else {
+                result.put("type", "zu6");
+                result.put("text", "组六");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 分析前后二
+     * @param codeStr
+     * @return
+     */
+    private Map<String, Object> _2Analy(String codeStr) {
+        char[] code = codeStr.toCharArray();
+        Map<String, Object> result = new HashMap<String, Object>();
+        if(code[0] == code[1]) {
+            result.put("type", "duizi");
+            result.put("text", "对子");
+        } else {
+            Pattern pattern = Pattern.compile("^[0-9]*$");
+            Matcher m = pattern.matcher(codeStr);
+            if(m.matches()) {
+                int _positive_1_9_1 = Math.abs(Integer.parseInt(String.valueOf(code[0])) - Integer.parseInt(String.valueOf((code[1]))));
+                int _positive_1_9_2 = Math.abs(Integer.parseInt(String.valueOf(code[1])) - Integer.parseInt(String.valueOf(code[0])));
+                if(_positive_1_9_1 == 1 || _positive_1_9_1 == 9 || _positive_1_9_2 == 1 || _positive_1_9_2 == 9) {
+                    result.put("type", "shun");
+                    result.put("text", "连号");
+                }
+            }
+        }
+        return result;
     }
 
     /**

@@ -84,6 +84,12 @@ public class Utils {
         return MdValue;
     }
 
+    public static String srcPath() {
+        String path = Utils.class.getResource("").getPath();
+        path = path.substring(1, path.indexOf("com"));
+        return path.replace("%20", " ");
+    }
+
     /**
      * 字符转义
      *

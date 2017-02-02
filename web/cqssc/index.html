@@ -5,15 +5,21 @@
     <meta charset="UTF-8">
     <link href="cqssc/shiicon.ico" rel="icon" type="image/x-icon" />
     <link href="cqssc/shiicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <title>极限数据</title>
+    <title>巅峰数据</title>
     <link rel="stylesheet" href="assets/css/foundation.min.css">
-    <link rel="stylesheet" href="assets/css/app.css">
     <link rel="stylesheet" type="text/css" href="assets/js/air-datepicker/dist/css/datepicker.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
 </head>
 
 <body class="cq">
     <header id="header" class="">
-        <div class="logo"></div>
+        <div class="logo">
+            <h3>
+                巅峰数据
+                <span style="font-size: 12px;">重庆时时彩</span>
+            </h3>
+
+        </div>
         <div class="action row">
             <div class="small-3 tarday columns">
                 <div class="button-group">
@@ -26,28 +32,31 @@
             </div>
             <div class="small-2 TH3 columns">
                 <div class="button-group">
-                    <a class="secondary button killtype" data-for="Tl3">前三</a>
-                    <a class="secondary button killtype" data-for="Tl3">中三</a>
-                    <a class="secondary button killtype active" data-for="Tl3">后三</a>
+                    <a class="secondary button killtype" data-val="Q3">前三</a>
+                    <a class="secondary button killtype" data-val="Z3">中三</a>
+                    <a class="secondary button killtype active" data-val="H3">后三</a>
                 </div>
             </div>
             <div class="small-2 LA2 columns">
                 <div class="button-group">
-                    <a class="secondary button killtype" data-for="Tl2">前二</a>
-                    <a class="secondary button killtype active" data-for="Tl2">后二</a>
+                    <a class="secondary button killtype" data-val="Q2">前二</a>
+                    <a class="secondary button killtype active" data-val="H2">后二</a>
                 </div>
             </div>
-            <div class="small-4 columns">
+            <div class="small-3 columns">
                 <div class="button-group">
-                    <a class="secondary button killtype" data-for="EV1">万位</a>
-                    <a class="secondary button killtype" data-for="EV1">千位</a>
-                    <a class="secondary button killtype" data-for="EV1">百位</a>
-                    <a class="secondary button killtype" data-for="EV1">十位</a>
-                    <a class="secondary button killtype" data-for="EV1">个位</a>
+                    <a class="secondary button killtype" data-val="W">万位</a>
+                    <a class="secondary button killtype" data-val="Q">千位</a>
+                    <a class="secondary button killtype" data-val="B">百位</a>
+                    <a class="secondary button killtype" data-val="S">十位</a>
+                    <a class="secondary button killtype" data-val="G">个位</a>
                 </div>
+            </div>
+            <div class="small-2 columns" style="font-size: 13px; line-height: 25px; text-align: left;">
+                <span id="timer" style="position: absolute; width: 200px;"></span>
             </div>
             <div class="small-2 columns">
-                <span style="color: rgb(37, 251, 0); margin-left: 15px; font-size: 15px;">启用通知?</span>
+                <span style="color: rgb(37, 251, 0); margin-left: 15px; font-size: 13px;">启用通知?</span>
                 <div class="switch tiny" style="float: right;">
                     <input class="switch-input" id="usenotification" type="checkbox" name="exampleSwitch">
                     <label class="switch-paddle" for="usenotification">
@@ -62,7 +71,45 @@
     </header>
     <!-- /header -->
     <div class="container">
-        <div class="advice"></div>
+        <div class="advice">
+            <div class="card">
+                <div class="card-section">
+                    <p>前三组六：<span class="Q3zu6" style="color: chartreuse;">--</span>&nbsp;次</p>
+                    <p>前三组三：<span class="Q3zu3" style="color: darkorange;">--</span>&nbsp;次</p>
+                    <p>前三豹子：<span class="Q3baozi" style="color: fuchsia;">--</span>&nbsp;次</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card">
+                <div class="card-section">
+                    <p>中三组六：<span class="Z3zu6" style="color: chartreuse;">--</span>&nbsp;次</p>
+                    <p>中三组三：<span class="Z3zu3" style="color: darkorange;">--</span>&nbsp;次</p>
+                    <p>中三豹子：<span class="Z3baozi" style="color: fuchsia;">--</span>&nbsp;次</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card">
+                <div class="card-section">
+                    <p>后三组六：<span class="H3zu6" style="color: chartreuse;">--</span>&nbsp;次</p>
+                    <p>后三组三：<span class="H3zu3" style="color: darkorange;">--</span>&nbsp;次</p>
+                    <p>后三豹子：<span class="H3baozi" style="color: fuchsia;">--</span>&nbsp;次</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card">
+                <div class="card-section">
+                    <p>前二对子：<span class="Q2duizi" style="color: crimson;">--</span>&nbsp;次</p>
+                    <p>前二连号：<span class="Q2shun" style="color: burlywood;">--</span>&nbsp;次</p>
+                </div>
+            </div>
+            <hr>
+            <div class="card">
+                <div class="card-section">
+                    <p>后二对子：<span class="H2duizi" style="color: crimson;">--</span>&nbsp;次</p>
+                    <p>后二连号：<span class="H2shun" style="color: burlywood;">--</span>&nbsp;次</p>
+                </div>
+            </div>
+        </div>
         <div class="code">
             <div class="opened">
                 <div class="col">
@@ -846,12 +893,623 @@
                     </div>
                 </div>
             </div>
-            <div class="curcencus"></div>
+            <div class="curcencus">
+                <div class="row data-row">
+                    <div class="small-6 columns">
+                        <fieldset>
+                            <legend><span class="missingTitle">今天</span>遗漏</legend>
+                            <div class="row">
+                                <div class="small-2 columns">
+                                    <span>当前</span>
+                                    ,
+                                    <span>最大</span>
+                                </div>
+                                <div class="small-1 columns">0</div>
+                                <div class="small-1 columns">1</div>
+                                <div class="small-1 columns">2</div>
+                                <div class="small-1 columns">3</div>
+                                <div class="small-1 columns">4</div>
+                                <div class="small-1 columns">5</div>
+                                <div class="small-1 columns">6</div>
+                                <div class="small-1 columns">7</div>
+                                <div class="small-1 columns">8</div>
+                                <div class="small-1 columns">9</div>
+                            </div>
+                            <div class="row" id="_missing_0">
+                                <div class="small-2 columns">万位</div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row" id="_missing_1">
+                                <div class="small-2 columns">千位</div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row" id="_missing_2">
+                                <div class="small-2 columns">百位</div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row" id="_missing_3">
+                                <div class="small-2 columns">十位</div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row" id="_missing_4">
+                                <div class="small-2 columns">个位</div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                                <div class="small-1 columns">
+                                    <span class="has-tip" title="数据未更新">
+                                        <span class="curMissing">--</span>
+                                        ,
+                                        <span class="maxMissing">--</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="small-6 columns">
+                        <fieldset>
+                            <legend>近7日开奖号码形态统计</legend>
+                            <div class="row">
+                                <div class="small-2 columns">
+                                </div>
+                                <div class="small-2 columns">组六</div>
+                                <div class="small-2 columns">组三</div>
+                                <div class="small-2 columns">豹子</div>
+                                <div class="small-2 columns">对子</div>
+                                <div class="small-2 columns">连号</div>
+                            </div>
+                            <div class="row cenlast0">
+                                <div class="small-2 columns calendar"></div>
+                                <div class="small-2 columns zu6"></div>
+                                <div class="small-2 columns zu3"></div>
+                                <div class="small-2 columns baozi"></div>
+                                <div class="small-2 columns duizi"></div>
+                                <div class="small-2 columns shun"></div>
+                            </div>
+                            <div class="row cenlast1">
+                                <div class="small-2 columns calendar"></div>
+                                <div class="small-2 columns zu6"></div>
+                                <div class="small-2 columns zu3"></div>
+                                <div class="small-2 columns baozi"></div>
+                                <div class="small-2 columns duizi"></div>
+                                <div class="small-2 columns shun"></div>
+                            </div>
+                            <div class="row cenlast2">
+                                <div class="small-2 columns calendar"></div>
+                                <div class="small-2 columns zu6"></div>
+                                <div class="small-2 columns zu3"></div>
+                                <div class="small-2 columns baozi"></div>
+                                <div class="small-2 columns duizi"></div>
+                                <div class="small-2 columns shun"></div>
+                            </div>
+                            <div class="row cenlast3">
+                                <div class="small-2 columns calendar"></div>
+                                <div class="small-2 columns zu6"></div>
+                                <div class="small-2 columns zu3"></div>
+                                <div class="small-2 columns baozi"></div>
+                                <div class="small-2 columns duizi"></div>
+                                <div class="small-2 columns shun"></div>
+                            </div>
+                            <div class="row cenlast4">
+                                <div class="small-2 columns calendar"></div>
+                                <div class="small-2 columns zu6"></div>
+                                <div class="small-2 columns zu3"></div>
+                                <div class="small-2 columns baozi"></div>
+                                <div class="small-2 columns duizi"></div>
+                                <div class="small-2 columns shun"></div>
+                            </div>
+                            <div class="row cenlast5">
+                                <div class="small-2 columns calendar"></div>
+                                <div class="small-2 columns zu6"></div>
+                                <div class="small-2 columns zu3"></div>
+                                <div class="small-2 columns baozi"></div>
+                                <div class="small-2 columns duizi"></div>
+                                <div class="small-2 columns shun"></div>
+                            </div>
+                            <div class="row cenlast6">
+                                <div class="small-2 columns calendar"></div>
+                                <div class="small-2 columns zu6"></div>
+                                <div class="small-2 columns zu3"></div>
+                                <div class="small-2 columns baozi"></div>
+                                <div class="small-2 columns duizi"></div>
+                                <div class="small-2 columns shun"></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="cencus"></div>
+        <div class="cencus">
+            <div class="row _0coderow" data-val="0">
+                <div class="small-2 columns">
+                    <span class="badge alert _0code">0&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _0progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_0arise">0</span>次
+                </div>
+            </div>
+            <div class="row _1coderow" data-val="1">
+                <div class="small-2 columns">
+                    <span class="badge alert _1code">1&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _1progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_1arise">0</span>次
+                </div>
+            </div>
+            <div class="row _2coderow" data-val="2">
+                <div class="small-2 columns">
+                    <span class="badge alert _2code">2&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _2progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_2arise">0</span>次
+                </div>
+            </div>
+            <div class="row _3coderow" data-val="3">
+                <div class="small-2 columns">
+                    <span class="badge alert _3code">3&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _3progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_3arise">0</span>次
+                </div>
+            </div>
+            <div class="row _4coderow" data-val="4">
+                <div class="small-2 columns">
+                    <span class="badge alert _4code">4&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _4progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_4arise">0</span>次
+                </div>
+            </div>
+            <div class="row _5coderow" data-val="5">
+                <div class="small-2 columns">
+                    <span class="badge alert _5code">5&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _5progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_5arise">0</span>次
+                </div>
+            </div>
+            <div class="row _6coderow" data-val="6">
+                <div class="small-2 columns">
+                    <span class="badge alert _6code">6&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _6progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_6arise">0</span>次
+                </div>
+            </div>
+            <div class="row _7coderow" data-val="7">
+                <div class="small-2 columns">
+                    <span class="badge alert _7code">7&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _7progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_7arise">0</span>次
+                </div>
+            </div>
+            <div class="row _8coderow" data-val="8">
+                <div class="small-2 columns">
+                    <span class="badge alert _8code">8&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _8progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_8arise">0</span>次
+                </div>
+            </div>
+            <div class="row _9coderow" data-val="9">
+                <div class="small-2 columns">
+                    <span class="badge alert _9code">9&nbsp;&nbsp;</span>
+                </div>
+                <div class="small-8 columns">
+                    <div class="progress warning _9progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0"  aria-valuemax="100">
+                        <span class="progress-meter">
+                            <p class="progress-meter-text"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <span class="_9arise">0</span>次
+                </div>
+            </div>
+        </div>
     </div>
     <footer>
-        极限数据，让您满意的开彩分析平台
+        巅峰数据，让您满意的开彩分析平台
         <br>
         <span>联系QQ: 747225276</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>讨论群: 464919389</span>
     </footer>

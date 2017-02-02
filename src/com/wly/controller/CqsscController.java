@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +57,8 @@ public class CqsscController extends BaseController {
         int term = Integer.parseInt(request.getParameter("term")) + 1;
         if(term > 120) {
             term = 1;
+            // 更新近7天各形态数据统计
+            context.setAttribute("cencusLast7", cqsscService.cencusLast7());
         }
         Object curTerm = context.getAttribute("curterm");
         Gson gson = new Gson();
@@ -88,8 +92,42 @@ public class CqsscController extends BaseController {
     }
 
     public String all() {
+        if(context.getAttribute("cencusLast7") == null) {
+            context.setAttribute("cencusLast7", cqsscService.cencusLast7());
+        }
         String day = request.getParameter("date");
         output(cqsscService.synchronize(day));
+        return null;
+    }
+
+    public String cencusLast7() {
+        output(context.getAttribute("cencusLast7").toString());
+        return null;
+    }
+
+    public String store() {
+        String stop = request.getParameter("stop");
+        try {
+            Calendar stopcal = Calendar.getInstance();
+            stopcal.setTime(cqsscService.dateFormat.parse(stop));
+
+            Calendar curday = Calendar.getInstance();
+
+            if(stopcal.before(curday)) {
+
+                int day = Integer.parseInt(((curday.getTime().getTime() - stopcal.getTime().getTime()) / (24*60*60*1000)) + "");
+
+                for (int i = 0; i < day; i++) {
+
+                    curday.add(Calendar.DAY_OF_MONTH, -1);
+                    String forday = cqsscService.dateFormat.format(curday.getTime());
+                    cqsscService.holdCodes(forday);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        output("保存完成...");
         return null;
     }
 

@@ -34,7 +34,7 @@ public class _HttpConnection {
         this.timeout = timeout;
     }
 
-    private int timeout = 3000;
+    private int timeout = 10000;
 
     public int getTimeout() {
         return timeout;
