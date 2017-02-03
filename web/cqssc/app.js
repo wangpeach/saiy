@@ -282,6 +282,9 @@ jQuery(document).ready(function($) {
                                         cq.setTipsPos(nextTerm, null, { 'color': '#f183d3' });
                                     }
                                     if (cq.config.notification) {
+                                        if(!cq.notiMedia) {
+                                            cq.notiMedia = document.getElementById("audio");
+                                        }
                                         cq.notiMedia.play();
                                         new Notification('极限数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
                                     }
