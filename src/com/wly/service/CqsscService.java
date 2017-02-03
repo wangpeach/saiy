@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.wly.utils.FileOperate;
 import com.wly.utils.Utils;
 import com.wly.utils._HttpConnection;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
-import sun.misc.Regexp;
 
 import java.io.*;
 import java.text.ParseException;
@@ -18,9 +16,10 @@ import java.util.regex.Pattern;
 @Service
 public class CqsscService extends BaseService {
 
-    private static final String url = "http://t.apiplus.cn/%s.do?token=demo&code=cqssc&format=json";
+    private static final String url = "http://a.apiplus.net/%s.do?token=937f08385b8734c6&code=cqssc&format=json";
     private String savePath = "";
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String curDay = null;
 
     public CqsscService() {
@@ -160,10 +159,10 @@ public class CqsscService extends BaseService {
             cal.setTime(dateFormat.parse(day));
 
             Calendar stopday = Calendar.getInstance();
-            stopday.setTime(dateFormat.parse(this.properties().getProperty("stopday")));
+            stopday.setTime(dateTimeFormat.parse(this.properties().getProperty("stopday")));
 
             Calendar startday = Calendar.getInstance();
-            startday.setTime(dateFormat.parse(this.properties().getProperty("startday")));
+            startday.setTime(dateTimeFormat.parse(this.properties().getProperty("startday")));
 
             if(cal.before(stopday) || cal.after(startday)) {
                 String path = savePath + day + ".json";
@@ -175,6 +174,26 @@ public class CqsscService extends BaseService {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+                Gson gson = new Gson();
+                List<Map<String, Object>> codes = gson.fromJson(codesJson, List.class);
+                Map<String, Object> firstCode = codes.get(codes.size() - 1);
+
+                int term = Integer.parseInt(firstCode.get("expect").toString().substring(8, 11));
+                if(term > 1) {
+                    String strterm = firstCode.get("expect").toString().substring(0, 8);
+                    for (int i = term; i > 1; i--) {
+                        Map<String, Object> additional = new HashMap<String, Object>();
+                        int tempterm = term - 1;
+                        int termlen = 3 - String.valueOf(tempterm).length();
+                        for (int j = 0; j < termlen; j++) {
+                            strterm += "0";
+                        }
+                        additional.put("expect", strterm + tempterm);
+                        additional.put("opencode", "");
+                        codes.add(codes.size(), additional);
+                    }
+                    codesJson = gson.toJson(codes);
                 }
                 FileOperate.saveFile(codesJson, path, true);
             } else {

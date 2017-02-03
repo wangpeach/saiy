@@ -2,6 +2,7 @@ package com.wly.controller;
 
 import com.google.gson.Gson;
 import com.wly.service.CqsscService;
+import com.wly.utils.Utils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -107,22 +108,28 @@ public class CqsscController extends BaseController {
 
     public String store() {
         String stop = request.getParameter("stop");
+        String rd = request.getParameter("rd");
         try {
-            Calendar stopcal = Calendar.getInstance();
-            stopcal.setTime(cqsscService.dateFormat.parse(stop));
+            if(Utils.isNotNullOrEmpty(stop)) {
+                Calendar stopcal = Calendar.getInstance();
+                stopcal.setTime(cqsscService.dateFormat.parse(stop));
 
-            Calendar curday = Calendar.getInstance();
+                Calendar curday = Calendar.getInstance();
 
-            if(stopcal.before(curday)) {
+                if(stopcal.before(curday)) {
 
-                int day = Integer.parseInt(((curday.getTime().getTime() - stopcal.getTime().getTime()) / (24*60*60*1000)) + "");
+                    int day = Integer.parseInt(((curday.getTime().getTime() - stopcal.getTime().getTime()) / (24*60*60*1000)) + "");
 
-                for (int i = 0; i < day; i++) {
+                    for (int i = 0; i < day; i++) {
 
-                    curday.add(Calendar.DAY_OF_MONTH, -1);
-                    String forday = cqsscService.dateFormat.format(curday.getTime());
-                    cqsscService.holdCodes(forday);
+                        curday.add(Calendar.DAY_OF_MONTH, -1);
+                        String forday = cqsscService.dateFormat.format(curday.getTime());
+                        cqsscService.holdCodes(forday);
+                    }
                 }
+            }
+            if(Utils.isNotNullOrEmpty(rd)) {
+                cqsscService.holdCodes(rd);
             }
         } catch (ParseException e) {
             e.printStackTrace();

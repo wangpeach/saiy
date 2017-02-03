@@ -1,6 +1,6 @@
 $(document).foundation();
 
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function($) {
     var cq = {
         config: {
             peak: {
@@ -18,86 +18,86 @@ jQuery(document).ready(function ($) {
          * 解析结果
          */
         anlycol: {
-            Q3: {zu6: 0, zu3: 0, baozi: 0},
-            Z3: {zu6: 0, zu3: 0, baozi: 0},
-            H3: {zu6: 0, zu3: 0, baozi: 0},
-            Q2: {duizi: 0, shun: 0},
-            H2: {duizi: 0, shun: 0},
-            '__*': {count: 0, _property_1: 0, _property_2: 0},
-            __0: {count: 0, _property_1: 0, _property_2: 0},
-            __1: {count: 0, _property_1: 0, _property_2: 0},
-            __2: {count: 0, _property_1: 0, _property_2: 0},
-            __3: {count: 0, _property_1: 0, _property_2: 0},
-            __4: {count: 0, _property_1: 0, _property_2: 0},
-            __5: {count: 0, _property_1: 0, _property_2: 0},
-            __6: {count: 0, _property_1: 0, _property_2: 0},
-            __7: {count: 0, _property_1: 0, _property_2: 0},
-            __8: {count: 0, _property_1: 0, _property_2: 0},
-            __9: {count: 0, _property_1: 0, _property_2: 0},
+            Q3: { zu6: 0, zu3: 0, baozi: 0 },
+            Z3: { zu6: 0, zu3: 0, baozi: 0 },
+            H3: { zu6: 0, zu3: 0, baozi: 0 },
+            Q2: { duizi: 0, shun: 0 },
+            H2: { duizi: 0, shun: 0 },
+            '__*': { count: 0, _property_1: 0, _property_2: 0 },
+            __0: { count: 0, _property_1: 0, _property_2: 0 },
+            __1: { count: 0, _property_1: 0, _property_2: 0 },
+            __2: { count: 0, _property_1: 0, _property_2: 0 },
+            __3: { count: 0, _property_1: 0, _property_2: 0 },
+            __4: { count: 0, _property_1: 0, _property_2: 0 },
+            __5: { count: 0, _property_1: 0, _property_2: 0 },
+            __6: { count: 0, _property_1: 0, _property_2: 0 },
+            __7: { count: 0, _property_1: 0, _property_2: 0 },
+            __8: { count: 0, _property_1: 0, _property_2: 0 },
+            __9: { count: 0, _property_1: 0, _property_2: 0 },
             _0wqbsg_: {
-                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
+                '_*': { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _0: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _1: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _2: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _3: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _4: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _5: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _6: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _7: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _8: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _9: { curmiss: 0, maxmiss: 0, lasterm: 0 }
             },
             _1wqbsg_: {
-                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
+                '_*': { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _0: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _1: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _2: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _3: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _4: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _5: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _6: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _7: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _8: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _9: { curmiss: 0, maxmiss: 0, lasterm: 0 }
             },
             _2wqbsg_: {
-                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
+                '_*': { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _0: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _1: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _2: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _3: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _4: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _5: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _6: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _7: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _8: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _9: { curmiss: 0, maxmiss: 0, lasterm: 0 }
             },
             _3wqbsg_: {
-                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
+                '_*': { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _0: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _1: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _2: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _3: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _4: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _5: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _6: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _7: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _8: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _9: { curmiss: 0, maxmiss: 0, lasterm: 0 }
             },
             _4wqbsg_: {
-                '_*': {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _0: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _1: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _2: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _3: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _4: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _5: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _6: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _7: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _8: {curmiss: 0, maxmiss: 0, lasterm: 0},
-                _9: {curmiss: 0, maxmiss: 0, lasterm: 0}
+                '_*': { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _0: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _1: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _2: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _3: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _4: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _5: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _6: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _7: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _8: { curmiss: 0, maxmiss: 0, lasterm: 0 },
+                _9: { curmiss: 0, maxmiss: 0, lasterm: 0 }
             }
         },
 
@@ -164,10 +164,10 @@ jQuery(document).ready(function ($) {
          * @param  {[type]} d [description]
          * @return {[type]}   [description]
          */
-        getAllCodes: function (d) {
+        getAllCodes: function(d) {
             var defer = $.Deferred();
             var inx = layer.load(2);
-            $.post("cqall", {date: d}, function (data) {
+            $.post("cqall", { date: d }, function(data) {
                 defer.resolve(data);
                 layer.close(inx);
             }, 'json');
@@ -179,11 +179,11 @@ jQuery(document).ready(function ($) {
          * @param  {[type]} limit [description]
          * @return {[type]}       [description]
          */
-        getCode: function (term) {
+        getCode: function(term) {
             var defer = $.Deferred();
             $.post("cqhaoma", {
                 "term": term
-            }, function (data) {
+            }, function(data) {
                 defer.resolve(data);
             }, 'json');
             return defer.promise();
@@ -193,8 +193,8 @@ jQuery(document).ready(function ($) {
          * @param {[type]} term [description]
          * @param {[type]} text [description]
          */
-        setTipsPos: function (term, text, css) {
-            if(cq.timerTrace) {
+        setTipsPos: function(term, text, css) {
+            if (cq.timerTrace) {
                 var target = $("div[data-inx='" + (term) + "']");
                 var top = $(target).offset().top;
                 var curColumn = Math.floor(term / 20);
@@ -206,7 +206,8 @@ jQuery(document).ready(function ($) {
                 if (text) {
                     $(tipstar).html(text);
                 }
-                $(tipstar).show().animate({
+                $(tipstar).show();
+                $(tipstar).animate({
                     top: top
                 });
                 $("#timer").empty();
@@ -219,7 +220,7 @@ jQuery(document).ready(function ($) {
          * 全部数据加载完启动
          * @return {[type]} [description]
          */
-        start: function () {
+        start: function() {
             var date = undefined,
                 hour = 0,
                 minutes = 0,
@@ -232,7 +233,7 @@ jQuery(document).ready(function ($) {
                 loopreq = false,
                 cal = new Calendar(),
                 stopTime = new Date();
-            cq.interval = setInterval(function () {
+            cq.interval = setInterval(function() {
                 date = new Date();
                 //2点后停止（23期是最后一期），早上10点开始
                 hour = date.getHours();
@@ -247,7 +248,7 @@ jQuery(document).ready(function ($) {
                         surplusSeconds = cal.dateDiff(stopTime, date);
                     }
                     // 剩余更新秒数
-                    cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
+                    cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
                     //计时完成同步数据
                     if (surplusSeconds <= 1) {
                         loopreq = true;
@@ -256,21 +257,21 @@ jQuery(document).ready(function ($) {
                 } else {
                     // 开始同步数据
                     if (loopreq = (sessionStorage.getItem("loopreq") == "true" ? true : false)) {
-
                         // 2秒发送一次请求
                         if (seconds % 2 > 0) {
-                            cq.setTipsPos(cq.curterm, '正在同步数据..' , {'color': '#f183d3'});
+                            cq.setTipsPos(cq.curterm, '正在同步数据..', { 'color': '#f183d3' });
 
-                            cq.getCode(cq.curterm).done(function (data) {
+                            cq.getCode(cq.curterm).done(function(data) {
                                 if (data && !data.warning) {
                                     // 数据已同步，停止请求
                                     loopreq = false;
                                     //加锁20秒
                                     cq.lockLittle();
                                     sessionStorage.setItem("loopreq", false);
-                                    var nextTerm = cq.curterm + 1, wating = 1200;
+                                    var nextTerm = cq.curterm + 1,
+                                        wating = 1200;
                                     //今天最后一期，数据同步后3秒刷新页面
-                                    if(nextTerm > 120) {
+                                    if (nextTerm > 120) {
                                         wating = 0;
                                         clearInterval(cql.interval);
                                         $('.tips').hide();
@@ -278,15 +279,16 @@ jQuery(document).ready(function ($) {
                                             window.location.reload();
                                         }, 3000);
                                     } else {
-                                        cq.setTipsPos(nextTerm, null , {'color': '#f183d3'});
+                                        cq.setTipsPos(nextTerm, null, { 'color': '#f183d3' });
                                     }
-                                    if(cq.config.notification) {
-                                        new Notification('极限数据: 数据已同步', { body: "期号："+ nextTerm +", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
+                                    if (cq.config.notification) {
+                                        cq.notiMedia.play();
+                                        new Notification('极限数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
                                     }
-                                    var timeout = setTimeout(function () {
+                                    var timeout = setTimeout(function() {
                                         cq.openCodes.push(data);
-                                        if(cq.timerTrace) {
-                                            cq.fill(data, cq.curterm, true, true);    
+                                        if (cq.timerTrace) {
+                                            cq.fill(data, cq.curterm, true, true);
                                         }
                                         clearTimeout(timeout);
                                     }, wating);
@@ -340,7 +342,7 @@ jQuery(document).ready(function ($) {
                                     // 剩余同步秒数
                                     surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
+                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
                                 //计时完成同步数据
                                 if (surplusSeconds <= 1) {
                                     loopreq = true;
@@ -360,7 +362,7 @@ jQuery(document).ready(function ($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#ffefa0'});
+                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#ffefa0' });
                             }
                         } else {
                             if ((min.toString().endsWith("9") && !cq.syned) || ((min.toString().endsWith("0") && seconds <= 50) && !cq.syned)) {
@@ -388,7 +390,7 @@ jQuery(document).ready(function ($) {
                                     stopTime.setSeconds(50);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#f183d3'});
+                                cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
                                 //计时完成同步数据
                                 if (surplusSeconds <= 1) {
                                     loopreq = true;
@@ -405,7 +407,7 @@ jQuery(document).ready(function ($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), {'color': '#ffefa0'});
+                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#ffefa0' });
                             }
                         }
                     }
@@ -418,14 +420,14 @@ jQuery(document).ready(function ($) {
          * @param  {[type]} codes [description]
          * @return {[type]}       [description]
          */
-        iteration: function (codes) {
+        iteration: function(codes) {
             for (item in cq.anlycol) {
                 if (cq.anlycol.hasOwnProperty(item)) {
-                    if(item.startsWith("__")) {
+                    if (item.startsWith("__")) {
                         cq.anlycol[item].count = 0;
-                    } else if(item.endsWith("2")) {
+                    } else if (item.endsWith("2")) {
                         cq.anlycol[item].duizi = 0,
-                        cq.anlycol[item].shun = 0
+                            cq.anlycol[item].shun = 0
                     } else {
                         cq.anlycol[item].zu6 = 0;
                         cq.anlycol[item].zu3 = 0;
@@ -457,9 +459,9 @@ jQuery(document).ready(function ($) {
          * @param  {[type]} [_refpanel] [是否刷新各形态统计]
          * @return {[type]}          [description]
          */
-        fill: function (codeJson, i, remTips, _refpanel) {
+        fill: function(codeJson, i, remTips, _refpanel) {
             //指针移向下一期
-            if(cq.timerTrace) {
+            if (cq.timerTrace) {
                 cq.curterm++;
                 cq.curterm = cq.curterm > 120 ? 0 : cq.curterm;
             } else {
@@ -468,63 +470,65 @@ jQuery(document).ready(function ($) {
 
             var col = $("[data-inx='" + i + "']").find(".columns");
             $(col[0]).text(codeJson.expect.substring(codeJson.expect.length - 3));
-            var codes = codeJson.opencode.split(",");
-            for (var j = 0; j < codes.length; j++) {
-                $(col[1]).append('<span data-val="'+ codes[j] +'">' + codes[j] + '</span>');
+            if (codeJson.opencode) {
+                var codes = codeJson.opencode.split(",");
+                for (var j = 0; j < codes.length; j++) {
+                    $(col[1]).append('<span data-val="' + codes[j] + '">' + codes[j] + '</span>');
 
-                /**
-                 * 统计 每个数字出现次数
-                 */
-                cq.anlycol["__"+ [codes[j]] ].count++;
+                    /**
+                     * 统计 每个数字出现次数
+                     */
+                    cq.anlycol["__" + [codes[j]]].count++;
 
-                /**
-                 * 计算遗漏
-                 * @type {[type]}
-                 */
-                var wqbsg = cq.anlycol["_" + j + "wqbsg_"];
-                for (prop in wqbsg) {
-                    if (wqbsg.hasOwnProperty(prop)) {
-                        if(prop.endsWith([codes[j]])) {
-                            wqbsg[prop].curmiss = 0;
-                            wqbsg[prop].lasterm = cq.timerTrace ? cq.curterm : cq.beforeterm;
-                        } else {
-                            wqbsg[prop].curmiss++;
-                            if(wqbsg[prop].curmiss > wqbsg[prop].maxmiss) {
-                                wqbsg[prop].maxmiss = wqbsg[prop].curmiss;
+                    /**
+                     * 计算遗漏
+                     * @type {[type]}
+                     */
+                    var wqbsg = cq.anlycol["_" + j + "wqbsg_"];
+                    for (prop in wqbsg) {
+                        if (wqbsg.hasOwnProperty(prop)) {
+                            if (prop.endsWith([codes[j]])) {
+                                wqbsg[prop].curmiss = 0;
+                                wqbsg[prop].lasterm = cq.timerTrace ? cq.curterm : cq.beforeterm;
+                            } else {
+                                wqbsg[prop].curmiss++;
+                                if (wqbsg[prop].curmiss > wqbsg[prop].maxmiss) {
+                                    wqbsg[prop].maxmiss = wqbsg[prop].curmiss;
+                                }
+                                cq.anlycol["_" + j + "wqbsg_"][prop] = wqbsg[prop];
                             }
-                            cq.anlycol["_" + j + "wqbsg_"][prop] = wqbsg[prop];
                         }
                     }
+
                 }
-                
-            }
 
-            // 分析已选中形态
-            var An1Res = cq.analysis(cq.curAnlAction[0], codes.join(""));
-            if(An1Res) {
-                $(col[2]).css({color: An1Res.color}).text(An1Res.text);
-            }
-            var An2Res = cq.analysis(cq.curAnlAction[1], codes.join(""));
-            if(An2Res) {
-                $(col[3]).css({color: An2Res.color}).text(An2Res.text);
-            }
+                // 分析已选中形态
+                var An1Res = cq.analysis(cq.curAnlAction[0], codes.join(""));
+                if (An1Res) {
+                    $(col[2]).css({ color: An1Res.color }).text(An1Res.text);
+                }
+                var An2Res = cq.analysis(cq.curAnlAction[1], codes.join(""));
+                if (An2Res) {
+                    $(col[3]).css({ color: An2Res.color }).text(An2Res.text);
+                }
 
-            // 统计各形态出现次数
-            cq.cencus(codeJson);
+                // 统计各形态出现次数
+                cq.cencus(codeJson);
 
-            //更新统计面板
-            if(_refpanel) {
-                cq.refPanel();
-            }
+                //更新统计面板
+                if (_refpanel) {
+                    cq.refPanel();
+                }
 
-            // 隐藏当前列前面的提示列
-            if (remTips) {
-                var tarcol = Math.floor((cq.curterm) / 20);
-                $(".tips").each(function (inx, item) {
-                    if (parseInt($(item).data("inx")) < tarcol) {
-                        $(item).hide();
-                    }
-                });
+                // 隐藏当前列前面的提示列
+                if (remTips) {
+                    var tarcol = Math.floor((cq.curterm) / 20);
+                    $(".tips").each(function(inx, item) {
+                        if (parseInt($(item).data("inx")) < tarcol) {
+                            $(item).hide();
+                        }
+                    });
+                }
             }
         },
 
@@ -536,7 +540,7 @@ jQuery(document).ready(function ($) {
             var killtypes = ["Q3", "Z3", "H3", "Q2", "H2"];
             for (var i = 0; i < killtypes.length; i++) {
                 var result = cq.analysis(killtypes[i], code.opencode.split(",").join(""));
-                if(result.type) {
+                if (result.type) {
                     cq.anlycol[killtypes[i]][result.type]++;
                 }
             }
@@ -551,16 +555,18 @@ jQuery(document).ready(function ($) {
              * BEGIN
              * 每个数字出现次数，和进度条比例
              */
-            var codearise = new Array(), pushedArise = "";
+            var codearise = new Array(),
+                pushedArise = "";
             for (var i = 0; i < 10; i++) {
                 codearise.push(cq.anlycol['__' + i].count);
             }
-            codearise = codearise.sort().reverse();
+            codearise = codearise.sort(function(a, b) {
+                return a - b; }).reverse();
 
             for (var i = 0; i < 10; i++) {
                 // 每个数字出现顺序
                 for (var j = 0; j < 10; j++) {
-                    if(codearise[i] == cq.anlycol['__' + j].count && !pushedArise.includes(j)) {
+                    if (codearise[i] == cq.anlycol['__' + j].count && !pushedArise.includes(j)) {
                         pushedArise += j;
                     }
                 }
@@ -580,18 +586,18 @@ jQuery(document).ready(function ($) {
             /**
              * END
              */
-            
+
 
 
             /**
              * BEGIN
              * 更新各形态出现次数
              */
-            for (prop in cq.anlycol) {
+            for (var prop in cq.anlycol) {
                 if (cq.anlycol.hasOwnProperty(prop) && !prop.startsWith('_')) {
-                    for (item in cq.anlycol[prop]) {
+                    for (var item in cq.anlycol[prop]) {
                         if (cq.anlycol[prop].hasOwnProperty(item)) {
-                            $("."+ prop + item).text(cq.anlycol[prop][item]);
+                            $("." + prop + item).text(cq.anlycol[prop][item]);
                         }
                     }
                 }
@@ -599,7 +605,7 @@ jQuery(document).ready(function ($) {
             /**
              * END
              */
-            
+
 
             /**
              * BEGIN
@@ -609,10 +615,10 @@ jQuery(document).ready(function ($) {
                 var _wqbsg = cq.anlycol["_" + i + "wqbsg_"];
                 for (var j = 0; j < 10; j++) {
                     var messcode = _wqbsg["_" + j];
-                    var targetParent = $("#_missing_" + i + ">.columns:eq("+ (j+1) +")");
+                    var targetParent = $("#_missing_" + i + ">.columns:eq(" + (j + 1) + ")");
 
                     $(targetParent).find('.has-tip').attr('title', ("最后出现在" + messcode.lasterm + "期, 当前遗漏 " + messcode.curmiss + "期, 最大遗漏 " + messcode.maxmiss + "期"));
-                    
+
                     $(targetParent).find('.curMissing').text(messcode.curmiss);
                     $(targetParent).find('.maxMissing').text(messcode.maxmiss);
                 }
@@ -633,13 +639,13 @@ jQuery(document).ready(function ($) {
         swipAnaly: function(kill, _an) {
             for (var i = 0; i < cq.openCodes.length; i++) {
                 var code = cq.openCodes[i];
-                if(i == 43) {
+                if (i == 43) {
                     console.log(code);
                 }
                 var anres = cq.analysis(kill, code.opencode.split(",").join(""));
                 var col = $("[data-inx='" + i + "']").find(".columns");
-                if(anres) {
-                    $(_an == "AN1" ? col[2] : col[3]).removeAttr('style').text('').css({color: anres.color}).text(anres.text);
+                if (anres) {
+                    $(_an == "AN1" ? col[2] : col[3]).removeAttr('style').text('').css({ color: anres.color }).text(anres.text);
                 }
             }
         },
@@ -650,7 +656,7 @@ jQuery(document).ready(function ($) {
          * @param  {号码}
          * @return {[]}
          */
-        analysis: function (kill, code) {
+        analysis: function(kill, code) {
             var result = undefined;
             switch (kill) {
                 case "Q3":
@@ -692,31 +698,32 @@ jQuery(document).ready(function ($) {
          * @return {[type]}
          */
         _3Analy: function(code) {
-            var result = {}, maxcter = 0;
+            var result = {},
+                maxcter = 0;
             for (var i = 0; i < code.length; i++) {
                 var counter = 0;
                 for (var j = 0; j < code.length; j++) {
-                    if(i != j) {
-                        if(code[i] == code[j]) {
+                    if (i != j) {
+                        if (code[i] == code[j]) {
                             counter++;
-                            if(counter > maxcter) {
+                            if (counter > maxcter) {
                                 maxcter = counter;
                             }
                         }
                     }
                 }
-                if(maxcter == 1) {
+                if (maxcter == 1) {
                     result.type = "zu3";
                     result.text = "组三";
                     result.color = "darkorange";
-                } else if(maxcter == 2) {
+                } else if (maxcter == 2) {
                     result.type = "baozi";
                     result.text = "豹子";
                     result.color = "fuchsia";
                 } else {
                     result.type = "zu6";
                     result.text = "组六";
-                    result.color = 'chartreuse'; 
+                    result.color = 'chartreuse';
                 }
             }
             return result;
@@ -726,15 +733,15 @@ jQuery(document).ready(function ($) {
          * @param  {[type]}
          * @return {[type]}
          */
-        _2Analy: function (code) {
+        _2Analy: function(code) {
             var result = {};
-            if(code[0] == code[1]) {
+            if (code[0] == code[1]) {
                 result.type = "duizi";
                 result.text = "对子";
-                result.color = "crimson";
+                result.color = "hotpink";
             } else {
                 var _positive_1_9_ = Math.abs(code[0] - code[1]) || Math.abs(code[1] - code[0]);
-                if(_positive_1_9_ == 1 || _positive_1_9_ == 9) {
+                if (_positive_1_9_ == 1 || _positive_1_9_ == 9) {
                     result.type = "shun";
                     result.text = "连号";
                     result.color = "burlywood";
@@ -751,7 +758,7 @@ jQuery(document).ready(function ($) {
             var result = {}
             code = parseInt(code);
             result.text = (code < 5 ? '小' : '大');
-            if(code % 2 == 0) {
+            if (code % 2 == 0) {
                 result.color = 'darksalmon';
                 result.text += "双"
             } else {
@@ -769,13 +776,13 @@ jQuery(document).ready(function ($) {
      * @param  {[type]}
      * @return {[type]}
      */
-    cq.getAllCodes().done(function (codes) {
+    cq.getAllCodes().done(function(codes) {
         var rows = $(".data-row");
         for (var i = 0; i < 120; i++) {
             $(rows[i]).attr("data-inx", i);
         }
 
-        if(codes.msg) {
+        if (codes.msg) {
             layer.alert(codes.msg);
         } else {
             cq.iteration(codes);
@@ -805,7 +812,7 @@ jQuery(document).ready(function ($) {
      * @param  {[type]}
      * @return {[type]}
      */
-    $("#header a.swdate").click(function (event) {
+    $("#header a.swdate").click(function(event) {
         /* Act on the event */
         if (!$(this).hasClass('active')) {
             $(".opened .data-row > .columns").empty();
@@ -838,8 +845,8 @@ jQuery(document).ready(function ($) {
             }
             // clearInterval(cq.interval);
 
-            cq.getAllCodes(date).done(function (codes) {
-                if(codes.msg) {
+            cq.getAllCodes(date).done(function(codes) {
+                if (codes.msg) {
                     layer.alert(codes.msg);
                 } else {
                     cq.iteration(codes);
@@ -857,29 +864,29 @@ jQuery(document).ready(function ($) {
      * @param  {[type]}
      * @return {[type]}
      */
-    $("#header a.killtype").click(function (event) {
+    $("#header a.killtype").click(function(event) {
         /* Act on the event */
-        if($(this).hasClass('active')) {
+        if ($(this).hasClass('active')) {
             return false;
         }
 
         var actives = $("#header a.killtype.active");
 
         //删除分析结果显示列选中状态
-        if($("."+ cq.lastAnlRank +"").hasClass('active')) {
-            var letcol = $("."+ cq.lastAnlRank +":first").text();
+        if ($("." + cq.lastAnlRank + "").hasClass('active')) {
+            var letcol = $("." + cq.lastAnlRank + ":first").text();
             $(actives).each(function(index, el) {
-                if($(el).text() != letcol) {
+                if ($(el).text() != letcol) {
                     cq.lastAnlAction = el;
                 }
             });
-            $("."+ cq.lastAnlRank +"").removeClass('active');
+            $("." + cq.lastAnlRank + "").removeClass('active');
             cq.lastAnlRank = (cq.lastAnlRank == "AN1" ? "AN2" : "AN1");
         }
 
-        if(cq.lastAnlAction) {
+        if (cq.lastAnlAction) {
             $(actives).each(function(index, el) {
-                if(cq.lastAnlAction != el) {
+                if (cq.lastAnlAction != el) {
                     cq.lastAnlAction = el;
                     return false;
                 }
@@ -887,7 +894,7 @@ jQuery(document).ready(function ($) {
             cq.lastAnlRank = (cq.lastAnlRank == "AN1" ? "AN2" : "AN1");
         } else {
             cq.lastAnlAction = $(actives).first();
-            if(!cq.lastAnlRank) {
+            if (!cq.lastAnlRank) {
                 cq.lastAnlRank = "AN1";
             }
         }
@@ -903,9 +910,9 @@ jQuery(document).ready(function ($) {
          */
         cq.swipAnaly($(this).data("val"), cq.lastAnlRank);
 
-        var trigger = $("."+ cq.lastAnlRank +"");
+        var trigger = $("." + cq.lastAnlRank + "");
         $(trigger).addClass("trigger").text($(this).text());
-        setTimeout(function () {
+        setTimeout(function() {
             $(trigger).removeClass('trigger');
         }, 800);
     });
@@ -919,11 +926,11 @@ jQuery(document).ready(function ($) {
         var an = $(this).hasClass("AN1") ? 'AN1' : 'AN2';
         cq.lastAnlRank = an;
         var reverse = (an == 'AN1' ? 'AN2' : 'AN1');
-        $("."+ reverse +"").removeClass('active');
-        $("."+ an +"").addClass('active');
+        $("." + reverse + "").removeClass('active');
+        $("." + an + "").addClass('active');
     });
 
-    $(".cus-date").click(function (event) {
+    $(".cus-date").click(function(event) {
         /* Act on the event */
         $(".datepicker-here").trigger('focus');
     });
@@ -934,21 +941,21 @@ jQuery(document).ready(function ($) {
     $('#cusdatebtn').datepicker({
         autoClose: true,
         maxDate: new Date(), // Now can select only dates, which goes after today
-        onSelect: function (formattedDate, date, inst) {
+        onSelect: function(formattedDate, date, inst) {
             $(".cus-date").text(formattedDate).parent().find('a').removeClass('active');
             $(".cus-date").addClass('active');
             $(".opened .data-row > .columns").empty();
             $(".tips").hide();
             sessionStorage.removeItem("codes");
-            
+
             // clearInterval(cq.interval);
-            if(formattedDate != new Date().Format("yyyy-MM-dd")) {
+            if (formattedDate != new Date().Format("yyyy-MM-dd")) {
                 cq.curterm = 0;
                 cq.timerTrace = false;
             }
             $(".missingTitle").text(formattedDate + " ");
-            cq.getAllCodes(formattedDate).done(function (codes) {
-                if(codes.msg) {
+            cq.getAllCodes(formattedDate).done(function(codes) {
+                if (codes.msg) {
                     layer.alert(codes.msg);
                 } else {
                     cq.iteration(codes);
@@ -962,10 +969,10 @@ jQuery(document).ready(function ($) {
 
     $(".cencus > .row").mouseenter(function(event) {
         /* Act on the event */
-        $('.opened span[data-val="'+ $(this).data('val') +'"]').addClass('active');
+        $('.opened span[data-val="' + $(this).data('val') + '"]').addClass('active');
     }).mouseleave(function(event) {
         /* Act on the event */
-        $('.opened span[data-val="'+ $(this).data('val') +'"]').removeClass('active');
+        $('.opened span[data-val="' + $(this).data('val') + '"]').removeClass('active');
     });
 
 
@@ -976,23 +983,28 @@ jQuery(document).ready(function ($) {
         /* Act on the event */
         var msg = undefined;
 
-        if(this.checked) {
+        if (this.checked) {
             msg = '已开启通知!';
         } else {
             msg = '已关闭通知!';
         }
 
         var notifun = function() {
+            if(!cq.notiMedia) {
+                cq.notiMedia = document.getElementById("audio");
+            }
+            cq.notiMedia.play();
+
             var noti = new Notification('极限数据', { body: msg, icon: 'cqssc/shiicon.ico' });
             noti.onshow = function() {
                 setTimeout(noti.close.bind(noti), 3000);
             }
         }
 
-        if(window.Notification) {
-            if(Notification.permission !== "granted") {
+        if (window.Notification) {
+            if (Notification.permission !== "granted") {
                 Notification.requestPermission(function(state) {
-                    if(Notification.permission !== state) {
+                    if (Notification.permission !== state) {
                         Notification.permission = state;
                         notifun();
                     }
@@ -1005,5 +1017,6 @@ jQuery(document).ready(function ($) {
             this.checked = false;
             layer.msg("您的浏览器不支持通知");
         }
+
     });
 });
