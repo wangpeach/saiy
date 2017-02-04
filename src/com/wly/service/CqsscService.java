@@ -303,11 +303,13 @@ public class CqsscService extends BaseService {
 
             for (int i = 0; i < codes.size(); i++) {
                 String code = codes.get(i).get("opencode").toString().replace(",", "");
-                analyRes.add(_3Analy(code.substring(0, 3)));
-                analyRes.add(_3Analy(code.substring(1, 4)));
-                analyRes.add(_3Analy(code.substring(2, 5)));
-                analyRes.add(_2Analy(code.substring(0, 2)));
-                analyRes.add(_2Analy(code.substring(3, 5)));
+                if(Utils.isNotNullOrEmpty(code)) {
+                    analyRes.add(_3Analy(code.substring(0, 3)));
+                    analyRes.add(_3Analy(code.substring(1, 4)));
+                    analyRes.add(_3Analy(code.substring(2, 5)));
+                    analyRes.add(_2Analy(code.substring(0, 2)));
+                    analyRes.add(_2Analy(code.substring(3, 5)));
+                }
             }
         }
 

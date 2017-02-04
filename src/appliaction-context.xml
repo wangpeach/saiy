@@ -12,9 +12,9 @@
     </context:component-scan>
     <task:scheduled-tasks scheduler="myScheduler">
         <!--<task:scheduled ref="weChatService" method="flush_access_token" initial-delay="0" fixed-delay="7000000" />-->
-        <task:scheduled ref="historyScheduler" method="exec" cron="0/50 0/10 10-21 * * *" />
-        <task:scheduled ref="historyScheduler" method="exec" cron="0/50 0/5 22-23 * * *" />
-        <task:scheduled ref="historyScheduler" method="exec" cron="0/50 0/5 00-02 * * *" />
+        <task:scheduled ref="regularPullScheduler" method="exec" cron="50 0/10 10-21 * * *" />
+        <task:scheduled ref="nightPullScheduler" method="exec" cron="50 0/5 22-23 * * *" />
+        <task:scheduled ref="earlyMorningPullScheduler" method="exec" cron="50 0/5 00-02 * * *" />
     </task:scheduled-tasks>
     <task:scheduler id="myScheduler" pool-size="1" />
 </beans>

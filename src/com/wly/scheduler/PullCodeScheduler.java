@@ -1,16 +1,14 @@
 package com.wly.scheduler;
 
 import com.wly.service.CqsscService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.util.Calendar;
 
-@Component
-@Service(value = "historyScheduler")
-public class HistoryScheduler {
+@Service(value = "pullCodeScheduler")
+public class PullCodeScheduler {
 
     @Resource
     private CqsscService cqsscService;
@@ -30,6 +28,7 @@ public class HistoryScheduler {
 
             if(cal.before(stopday) || cal.after(startday)) {
                 if(lastopen != null) {
+                    System.out.println((Calendar.getInstance().getTime().getTime() - lastopen.getTime().getTime()) / (1000));
                     if(((Calendar.getInstance().getTime().getTime() - lastopen.getTime().getTime()) / (1000)) < 120) {
                         System.out.println("已成功获取数据， 120秒之内拦截启动...");
                     } else {

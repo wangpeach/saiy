@@ -203,13 +203,10 @@ jQuery(document).ready(function($) {
                 if (oldpx > top) {
                     top = oldpx;
                 }
+                $(tipstar).show().css({top: top});
                 if (text) {
                     $(tipstar).html(text);
                 }
-                $(tipstar).show();
-                $(tipstar).animate({
-                    top: top
-                });
                 $("#timer").empty();
             } else {
                 $("#timer").html(text).css(css);
@@ -269,15 +266,16 @@ jQuery(document).ready(function($) {
                                     cq.lockLittle();
                                     sessionStorage.setItem("loopreq", false);
                                     var nextTerm = cq.curterm + 1,
-                                        wating = 1200;
+                                        wating = 300;
                                     //今天最后一期，数据同步后3秒刷新页面
                                     if (nextTerm > 120) {
                                         wating = 0;
                                         clearInterval(cql.interval);
+                                        layer.msg("5秒后自动刷新");
                                         $('.tips').hide();
                                         var renovate = setTimeout(function() {
                                             window.location.reload();
-                                        }, 3000);
+                                        }, 5000);
                                     } else {
                                         cq.setTipsPos(nextTerm, null, { 'color': '#f183d3' });
                                     }
@@ -286,7 +284,7 @@ jQuery(document).ready(function($) {
                                             cq.notiMedia = document.getElementById("audio");
                                         }
                                         cq.notiMedia.play();
-                                        new Notification('极限数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
+                                        new Notification('巅峰数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
                                     }
                                     var timeout = setTimeout(function() {
                                         cq.openCodes.push(data);
@@ -365,7 +363,14 @@ jQuery(document).ready(function($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#ffefa0' });
+                                if(surplusSeconds > 240) {
+                                    surplusSeconds = 0;
+                                    loopreq = true;
+                                    sessionStorage.setItem("loopreq", true);
+                                } else {
+                                    var formatdate = cal.formatSeconds(surplusSeconds--);
+                                    cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + formatdate, { 'color': '#ffefa0' });
+                                }
                             }
                         } else {
                             if ((min.toString().endsWith("9") && !cq.syned) || ((min.toString().endsWith("0") && seconds <= 50) && !cq.syned)) {
@@ -410,7 +415,14 @@ jQuery(document).ready(function($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#ffefa0' });
+                                if(surplusSeconds > 540) {
+                                    surplusSeconds = 0;
+                                    loopreq = true;
+                                    sessionStorage.setItem("loopreq", true);
+                                } else {
+                                    var formatdate = cal.formatSeconds(surplusSeconds--);
+                                    cq.setTipsPos(cq.curterm, '剩余投注时间&nbsp;&nbsp;' + formatdate, { 'color': '#ffefa0' });
+                                }
                             }
                         }
                     }
@@ -642,13 +654,12 @@ jQuery(document).ready(function($) {
         swipAnaly: function(kill, _an) {
             for (var i = 0; i < cq.openCodes.length; i++) {
                 var code = cq.openCodes[i];
-                if (i == 43) {
-                    console.log(code);
-                }
-                var anres = cq.analysis(kill, code.opencode.split(",").join(""));
-                var col = $("[data-inx='" + i + "']").find(".columns");
-                if (anres) {
-                    $(_an == "AN1" ? col[2] : col[3]).removeAttr('style').text('').css({ color: anres.color }).text(anres.text);
+                if(code.opencode) {
+                    var anres = cq.analysis(kill, code.opencode.split(",").join(""));
+                    var col = $("[data-inx='" + i + "']").find(".columns");
+                    if (anres) {
+                        $(_an == "AN1" ? col[2] : col[3]).removeAttr('style').text('').css({ color: anres.color }).text(anres.text);
+                    }
                 }
             }
         },
@@ -998,7 +1009,7 @@ jQuery(document).ready(function($) {
             }
             cq.notiMedia.play();
 
-            var noti = new Notification('极限数据', { body: msg, icon: 'cqssc/shiicon.ico' });
+            var noti = new Notification('巅峰数据', { body: msg, icon: 'cqssc/shiicon.ico' });
             noti.onshow = function() {
                 setTimeout(noti.close.bind(noti), 3000);
             }
