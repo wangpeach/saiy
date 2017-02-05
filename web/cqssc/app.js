@@ -267,10 +267,19 @@ jQuery(document).ready(function($) {
                                     sessionStorage.setItem("loopreq", false);
                                     var nextTerm = cq.curterm + 1,
                                         wating = 300;
+                                    
+                                    if (cq.config.notification) {
+                                        if(!cq.notiMedia) {
+                                            cq.notiMedia = document.getElementById("audio");
+                                        }
+                                        cq.notiMedia.play();
+                                        new Notification('巅峰数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
+                                    }
+
                                     //今天最后一期，数据同步后3秒刷新页面
                                     if (nextTerm == 120) {
                                         wating = 0;
-                                        clearInterval(cql.interval);
+                                        clearInterval(cq.interval);
                                         layer.msg("5秒后自动刷新");
                                         $('.tips').hide();
                                         var renovate = setTimeout(function() {
@@ -279,13 +288,7 @@ jQuery(document).ready(function($) {
                                     } else {
                                         cq.setTipsPos(nextTerm, null, { 'color': '#f183d3' });
                                     }
-                                    if (cq.config.notification) {
-                                        if(!cq.notiMedia) {
-                                            cq.notiMedia = document.getElementById("audio");
-                                        }
-                                        cq.notiMedia.play();
-                                        new Notification('巅峰数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
-                                    }
+
                                     var timeout = setTimeout(function() {
                                         cq.openCodes.push(data);
                                         if (cq.timerTrace) {
@@ -305,7 +308,7 @@ jQuery(document).ready(function($) {
                             if (((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) && !cq.syned) || ((min.endsWith("9") || min.endsWith("0") && seconds <= 50) && !cq.syned)) {
                                 if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
-                                    if (minutes >= 59) {
+                                    if (minutes >= 55) {
                                         //当前时间加一小时，下一小时0分52秒开始获取数据
                                         stopTime.setHours(hour + 1);
                                         if (hour > 23) {
