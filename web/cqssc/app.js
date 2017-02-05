@@ -268,7 +268,7 @@ jQuery(document).ready(function($) {
                                     var nextTerm = cq.curterm + 1,
                                         wating = 300;
                                     //今天最后一期，数据同步后3秒刷新页面
-                                    if (nextTerm > 120) {
+                                    if (nextTerm == 120) {
                                         wating = 0;
                                         clearInterval(cql.interval);
                                         layer.msg("5秒后自动刷新");
@@ -289,7 +289,7 @@ jQuery(document).ready(function($) {
                                     var timeout = setTimeout(function() {
                                         cq.openCodes.push(data);
                                         if (cq.timerTrace) {
-                                            cq.fill(data, cq.curterm, true, true);
+                                            cq.fill(data, cq.curterm, true, true, true);
                                         }
                                         clearTimeout(timeout);
                                     }, wating);
@@ -433,9 +433,10 @@ jQuery(document).ready(function($) {
         /**
          * 迭代数据
          * @param  {[type]} codes [description]
+         * @param  {[type]} istoy [是否是今天]
          * @return {[type]}       [description]
          */
-        iteration: function(codes) {
+        iteration: function(codes, istoy) {
             for (item in cq.anlycol) {
                 if (cq.anlycol.hasOwnProperty(item)) {
                     if (item.startsWith("__")) {
@@ -459,7 +460,7 @@ jQuery(document).ready(function($) {
                 if (i == codes.length - 1) {
                     remTips = true;
                 }
-                cq.fill(codes[i], i, remTips, false);
+                cq.fill(codes[i], i, remTips, false, istoy);
             }
             // cq.cencus(cq.openCodes);
 
@@ -472,11 +473,12 @@ jQuery(document).ready(function($) {
          * @param  {[type]} i        [当前元素索引]
          * @param  {[type]} remTips  [是否移除前面列的提示面板]
          * @param  {[type]} [_refpanel] [是否刷新各形态统计]
+         * @param  {[type]} [istoy] [是否是今天]
          * @return {[type]}          [description]
          */
-        fill: function(codeJson, i, remTips, _refpanel) {
+        fill: function(codeJson, i, remTips, _refpanel, istoy) {
             //指针移向下一期
-            if (cq.timerTrace) {
+            if (cq.timerTrace || istoy) {
                 cq.curterm++;
                 cq.curterm = cq.curterm > 120 ? 0 : cq.curterm;
             } else {
@@ -799,7 +801,7 @@ jQuery(document).ready(function($) {
         if (codes.msg) {
             layer.alert(codes.msg);
         } else {
-            cq.iteration(codes);
+            cq.iteration(codes, true);
             if (codes && codes.length > 0 && codes.length < 120) {
                 cq.start();
             }
@@ -842,12 +844,14 @@ jQuery(document).ready(function($) {
             $(".missingTitle").text($(this).text());
 
             var date = "",
+                istoy = false,
                 cal = new Calendar();
             cq.timerTrace = false;
             switch ($(this).data("val")) {
                 case 'tod':
                     cq.curterm = 0;
                     cq.timerTrace = true;
+                    istoy = true;
                     date = new Date().Format("yyyy-MM-dd");
                     break;
                 case 'ysd':
@@ -863,7 +867,7 @@ jQuery(document).ready(function($) {
                 if (codes.msg) {
                     layer.alert(codes.msg);
                 } else {
-                    cq.iteration(codes);
+                    cq.iteration(codes, istoy);
                     if (codes && codes.length > 0 && codes.length < 120 && !cq.interval) {
                         cq.start();
                     }
@@ -963,16 +967,18 @@ jQuery(document).ready(function($) {
             sessionStorage.removeItem("codes");
 
             // clearInterval(cq.interval);
+            var istoy = true;
             if (formattedDate != new Date().Format("yyyy-MM-dd")) {
                 cq.curterm = 0;
                 cq.timerTrace = false;
+                istoy = false;
             }
             $(".missingTitle").text(formattedDate + " ");
             cq.getAllCodes(formattedDate).done(function(codes) {
                 if (codes.msg) {
                     layer.alert(codes.msg);
                 } else {
-                    cq.iteration(codes);
+                    cq.iteration(codes, istoy);
                     if (codes.length < 120 && !cq.interval) {
                         cq.start();
                     }

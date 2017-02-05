@@ -56,8 +56,7 @@ public class CqsscController extends BaseController {
         String result = "";
         //客户端索引从0开始，所以在这里+1才是正确的期号
         int term = Integer.parseInt(request.getParameter("term")) + 1;
-        if(term > 120) {
-            term = 1;
+        if(term == 1) {
             // 更新近7天各形态数据统计
             context.setAttribute("cencusLast7", cqsscService.cencusLast7());
         }
@@ -130,6 +129,7 @@ public class CqsscController extends BaseController {
             }
             if(Utils.isNotNullOrEmpty(rd)) {
                 cqsscService.holdCodes(rd);
+                context.setAttribute("cencusLast7", cqsscService.cencusLast7());
             }
         } catch (ParseException e) {
             e.printStackTrace();
