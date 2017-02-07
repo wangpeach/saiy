@@ -23,21 +23,10 @@ public class CqsscService extends BaseService {
     private String curDay = null;
 
     public CqsscService() {
-        this.savePath = this.properties().getProperty("holdPath");
+        this.savePath = Utils.properties().getProperty("holdPath");
     }
 
-    public Properties properties() {
-        Properties prop = new Properties();
-        try {
-            InputStream stream = new FileInputStream(Utils.srcPath() + "config.properties");
-            prop.load(stream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return prop;
-    }
+
 
     /**
      * 获取某一天的数据
@@ -159,10 +148,10 @@ public class CqsscService extends BaseService {
             cal.setTime(dateFormat.parse(day));
 
             Calendar stopday = Calendar.getInstance();
-            stopday.setTime(dateTimeFormat.parse(this.properties().getProperty("stopday")));
+            stopday.setTime(dateTimeFormat.parse(Utils.properties().getProperty("stopday")));
 
             Calendar startday = Calendar.getInstance();
-            startday.setTime(dateTimeFormat.parse(this.properties().getProperty("startday")));
+            startday.setTime(dateTimeFormat.parse(Utils.properties().getProperty("startday")));
 
             if(cal.before(stopday) || cal.after(startday)) {
                 String path = savePath + day + ".json";
@@ -177,28 +166,30 @@ public class CqsscService extends BaseService {
                 }
                 Gson gson = new Gson();
                 List<Map<String, Object>> codes = gson.fromJson(codesJson, List.class);
-                Map<String, Object> firstCode = codes.get(codes.size() - 1);
+                if(codes != null && codes.size() > 0) {
+                    Map<String, Object> firstCode = codes.get(codes.size() - 1);
 
-                int term = Integer.parseInt(firstCode.get("expect").toString().substring(8, 11));
-                if(term > 1) {
-                    String strterm = firstCode.get("expect").toString().substring(0, 8);
-                    for (int i = term; i > 1; i--) {
-                        Map<String, Object> additional = new HashMap<String, Object>();
-                        int tempterm = term - 1;
-                        int termlen = 3 - String.valueOf(tempterm).length();
-                        for (int j = 0; j < termlen; j++) {
-                            strterm += "0";
+                    int term = Integer.parseInt(firstCode.get("expect").toString().substring(8, 11));
+                    if(term > 1) {
+                        String strterm = firstCode.get("expect").toString().substring(0, 8);
+                        for (int i = term; i > 1; i--) {
+                            Map<String, Object> additional = new HashMap<String, Object>();
+                            int tempterm = term - 1;
+                            int termlen = 3 - String.valueOf(tempterm).length();
+                            for (int j = 0; j < termlen; j++) {
+                                strterm += "0";
+                            }
+                            additional.put("expect", strterm + tempterm);
+                            additional.put("opencode", "");
+                            codes.add(codes.size(), additional);
                         }
-                        additional.put("expect", strterm + tempterm);
-                        additional.put("opencode", "");
-                        codes.add(codes.size(), additional);
+                        codesJson = gson.toJson(codes);
                     }
-                    codesJson = gson.toJson(codes);
+                    FileOperate.saveFile(codesJson, path, true);
                 }
-                FileOperate.saveFile(codesJson, path, true);
             } else {
                 try {
-                    String msg = new String(this.properties().getProperty("msg").getBytes("iso-8859-1"), "GBK");
+                    String msg = new String(Utils.properties().getProperty("msg").getBytes("iso-8859-1"), "GBK");
                     codesJson = "-*-" + msg;
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();

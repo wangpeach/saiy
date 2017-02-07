@@ -273,7 +273,10 @@ jQuery(document).ready(function($) {
                                             cq.notiMedia = document.getElementById("audio");
                                         }
                                         cq.notiMedia.play();
-                                        new Notification('巅峰数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
+                                        var noti = new Notification('巅峰数据: 数据已同步', { body: "期号：" + nextTerm + ", 号码：" + data.opencode, icon: 'cqssc/shiicon.ico' });
+                                        noti.onshow = function() {
+                                            setTimeout(noti.close.bind(noti), 8000);
+                                        }
                                     }
 
                                     //今天最后一期，数据同步后3秒刷新页面
@@ -311,15 +314,15 @@ jQuery(document).ready(function($) {
                                     if (minutes >= 55) {
                                         //当前时间加一小时，下一小时0分52秒开始获取数据
                                         stopTime.setHours(hour + 1);
-                                        if (hour > 23) {
+                                        if (stopTime.getHours() > 23) {
                                             //当前日期加一天, 明天凌晨0分50秒获取数据
                                             stopTime = cal.getCustomDate(1);
                                             stopTime.setHours(0);
-
-                                        } else {
-                                            //当前时间加一小时，下一小时0分50秒开始获取数据
-                                            stopTime.setHours(hour + 1);
                                         }
+                                        //  else {
+                                        //     //当前时间加一小时，下一小时0分50秒开始获取数据
+                                        //     stopTime.setHours(hour + 1);
+                                        // }
                                         stopTime.setMinutes(0);
                                     } else {
                                         var firstMin = 0,
@@ -455,17 +458,19 @@ jQuery(document).ready(function($) {
                 }
             }
 
-            codes = codes.reverse();
-            // 临时保存数据
-            cq.openCodes = codes;
-            var remTips = false;
-            for (var i = 0; i < codes.length; i++) {
-                if (i == codes.length - 1) {
-                    remTips = true;
+            if(codes && codes.length > 0) {
+                codes = codes.reverse();
+                // 临时保存数据
+                cq.openCodes = codes;
+                var remTips = false;
+                for (var i = 0; i < codes.length; i++) {
+                    if (i == codes.length - 1) {
+                        remTips = true;
+                    }
+                    cq.fill(codes[i], i, remTips, false, istoy);
                 }
-                cq.fill(codes[i], i, remTips, false, istoy);
+                // cq.cencus(cq.openCodes);
             }
-            // cq.cencus(cq.openCodes);
 
             cq.refPanel();
         },
@@ -990,14 +995,6 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $(".cencus > .row").mouseenter(function(event) {
-        /* Act on the event */
-        $('.opened span[data-val="' + $(this).data('val') + '"]').addClass('active');
-    }).mouseleave(function(event) {
-        /* Act on the event */
-        $('.opened span[data-val="' + $(this).data('val') + '"]').removeClass('active');
-    });
-
 
     /**
      * [是否接受通知]
@@ -1041,5 +1038,42 @@ jQuery(document).ready(function($) {
             layer.msg("您的浏览器不支持通知");
         }
 
+    });
+
+    var online  = function() {
+        $.post('cqonline', {}, function(data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            $("#curOnline").text(data.cur);
+            $("#maxOnline").text(data.max);
+        }, 'json');
+    }
+
+    if(utils.getParams("online")) {
+        setTimeout(function() {
+            online();
+            $("#onlineup").click(online);
+        }, 1000);
+    } else {
+        $("#online").remove();
+    }
+
+    if(utils.getParams("wn")) {
+        $(".cencus > .row").mouseenter(function(event) {
+            /* Act on the event */
+            $('.opened span[data-val="' + $(this).data('val') + '"]').addClass('active');
+        }).mouseleave(function(event) {
+            /* Act on the event */
+            $('.opened span[data-val="' + $(this).data('val') + '"]').removeClass('active');
+        });
+    }
+
+    $.post('cqaddOnline', {}, function(data, textStatus, xhr) {
+        /*optional stuff to do after success */
+    });
+    $(window).on('beforeunload', function() {
+        console.log("cut")
+        $.post('cqcutOnline', {}, function(data, textStatus, xhr) {
+            console.log("cuted")
+        });
     });
 });

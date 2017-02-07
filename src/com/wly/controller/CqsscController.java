@@ -1,6 +1,7 @@
 package com.wly.controller;
 
 import com.google.gson.Gson;
+import com.wly.listener.OnlineCencus;
 import com.wly.service.CqsscService;
 import com.wly.utils.Utils;
 import org.springframework.context.annotation.Scope;
@@ -136,6 +137,40 @@ public class CqsscController extends BaseController {
             e.printStackTrace();
         }
         output("保存完成...");
+        return null;
+    }
+
+    /**
+     * 在线人数
+     * @return
+     */
+    public String online() {
+        Gson gson = new Gson();
+        Map<String, Object> json = new HashMap<String, Object>();
+        OnlineCencus online = OnlineCencus.getInstance();
+        json.put("cur", online.getCurOnline());
+        json.put("max", online.getMaxOnline());
+        output(gson.toJson(json));
+        return null;
+    }
+
+    /**
+     * 页面创建
+     * @return
+     */
+    public String addOnline() {
+        OnlineCencus online = OnlineCencus.getInstance();
+        online.add();
+        return null;
+    }
+
+    /**
+     * 页面销毁
+     * @return
+     */
+    public String cutOnline() {
+        OnlineCencus online = OnlineCencus.getInstance();
+        online.cut();
         return null;
     }
 

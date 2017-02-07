@@ -1,6 +1,7 @@
 package com.wly.scheduler;
 
 import com.wly.service.CqsscService;
+import com.wly.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,10 +22,10 @@ public class PullCodeScheduler {
 
             Calendar stopday = Calendar.getInstance();
 
-            stopday.setTime(cqsscService.dateFormat.parse(cqsscService.properties().getProperty("stopday")));
+            stopday.setTime(cqsscService.dateFormat.parse(Utils.properties().getProperty("stopday")));
 
             Calendar startday = Calendar.getInstance();
-            startday.setTime(cqsscService.dateFormat.parse(cqsscService.properties().getProperty("startday")));
+            startday.setTime(cqsscService.dateFormat.parse(Utils.properties().getProperty("startday")));
 
             if(cal.before(stopday) || cal.after(startday)) {
                 if(lastopen != null) {
