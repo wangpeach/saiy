@@ -346,6 +346,7 @@ jQuery(document).ready(function($) {
                                         }
                                     }
                                     stopTime.setSeconds(50);
+                                    console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
                                     // 剩余同步秒数
                                     surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
