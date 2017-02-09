@@ -6,12 +6,15 @@ import com.wly.utils.Utils;
 import com.wly.utils._HttpConnection;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.wly.utils.Utils.properties;
 
 @Service
 public class CqsscService extends BaseService {
@@ -21,9 +24,32 @@ public class CqsscService extends BaseService {
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String curDay = null;
+    private Gson gson = new Gson();
 
     public CqsscService() {
-        this.savePath = Utils.properties().getProperty("holdPath");
+        this.savePath = properties().getProperty("holdPath");
+    }
+
+    /**
+     * 日志
+     * @param arg
+     */
+    private void log(String arg) {
+        String logstr = "";
+        List<String> logs = null;
+        String logsrc = Utils.properties().getProperty("log");
+        if(FileOperate.isExists(logsrc)) {
+            logstr = FileOperate.readfile(logsrc);
+            logs  = gson.fromJson(logstr, List.class);
+            if(logs != null && logs.size() > 0) {
+                logs.add(arg);
+                FileOperate.saveFile(gson.toJson(logs), logsrc, true);
+            }
+        } else {
+            logs = new ArrayList<String>();
+            logs.add(arg);
+            FileOperate.saveFile(gson.toJson(logs), logsrc, true);
+        }
     }
 
 
@@ -39,7 +65,7 @@ public class CqsscService extends BaseService {
         // 获取历史数据
         if (!Utils.isNotNullOrEmpty(day)) {
             Calendar cal = Calendar.getInstance();
-            if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) <= 50) {
+            if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) <= 40) {
                 cal.add(Calendar.DAY_OF_MONTH, -1);
             }
             day = dateFormat.format(cal.getTime());
@@ -50,7 +76,6 @@ public class CqsscService extends BaseService {
             Map<String, Object> map = new HashMap<String, Object>();
             codes = codes.replace("-*-", "");
             map.put("msg", codes);
-            Gson gson = new Gson();
             codes = gson.toJson(map);
         }
         return codes;
@@ -78,6 +103,9 @@ public class CqsscService extends BaseService {
         _HttpConnection conn = new _HttpConnection(_HttpConnection.HttpType.http, _HttpConnection.HttpMethod.GET);
         String result = null;
         try {
+            String log = "request url: " + reqUrl + "; datetime:" + dateTimeFormat.format(Calendar.getInstance().getTime());
+            System.out.println(log);
+            this.log(log);
             result = this.toJson(this.handleJson(conn.sendRequest(reqUrl, arg)));
         } catch (IOException e) {
             result = null;
@@ -100,7 +128,6 @@ public class CqsscService extends BaseService {
             // 如果不是读取今天的数据，检查数据是否完整，不完整则重新请求数据
             curDay = dateFormat.format(Calendar.getInstance().getTime());
             if(!curDay.equals(day)) {
-                Gson gson = new Gson();
                 int codeSize = gson.fromJson(codes, List.class).size();
                 if(codeSize < 120) {
                      codes = this.holdCodes(day);
@@ -125,7 +152,6 @@ public class CqsscService extends BaseService {
         }
         curDay = dateFormat.format(cal.getTime());
         String codesStr = this.readCodes(curDay);
-        Gson gson = new Gson();
         List<Map<String, Object>> codes =  gson.fromJson(codesStr, List.class);
         return codes.get(0);
     }
@@ -148,10 +174,10 @@ public class CqsscService extends BaseService {
             cal.setTime(dateFormat.parse(day));
 
             Calendar stopday = Calendar.getInstance();
-            stopday.setTime(dateTimeFormat.parse(Utils.properties().getProperty("stopday")));
+            stopday.setTime(dateTimeFormat.parse(properties().getProperty("stopday")));
 
             Calendar startday = Calendar.getInstance();
-            startday.setTime(dateTimeFormat.parse(Utils.properties().getProperty("startday")));
+            startday.setTime(dateTimeFormat.parse(properties().getProperty("startday")));
 
             if(cal.before(stopday) || cal.after(startday)) {
                 String path = savePath + day + ".json";
@@ -164,7 +190,6 @@ public class CqsscService extends BaseService {
                         e.printStackTrace();
                     }
                 }
-                Gson gson = new Gson();
                 List<Map<String, Object>> codes = gson.fromJson(codesJson, List.class);
                 if(codes != null && codes.size() > 0) {
                     Map<String, Object> firstCode = codes.get(codes.size() - 1);
@@ -189,7 +214,7 @@ public class CqsscService extends BaseService {
                 }
             } else {
                 try {
-                    String msg = new String(Utils.properties().getProperty("msg").getBytes("iso-8859-1"), "GBK");
+                    String msg = new String(properties().getProperty("msg").getBytes("iso-8859-1"), "GBK");
                     codesJson = "-*-" + msg;
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -210,7 +235,6 @@ public class CqsscService extends BaseService {
      */
     public boolean putCode(String json) {
         boolean puted = false;
-        Gson gson = new Gson();
         Map<String, Object> code = (Map<String, Object>) gson.fromJson(json, List.class).get(0);
 
         Calendar cal = Calendar.getInstance();
@@ -271,7 +295,6 @@ public class CqsscService extends BaseService {
             res.put("date", dateFormat.format(cal.getTime()));
             last7.add(res);
         }
-        Gson gson = new Gson();
         String result = gson.toJson(last7);
         return result;
     }
@@ -285,7 +308,6 @@ public class CqsscService extends BaseService {
         Map<String, Object> result = new HashMap<String, Object>();
         int zu6 = 0, zu3 = 0, baozi = 0, duizi = 0, shun = 0;
 
-        Gson gson = new Gson();
         List<Map<String, Object>> codes = gson.fromJson(jsonCodes, List.class);
 
         List<Map<String, Object>> analyRes = new ArrayList<Map<String, Object>>();
@@ -401,7 +423,6 @@ public class CqsscService extends BaseService {
      * @return
      */
     public List<Map<String, Object>> handleJson(String json) {
-        Gson gson = new Gson();
         Map<String, Object> map = gson.fromJson(json, Map.class);
         List<Map<String, Object>> codes = (List<Map<String, Object>>) map.get("data");
         return codes;
@@ -414,7 +435,6 @@ public class CqsscService extends BaseService {
      * @return
      */
     public String toJson(List<Map<String, Object>> codes) {
-        Gson gson = new Gson();
         return gson.toJson(codes, List.class);
     }
 
