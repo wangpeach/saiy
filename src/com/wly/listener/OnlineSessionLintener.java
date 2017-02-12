@@ -1,9 +1,5 @@
 package com.wly.listener;
 
-import org.apache.struts2.ServletActionContext;
-import org.springframework.http.HttpRequest;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -12,11 +8,15 @@ import javax.servlet.http.HttpSessionListener;
  */
 public class OnlineSessionLintener implements HttpSessionListener {
 
+    OnlineCencus online = OnlineCencus.getInstance();
+
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+        online.add();
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+        online.cut();
     }
 }

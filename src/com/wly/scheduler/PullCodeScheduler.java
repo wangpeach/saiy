@@ -14,10 +14,8 @@ public class PullCodeScheduler {
     @Resource
     private CqsscService cqsscService;
     private Calendar lastopen = null;
-    private static int incount = 0;
 
     public synchronized void exec() {
-        incount++;
         try {
             //在某一时间段暂停开奖
             Calendar cal = Calendar.getInstance();
@@ -30,7 +28,6 @@ public class PullCodeScheduler {
             startday.setTime(cqsscService.dateFormat.parse(Utils.properties().getProperty("startday")));
 
             if(cal.before(stopday) || cal.after(startday)) {
-                System.out.println("进入：" + incount);
                 if(lastopen != null) {
                     System.out.println((Calendar.getInstance().getTime().getTime() - lastopen.getTime().getTime()) / (1000));
                     if(((Calendar.getInstance().getTime().getTime() - lastopen.getTime().getTime()) / (1000)) < 120) {
@@ -65,7 +62,6 @@ public class PullCodeScheduler {
             if (stop) {
                 lastopen = Calendar.getInstance();
                 System.out.println(code);
-                incount = 0;
                 System.out.println("调度完成,已成功获取数据，退出！");
             } else {
                 i++;

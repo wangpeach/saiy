@@ -37,18 +37,20 @@ public class CqsscService extends BaseService {
     private void log(String arg) {
         String logstr = "";
         List<String> logs = null;
-        String logsrc = Utils.properties().getProperty("log");
-        if(FileOperate.isExists(logsrc)) {
-            logstr = FileOperate.readfile(logsrc);
-            logs  = gson.fromJson(logstr, List.class);
-            if(logs != null && logs.size() > 0) {
+        if(Utils.properties().getProperty("logstore").equals("1")) {
+            String logsrc = Utils.properties().getProperty("log");
+            if(FileOperate.isExists(logsrc)) {
+                logstr = FileOperate.readfile(logsrc);
+                logs  = gson.fromJson(logstr, List.class);
+                if(logs != null && logs.size() > 0) {
+                    logs.add(arg);
+                    FileOperate.saveFile(gson.toJson(logs), logsrc, true);
+                }
+            } else {
+                logs = new ArrayList<String>();
                 logs.add(arg);
                 FileOperate.saveFile(gson.toJson(logs), logsrc, true);
             }
-        } else {
-            logs = new ArrayList<String>();
-            logs.add(arg);
-            FileOperate.saveFile(gson.toJson(logs), logsrc, true);
         }
     }
 

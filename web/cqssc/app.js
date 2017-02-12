@@ -165,6 +165,10 @@ jQuery(document).ready(function($) {
          * @return {[type]}   [description]
          */
         getAllCodes: function(d) {
+            if (!d) {
+                var cal = new Calendar();
+                d = cal.getCustomDate(0);
+            }
             var defer = $.Deferred();
             var inx = layer.load(2);
             $.post("cqall", { date: d }, function(data) {
@@ -203,7 +207,7 @@ jQuery(document).ready(function($) {
                 if (oldpx > top) {
                     top = oldpx;
                 }
-                $(tipstar).show().css({top: top});
+                $(tipstar).show().css({ top: top });
                 if (text) {
                     $(tipstar).html(text);
                 }
@@ -267,9 +271,9 @@ jQuery(document).ready(function($) {
                                     sessionStorage.setItem("loopreq", false);
                                     var nextTerm = cq.curterm + 1,
                                         wating = 300;
-                                    
+
                                     if (cq.config.notification) {
-                                        if(!cq.notiMedia) {
+                                        if (!cq.notiMedia) {
                                             cq.notiMedia = document.getElementById("audio");
                                         }
                                         cq.notiMedia.play();
@@ -283,11 +287,11 @@ jQuery(document).ready(function($) {
                                     if (nextTerm == 120) {
                                         wating = 0;
                                         clearInterval(cq.interval);
-                                        layer.msg("5秒后自动刷新");
+                                        layer.msg("6秒后自动刷新");
                                         $('.tips').hide();
                                         var renovate = setTimeout(function() {
                                             window.location.reload();
-                                        }, 5000);
+                                        }, 6000);
                                     } else {
                                         cq.setTipsPos(nextTerm, null, { 'color': '#f183d3' });
                                     }
@@ -307,7 +311,7 @@ jQuery(document).ready(function($) {
                         /**
                          * [0-2] > [10-24]
                          */
-                        if ((hour >= 22 && hour < 24) || (hour >= 0 && hour < 2)) {
+                        if ((hour >= 22 && hour <= 23) || (hour >= 0 && hour < 2)) {
                             if (((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) && !cq.syned) || ((min.endsWith("9") || min.endsWith("0") && seconds <= 50) && !cq.syned)) {
                                 if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
@@ -319,10 +323,6 @@ jQuery(document).ready(function($) {
                                             stopTime = cal.getCustomDate(1);
                                             stopTime.setHours(0);
                                         }
-                                        //  else {
-                                        //     //当前时间加一小时，下一小时0分50秒开始获取数据
-                                        //     stopTime.setHours(hour + 1);
-                                        // }
                                         stopTime.setMinutes(0);
                                     } else {
                                         var firstMin = 0,
@@ -346,7 +346,8 @@ jQuery(document).ready(function($) {
                                         }
                                     }
                                     stopTime.setSeconds(50);
-                                    console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
+
+                                    console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
                                     // 剩余同步秒数
                                     surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
@@ -370,7 +371,9 @@ jQuery(document).ready(function($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                if(surplusSeconds > 240) {
+
+                                console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
+                                if (surplusSeconds > 240) {
                                     surplusSeconds = 0;
                                     loopreq = true;
                                     sessionStorage.setItem("loopreq", true);
@@ -405,6 +408,8 @@ jQuery(document).ready(function($) {
                                     stopTime.setSeconds(50);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
+
+                                console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
                                 cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
                                 //计时完成同步数据
                                 if (surplusSeconds <= 1) {
@@ -422,7 +427,9 @@ jQuery(document).ready(function($) {
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
-                                if(surplusSeconds > 540) {
+
+                                console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
+                                if (surplusSeconds > 540) {
                                     surplusSeconds = 0;
                                     loopreq = true;
                                     sessionStorage.setItem("loopreq", true);
@@ -444,13 +451,24 @@ jQuery(document).ready(function($) {
          * @return {[type]}       [description]
          */
         iteration: function(codes, istoy) {
+            //初始化记录
+            cq.beforeterm = 0;
             for (item in cq.anlycol) {
                 if (cq.anlycol.hasOwnProperty(item)) {
                     if (item.startsWith("__")) {
                         cq.anlycol[item].count = 0;
                     } else if (item.endsWith("2")) {
                         cq.anlycol[item].duizi = 0,
-                            cq.anlycol[item].shun = 0
+                        cq.anlycol[item].shun = 0
+                    } else if(item.endsWith("wqbsg_")) {
+                        cq.anlycol[item]["_*"].curmiss = 0;
+                        cq.anlycol[item]["_*"].maxmiss = 0;
+                        cq.anlycol[item]["_*"].lasterm = 0;
+                        for (var i = 0; i < 10; i++) {
+                            cq.anlycol[item]["_" + i].curmiss = 0;
+                            cq.anlycol[item]["_" + i].maxmiss = 0;
+                            cq.anlycol[item]["_" + i].lasterm = 0;
+                        }
                     } else {
                         cq.anlycol[item].zu6 = 0;
                         cq.anlycol[item].zu3 = 0;
@@ -459,7 +477,7 @@ jQuery(document).ready(function($) {
                 }
             }
 
-            if(codes && codes.length > 0) {
+            if (codes && codes.length > 0) {
                 codes = codes.reverse();
                 // 临时保存数据
                 cq.openCodes = codes;
@@ -587,7 +605,8 @@ jQuery(document).ready(function($) {
                 codearise.push(cq.anlycol['__' + i].count);
             }
             codearise = codearise.sort(function(a, b) {
-                return a - b; }).reverse();
+                return a - b;
+            }).reverse();
 
             for (var i = 0; i < 10; i++) {
                 // 每个数字出现顺序
@@ -665,7 +684,7 @@ jQuery(document).ready(function($) {
         swipAnaly: function(kill, _an) {
             for (var i = 0; i < cq.openCodes.length; i++) {
                 var code = cq.openCodes[i];
-                if(code.opencode) {
+                if (code.opencode) {
                     var anres = cq.analysis(kill, code.opencode.split(",").join(""));
                     var col = $("[data-inx='" + i + "']").find(".columns");
                     if (anres) {
@@ -811,7 +830,7 @@ jQuery(document).ready(function($) {
             layer.alert(codes.msg);
         } else {
             cq.iteration(codes, true);
-            if (codes && codes.length > 0 && codes.length < 120) {
+            if (codes && codes.length < 120) {
                 cq.start();
             }
         }
@@ -1011,7 +1030,7 @@ jQuery(document).ready(function($) {
         }
 
         var notifun = function() {
-            if(!cq.notiMedia) {
+            if (!cq.notiMedia) {
                 cq.notiMedia = document.getElementById("audio");
             }
             cq.notiMedia.play();
@@ -1041,7 +1060,7 @@ jQuery(document).ready(function($) {
 
     });
 
-    var online  = function() {
+    var online = function() {
         $.post('cqonline', {}, function(data, textStatus, xhr) {
             /*optional stuff to do after success */
             $("#curOnline").text(data.cur);
@@ -1049,16 +1068,16 @@ jQuery(document).ready(function($) {
         }, 'json');
     }
 
-    if(utils.getParams("online")) {
-        setTimeout(function() {
+    if (utils.getParams("online")) {
+        online();
+        setInterval(function() {
             online();
-            $("#onlineup").click(online);
-        }, 1000);
+        }, 3000);
     } else {
         $("#online").remove();
     }
 
-    if(utils.getParams("wn")) {
+    if (utils.getParams("wn")) {
         $(".cencus > .row").mouseenter(function(event) {
             /* Act on the event */
             $('.opened span[data-val="' + $(this).data('val') + '"]').addClass('active');
@@ -1068,13 +1087,10 @@ jQuery(document).ready(function($) {
         });
     }
 
-    $.post('cqaddOnline', {}, function(data, textStatus, xhr) {
-        /*optional stuff to do after success */
-    });
-    $(window).on('beforeunload', function() {
-        console.log("cut")
-        $.post('cqcutOnline', {}, function(data, textStatus, xhr) {
-            console.log("cuted")
-        });
-    });
+    // $(window).on('beforeunload', function() {
+    //     console.log("cut")
+    //     $.post('cqcutOnline', {}, function(data, textStatus, xhr) {
+    //         console.log("cuted")
+    //     });
+    // });
 });

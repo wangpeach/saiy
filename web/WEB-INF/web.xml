@@ -24,8 +24,11 @@
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
+    <listener>
+        <listener-class>com.wly.listener.OnlineSessionLintener</listener-class>
+    </listener>
     <session-config>
-        <session-timeout>30</session-timeout>
+        <session-timeout>10</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>/cqssc/index.html</welcome-file>
