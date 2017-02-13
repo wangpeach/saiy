@@ -117,6 +117,11 @@ jQuery(document).ready(function($) {
          */
         interval: undefined,
         /**
+         * 与服务器时间相差多少秒
+         * @type {Number}
+         */
+        syntime: 0,
+        /**
          * 计时位置追踪
          * @type {Boolean}
          */
@@ -171,7 +176,7 @@ jQuery(document).ready(function($) {
             }
             var defer = $.Deferred();
             var inx = layer.load(2);
-            $.post("cqall", { date: d }, function(data) {
+            $.post("cqall", { date: d, clientTime: new Date().Format("yyyy-MM-dd hh:mm:ss")}, function(data) {
                 defer.resolve(data);
                 layer.close(inx);
             }, 'json');
@@ -245,8 +250,8 @@ jQuery(document).ready(function($) {
                     if (surplusSeconds <= 1) {
                         stopTime.setHours(10);
                         stopTime.setMinutes(0);
-                        stopTime.setSeconds(50);
-                        surplusSeconds = cal.dateDiff(stopTime, date);
+                        stopTime.setSeconds(46);
+                        surplusSeconds = cal.dateDiff(stopTime, date) + cq.syntime;
                     }
                     // 剩余更新秒数
                     cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
@@ -345,11 +350,11 @@ jQuery(document).ready(function($) {
                                             stopTime.setMinutes(parseInt(min));
                                         }
                                     }
-                                    stopTime.setSeconds(50);
+                                    stopTime.setSeconds(46);
 
                                     console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
                                     // 剩余同步秒数
-                                    surplusSeconds = surplusSeconds = cal.dateDiff(stopTime, date);
+                                    surplusSeconds = cal.dateDiff(stopTime, date) + cq.syntime;
                                 }
                                 cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
                                 //计时完成同步数据
@@ -405,8 +410,8 @@ jQuery(document).ready(function($) {
                                             stopTime.setMinutes(parseInt((minFirstChar + 1)) + "0");
                                         }
                                     }
-                                    stopTime.setSeconds(50);
-                                    surplusSeconds = cal.dateDiff(stopTime, date);
+                                    stopTime.setSeconds(46);
+                                    surplusSeconds = cal.dateDiff(stopTime, date) + cq.syntime;
                                 }
 
                                 console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
@@ -453,6 +458,7 @@ jQuery(document).ready(function($) {
         iteration: function(codes, istoy) {
             //初始化记录
             cq.beforeterm = 0;
+            cq.curterm = 0;
             for (item in cq.anlycol) {
                 if (cq.anlycol.hasOwnProperty(item)) {
                     if (item.startsWith("__")) {
@@ -820,17 +826,28 @@ jQuery(document).ready(function($) {
      * @param  {[type]}
      * @return {[type]}
      */
-    cq.getAllCodes().done(function(codes) {
+    cq.getAllCodes().done(function(arg) {
         var rows = $(".data-row");
         for (var i = 0; i < 120; i++) {
             $(rows[i]).attr("data-inx", i);
         }
 
-        if (codes.msg) {
-            layer.alert(codes.msg);
+        if (arg.msg) {
+            layer.alert(arg.msg);
         } else {
-            cq.iteration(codes, true);
-            if (codes && codes.length < 120) {
+            var seconds = parseInt(arg.syntime), rdnsec = 0;
+            if(seconds <= 0 || seconds > 5) {
+                rdnsec = Math.random()*5;
+            }
+            if(seconds > 0) {
+                seconds -= rdnsec;
+            } else {
+                seconds = Math.abs(seconds) + rdnsec;
+            }
+            cq.syntime = seconds;
+
+            cq.iteration(arg.codes, true);
+            if (arg.codes && arg.codes.length < 120) {
                 cq.start();
             }
         }

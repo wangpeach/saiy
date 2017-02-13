@@ -62,8 +62,10 @@ public class CqsscService extends BaseService {
      * @param day
      * @return
      */
-    public String synchronize(String day) {
+    public String synchronize(String day, String clientTime) {
+        int seconds = 0;
         String codes = null;
+        Map<String, Object> map = new HashMap<String, Object>();
         // 获取历史数据
         if (!Utils.isNotNullOrEmpty(day)) {
             Calendar cal = Calendar.getInstance();
@@ -73,14 +75,27 @@ public class CqsscService extends BaseService {
             day = dateFormat.format(cal.getTime());
         }
         codes = this.readCodes(day);
+        List<Map<String, Object>> _codes = gson.fromJson(codes, List.class);
 
         if(codes.startsWith("-*-")) {
-            Map<String, Object> map = new HashMap<String, Object>();
             codes = codes.replace("-*-", "");
             map.put("msg", codes);
-            codes = gson.toJson(map);
+        } else {
+            map.put("codes", _codes);
         }
-        return codes;
+
+        if(Utils.isNotNullOrEmpty(clientTime)) {
+            try {
+                Date _clientTime = this.dateTimeFormat.parse(clientTime);
+                long lngClient = _clientTime.getTime();
+                long lngServer = Calendar.getInstance().getTime().getTime();
+                seconds = (int) (lngServer - lngClient) / 1000;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            map.put("syntime", seconds);
+        }
+        return gson.toJson(map);
     }
 
     /**

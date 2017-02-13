@@ -44,19 +44,19 @@ public class CqsscController extends BaseController {
     @Resource
     private CqsscService cqsscService;
 
-    public String synchronize() {
-        String day = request.getParameter("day");
-        return null;
-    }
-
     /**
      * 获取最新数据
      * @return
      */
     public synchronized String haoma() {
         String result = "";
+        int term = 0;
         //客户端索引从0开始，所以在这里+1才是正确的期号
-        int term = Integer.parseInt(request.getParameter("term")) + 1;
+        Object termsender = request.getParameter("term");
+        if(Utils.isNotNullOrEmpty(termsender)) {
+            term = Integer.parseInt(termsender.toString()) + 1;
+        }
+
         if(term == 1) {
             context.removeAttribute("curterm");
             // 更新近7天各形态数据统计
@@ -98,7 +98,8 @@ public class CqsscController extends BaseController {
             context.setAttribute("cencusLast7", cqsscService.cencusLast7());
         }
         String day = request.getParameter("date");
-        output(cqsscService.synchronize(day));
+        String clientTime = request.getParameter("clientTime");
+        output(cqsscService.synchronize(day, clientTime));
         return null;
     }
 
@@ -177,6 +178,6 @@ public class CqsscController extends BaseController {
     public static void main(String[] args) {
         CqsscService cs = new CqsscService();
         cs.holdCodes("2016-12-23");
-        System.out.println(cs.synchronize("2016-12-19"));
+        System.out.println(cs.synchronize("2016-12-19", ""));
     }
 }
