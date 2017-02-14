@@ -171,8 +171,7 @@ jQuery(document).ready(function($) {
          */
         getAllCodes: function(d) {
             if (!d) {
-                var cal = new Calendar();
-                d = cal.getCustomDate(0);
+                d = new Date().Format("yyyy-MM-dd");
             }
             var defer = $.Deferred();
             var inx = layer.load(2);
@@ -241,6 +240,7 @@ jQuery(document).ready(function($) {
                 stopTime = new Date();
             cq.interval = setInterval(function() {
                 date = new Date();
+                date.
                 //2点后停止（23期是最后一期），早上10点开始
                 hour = date.getHours();
                 minutes = date.getMinutes();
@@ -251,7 +251,7 @@ jQuery(document).ready(function($) {
                         stopTime.setHours(10);
                         stopTime.setMinutes(0);
                         stopTime.setSeconds(46);
-                        surplusSeconds = cal.dateDiff(stopTime, date) + cq.syntime;
+                        surplusSeconds = cal.dateDiff(stopTime, date);
                     }
                     // 剩余更新秒数
                     cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
@@ -354,7 +354,7 @@ jQuery(document).ready(function($) {
 
                                     console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
                                     // 剩余同步秒数
-                                    surplusSeconds = cal.dateDiff(stopTime, date) + cq.syntime;
+                                    surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
                                 cq.setTipsPos(cq.curterm, '剩余开奖时间&nbsp;&nbsp;' + cal.formatSeconds(surplusSeconds--), { 'color': '#f183d3' });
                                 //计时完成同步数据
@@ -411,7 +411,7 @@ jQuery(document).ready(function($) {
                                         }
                                     }
                                     stopTime.setSeconds(46);
-                                    surplusSeconds = cal.dateDiff(stopTime, date) + cq.syntime;
+                                    surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
 
                                 console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
@@ -908,12 +908,12 @@ jQuery(document).ready(function($) {
             }
             // clearInterval(cq.interval);
 
-            cq.getAllCodes(date).done(function(codes) {
-                if (codes.msg) {
-                    layer.alert(codes.msg);
+            cq.getAllCodes(date).done(function(arg) {
+                if (arg.msg) {
+                    layer.alert(arg.msg);
                 } else {
-                    cq.iteration(codes, istoy);
-                    if (codes && codes.length > 0 && codes.length < 120 && !cq.interval) {
+                    cq.iteration(arg.codes, istoy);
+                    if (arg.codes && arg.codes.length > 0 && arg.codes.length < 120 && !cq.interval) {
                         cq.start();
                     }
                 }
@@ -1019,12 +1019,12 @@ jQuery(document).ready(function($) {
                 istoy = false;
             }
             $(".missingTitle").text(formattedDate + " ");
-            cq.getAllCodes(formattedDate).done(function(codes) {
-                if (codes.msg) {
-                    layer.alert(codes.msg);
+            cq.getAllCodes(formattedDate).done(function(arg) {
+                if (arg.msg) {
+                    layer.alert(arg.msg);
                 } else {
-                    cq.iteration(codes, istoy);
-                    if (codes.length < 120 && !cq.interval) {
+                    cq.iteration(arg.codes, istoy);
+                    if (arg.codes.length < 120 && !cq.interval) {
                         cq.start();
                     }
                 }
