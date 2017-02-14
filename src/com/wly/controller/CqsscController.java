@@ -104,7 +104,15 @@ public class CqsscController extends BaseController {
     }
 
     public String cencusLast7() {
-        output(context.getAttribute("cencusLast7").toString());
+        String cencusLast7 = "";
+        String reload = request.getParameter("reload");
+        if("1".equals(reload)) {
+            cencusLast7 = cqsscService.cencusLast7();
+            context.setAttribute("cencusLast7", cencusLast7);
+        } else {
+            cencusLast7 = context.getAttribute("cencusLast7").toString();
+        }
+        output(cencusLast7);
         return null;
     }
 

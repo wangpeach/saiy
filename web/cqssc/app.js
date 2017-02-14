@@ -298,6 +298,7 @@ jQuery(document).ready(function($) {
                                         $('.tips').hide();
                                         var renovate = setTimeout(function() {
                                             cq.init();
+                                            cq.cnecusLast7(1);
                                             clearTimeout(renovate);
                                         }, 6000);
                                     } else {
@@ -829,6 +830,22 @@ jQuery(document).ready(function($) {
                 result.text += "单"
             }
             return result;
+        },
+
+        cnecusLast7: function(re) {
+            // 获取近7日开奖号码形态统计
+            $.post('cqcencusLast7', {reload: re}, function(data, textStatus, xhr) {
+                /*optional stuff to do after success */
+                for (var i = 0; i < data.length; i++) {
+                    var target = $(".curcencus .cenlast" + i);
+                    $(target).find('.calendar').text(data[i].date);
+                    $(target).find('.zu6').text(data[i].zu6);
+                    $(target).find('.zu3').text(data[i].zu3);
+                    $(target).find('.baozi').text(data[i].baozi);
+                    $(target).find('.duizi').text(data[i].duizi);
+                    $(target).find('.shun').text(data[i].shun);
+                }
+            }, 'json');
         }
     }
 
@@ -865,19 +882,7 @@ jQuery(document).ready(function($) {
             }
         }
 
-        // 获取近7日开奖号码形态统计
-        $.post('cqcencusLast7', {}, function(data, textStatus, xhr) {
-            /*optional stuff to do after success */
-            for (var i = 0; i < data.length; i++) {
-                var target = $(".curcencus .cenlast" + i);
-                $(target).find('.calendar').text(data[i].date);
-                $(target).find('.zu6').text(data[i].zu6);
-                $(target).find('.zu3').text(data[i].zu3);
-                $(target).find('.baozi').text(data[i].baozi);
-                $(target).find('.duizi').text(data[i].duizi);
-                $(target).find('.shun').text(data[i].shun);
-            }
-        }, 'json');
+        cq.cnecusLast7(0);
     });
 
     /**
