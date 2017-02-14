@@ -27,7 +27,8 @@ public class CqsscService extends BaseService {
     private Gson gson = new Gson();
 
     public CqsscService() {
-        this.savePath = properties().getProperty("holdPath");
+        this.savePath = properties().getProperty("hol" +
+                "dPath");
     }
 
     /**

@@ -240,7 +240,6 @@ jQuery(document).ready(function($) {
                 stopTime = new Date();
             cq.interval = setInterval(function() {
                 date = new Date();
-                date.
                 //2点后停止（23期是最后一期），早上10点开始
                 hour = date.getHours();
                 minutes = date.getMinutes();
