@@ -69,6 +69,7 @@ public class CqsscService extends BaseService {
         Map<String, Object> map = new HashMap<String, Object>();
         // 获取历史数据
         if (!Utils.isNotNullOrEmpty(day)) {
+            System.out.println("synchronize, 系统自动设置日期..");
             Calendar cal = Calendar.getInstance();
             if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) <= 40) {
                 cal.add(Calendar.DAY_OF_MONTH, -1);
@@ -202,10 +203,12 @@ public class CqsscService extends BaseService {
                 //获取历史
                 while(codesJson == null) {
                     codesJson = this.reqHaoMa(-1, day);
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    if(codesJson == null) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 List<Map<String, Object>> codes = gson.fromJson(codesJson, List.class);

@@ -121,6 +121,7 @@ jQuery(document).ready(function($) {
          * @type {Number}
          */
         syntime: 0,
+        synlock: false,
         /**
          * 计时位置追踪
          * @type {Boolean}
@@ -261,12 +262,14 @@ jQuery(document).ready(function($) {
                     }
                 } else {
                     // 开始同步数据
-                    if (loopreq = (sessionStorage.getItem("loopreq") == "true" ? true : false)) {
+                    if ((loopreq = (sessionStorage.getItem("loopreq") == "true" ? true : false)) && !cq.synlock) {
                         // 2秒发送一次请求
                         if (seconds % 2 > 0) {
                             cq.setTipsPos(cq.curterm, '正在同步数据..', { 'color': '#f183d3' });
-
+                            //请求锁
+                            cq.synlock = true;
                             cq.getCode(cq.curterm).done(function(data) {
+                                cq.synlock = false;
                                 if (data && !data.warning) {
                                     // 数据已同步，停止请求
                                     loopreq = false;
@@ -291,10 +294,11 @@ jQuery(document).ready(function($) {
                                     if (nextTerm == 120) {
                                         wating = 0;
                                         clearInterval(cq.interval);
-                                        layer.msg("6秒后自动刷新");
+                                        layer.msg("6秒后将清空今天的数据");
                                         $('.tips').hide();
                                         var renovate = setTimeout(function() {
-                                            window.location.reload();
+                                            cq.init();
+                                            clearTimeout(renovate);
                                         }, 6000);
                                     } else {
                                         cq.setTipsPos(nextTerm, null, { 'color': '#f183d3' });
@@ -449,13 +453,11 @@ jQuery(document).ready(function($) {
         },
 
         /**
-         * 迭代数据
-         * @param  {[type]} codes [description]
-         * @param  {[type]} istoy [是否是今天]
-         * @return {[type]}       [description]
+         * //初始化记录
+         * @return {[type]} [description]
          */
-        iteration: function(codes, istoy) {
-            //初始化记录
+        init: function() {
+            $(".tips").hide();
             cq.beforeterm = 0;
             cq.curterm = 0;
             for (item in cq.anlycol) {
@@ -481,6 +483,18 @@ jQuery(document).ready(function($) {
                     }
                 }
             }
+             $(".opened [data-inx]").find(".columns").empty();
+        }
+
+        /**
+         * 迭代数据
+         * @param  {[type]} codes [description]
+         * @param  {[type]} istoy [是否是今天]
+         * @return {[type]}       [description]
+         */
+        iteration: function(codes, istoy) {
+            
+            cq.init();
 
             if (codes && codes.length > 0) {
                 codes = codes.reverse();

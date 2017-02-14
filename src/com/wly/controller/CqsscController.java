@@ -178,6 +178,6 @@ public class CqsscController extends BaseController {
     public static void main(String[] args) {
         CqsscService cs = new CqsscService();
         cs.holdCodes("2016-12-23");
-        System.out.println(cs.synchronize("2016-12-19", ""));
+        System.out.println(cs.synchronize("2017-02-16", ""));
     }
 }
