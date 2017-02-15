@@ -321,6 +321,9 @@ jQuery(document).ready(function($) {
                          * [0-2] > [10-24]
                          */
                         if ((hour >= 22 && hour <= 23) || (hour >= 0 && hour < 2)) {
+                            if(cq.curterm==119) {
+                                console.log('last term')
+                            }
                             if (((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) && !cq.syned) || ((min.endsWith("9") || min.endsWith("0") && seconds <= 50) && !cq.syned)) {
                                 if (surplusSeconds <= 10) {
                                     //剩余获取数据时间
