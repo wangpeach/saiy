@@ -129,6 +129,10 @@ hr {
 .cq>.container>.advice {
 	padding: 5px 1rem;
 }
+.cq>.container>.advice p.holdhg {
+	margin-bottom: 0px;
+	height: 2rem;
+}
 .cq>.container>.advice div.card: {
 	border: 0px;
 	background: inherit;
@@ -356,4 +360,9 @@ footer a, footer a:hover {
     box-shadow: none;
     overflow: hidden;
     color: inherit;
+}
+
+.killcodepanel {
+	width: 400px;
+	height: 
 }

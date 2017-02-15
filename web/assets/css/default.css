@@ -1,0 +1,17 @@
+/* General Demo Style */
+@import url(http://fonts.useso.com/css?family=Lato:300,400,700);
+
+
+.side {
+	position: absolute;
+	float: right;
+	box-shadow: 1px 0 rgba(0,0,0,0.1);
+}
+
+@media screen and (max-width: 66.9375em) {
+	.side, .main p {
+		float: none;
+		box-shadow: none;
+	}
+
+}

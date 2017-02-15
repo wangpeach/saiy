@@ -485,7 +485,7 @@ jQuery(document).ready(function($) {
                 }
             }
              $(".opened [data-inx]").find(".columns").empty();
-        }
+        },
 
         /**
          * 迭代数据
@@ -494,7 +494,6 @@ jQuery(document).ready(function($) {
          * @return {[type]}       [description]
          */
         iteration: function(codes, istoy) {
-            
             cq.init();
 
             if (codes && codes.length > 0) {
@@ -1092,9 +1091,48 @@ jQuery(document).ready(function($) {
             this.checked = false;
             layer.msg("您的浏览器不支持通知");
         }
-
     });
 
+    /*
+     * 辅助工具
+     */
+    [].slice.call(document.querySelectorAll('.dr-menu')).forEach(function(el, i) {
+        var trigger = el.querySelector('div.dr-trigger'),
+            icon = trigger.querySelector('span.dr-icon-menu'),
+            open = false;
+
+        trigger.addEventListener('click', function(event) {
+            if (!open) {
+                el.className += ' dr-menu-open';
+                open = true;
+            }
+        }, false);
+
+        icon.addEventListener('click', function(event) {
+            if (open) {
+                event.stopPropagation();
+                open = false;
+                el.className = el.className.replace(/\bdr-menu-open\b/, '');
+                return false;
+            }
+        }, false);
+    });
+
+    /**
+     * 高亮数字
+     */
+    $(".cencus > .row").mouseenter(function(event) {
+        /* Act on the event */
+        $('.opened span[data-val="' + $(this).data('val') + '"]').addClass('active');
+    }).mouseleave(function(event) {
+        /* Act on the event */
+        $('.opened span[data-val="' + $(this).data('val') + '"]').removeClass('active');
+    });
+
+    /**
+     * 在线人数
+     * @return {[type]} [description]
+     */
     var online = function() {
         $.post('cqonline', {}, function(data, textStatus, xhr) {
             /*optional stuff to do after success */
@@ -1112,20 +1150,51 @@ jQuery(document).ready(function($) {
         $("#online").remove();
     }
 
-    if (utils.getParams("wn")) {
-        $(".cencus > .row").mouseenter(function(event) {
+    if (!utils.getParams("tools")) {
+        $('.side,.holdhg').remove();
+    } else {
+        var inx = -1;
+        $(".dr-menu").find('.dr-tool').click(function(event) {
             /* Act on the event */
-            $('.opened span[data-val="' + $(this).data('val') + '"]').addClass('active');
-        }).mouseleave(function(event) {
+            if(inx > 0) {
+                layer.close(inx);
+            }
+            if($(this).hasClass('dr-wait')) {
+                inx = layer.msg("敬请期待..");
+            }
+        });
+
+        $("#startCalculate").click(function(event) {
             /* Act on the event */
-            $('.opened span[data-val="' + $(this).data('val') + '"]').removeClass('active');
+            $("#doublereckon .doubleterm").remove();
+            var amount = parseInt($("#amount").val());   //本金
+            var start = 1;        //第一期
+            var every = parseInt($("#every").val());        //起始金额
+            var nextam = every;    //下一期的金额
+            var dobule = parseInt($("#dobule").val());
+            var next = 1;
+            while (amount > 0) {
+                nextam = every * next;
+                amount = amount - nextam;
+                $("#doublereckon").append("<p class='doubleterm'>第" + start + "期, 倍数：" + next + ", 金额：" + nextam + ", 剩余：" + amount + "</p>");
+                next = next * dobule;
+                start++;
+            }
+        });
+        $("#doublereckon").on("closed.zf.reveal", function() {
+            $("#doublereckon .doubleam").val("");
+            $("#doublereckon .dbdb").val(2);
+            $("#doublereckon .doubleterm").remove();
         });
     }
 
-    // $(window).on('beforeunload', function() {
-    //     console.log("cut")
-    //     $.post('cqcutOnline', {}, function(data, textStatus, xhr) {
-    //         console.log("cuted")
-    //     });
-    // });
+    /**
+     * 用户退出页面更新在线人数
+     */
+    $(window).on('beforeunload', function() {
+        console.log("cut")
+        $.post('cqcutOnline', {}, function(data, textStatus, xhr) {
+            console.log("cuted")
+        });
+    });
 });
