@@ -253,21 +253,27 @@ public class CqsscService extends BaseService {
      * @param json 需要存放的数据
      * @return 是否已存放
      */
-    public boolean putCode(String json) {
+    public boolean putCode(String json, int lastTerm) {
         boolean puted = false;
         Map<String, Object> code = (Map<String, Object>) gson.fromJson(json, List.class).get(0);
 
         Calendar cal = Calendar.getInstance();
         //最后一期数据在24:01左右开奖,所以日期向前推1天
-        if (code.get("expect").toString().endsWith("120")) {
-            //设置最后一期已同步
-            lastNoSyn = false;
-            cal.add(Calendar.DAY_OF_MONTH, -1);
-            //启动线程，6秒后设置最后一期未同步
-            LastSyned ls = new LastSyned();
-            ls.start();
+        int newTerm = Integer.parseInt(code.get("expect").toString().substring(8, 11));
+        if (newTerm > lastTerm) {
+            if(newTerm == 120) {
+                //设置最后一期已同步
+                lastNoSyn = false;
+                cal.add(Calendar.DAY_OF_MONTH, -1);
+                //启动线程，6秒后设置最后一期未同步
+                LastSyned ls = new LastSyned();
+                ls.start();
+
+            } else {
+                lastNoSyn = true;
+            }
         } else {
-            lastNoSyn = true;
+            return false;
         }
         String day  = dateFormat.format(cal.getTime());
 
@@ -277,15 +283,14 @@ public class CqsscService extends BaseService {
             codesJson = FileOperate.readfile(path);
         }
 
-        List<Map<String, Object>> codes = null;
+        List<Map<String, Object>> codes = gson.fromJson(codesJson, List.class);
 
-        if (!Utils.isNotNullOrEmpty(codesJson)) {
+        if (!Utils.isNotNullOrEmpty(codesJson) || codes.isEmpty()) {
             codes = new ArrayList<Map<String, Object>>();
             codes.add(code);
             FileOperate.saveFile(this.toJson((codes)), path, true);
             puted = true;
         } else {
-            codes = gson.fromJson(codesJson, List.class);
             //新的一期
             if (!codes.get(0).get("expect").equals(code.get("expect"))) {
                 codes.add(0, code);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Map;
 
 @Service(value = "pullCodeScheduler")
 public class PullCodeScheduler {
@@ -47,13 +48,20 @@ public class PullCodeScheduler {
 
     private void startPull() {
         System.out.println("开始调度..");
+
+        int term = 0;
+        Map<String, Object> lastTerm = cqsscService.getLastTerm();
+        if(lastTerm != null && !lastTerm.isEmpty()) {
+            term = Integer.parseInt(lastTerm.get("expect").toString().substring(8, 11));
+        }
+
         boolean stop = false;
         int i = 1;
         while (!stop) {
             System.out.println("尝试第"+ i +"次获取...");
             String code = cqsscService.reqHaoMa(1, null);
             if(code != null) {
-                stop = cqsscService.putCode(code);
+                stop = cqsscService.putCode(code, term);
             } else {
                 System.out.println("");
                 System.out.println("请求错误，3秒后重试..");
