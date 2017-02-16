@@ -24,6 +24,7 @@ public class CqsscService extends BaseService {
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String curDay = null;
+    public static boolean lastNoSyn = true;
     private Gson gson = new Gson();
 
     public CqsscService() {
@@ -55,8 +56,6 @@ public class CqsscService extends BaseService {
         }
     }
 
-
-
     /**
      * 获取某一天的数据
      *
@@ -71,7 +70,7 @@ public class CqsscService extends BaseService {
         if (!Utils.isNotNullOrEmpty(day)) {
             System.out.println("synchronize, 系统自动设置日期..");
             Calendar cal = Calendar.getInstance();
-            if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) <= 40) {
+            if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) <= 46 || !lastNoSyn) {
                 cal.add(Calendar.DAY_OF_MONTH, -1);
             }
             day = dateFormat.format(cal.getTime());
@@ -261,7 +260,14 @@ public class CqsscService extends BaseService {
         Calendar cal = Calendar.getInstance();
         //最后一期数据在24:01左右开奖,所以日期向前推1天
         if (code.get("expect").toString().endsWith("120")) {
+            //设置最后一期已同步
+            lastNoSyn = false;
             cal.add(Calendar.DAY_OF_MONTH, -1);
+            //启动线程，6秒后设置最后一期未同步
+            LastSyned ls = new LastSyned();
+            ls.start();
+        } else {
+            lastNoSyn = true;
         }
         String day  = dateFormat.format(cal.getTime());
 

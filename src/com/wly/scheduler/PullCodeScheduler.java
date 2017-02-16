@@ -56,7 +56,7 @@ public class PullCodeScheduler {
                 stop = cqsscService.putCode(code);
             } else {
                 System.out.println("");
-                System.out.println("请求错误，8秒后重试..");
+                System.out.println("请求错误，3秒后重试..");
                 System.out.println("");
             }
             if (stop) {
@@ -66,7 +66,7 @@ public class PullCodeScheduler {
             } else {
                 i++;
                 try {
-                    Thread.sleep(6000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

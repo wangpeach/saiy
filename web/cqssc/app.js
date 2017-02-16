@@ -171,12 +171,9 @@ jQuery(document).ready(function($) {
          * @return {[type]}   [description]
          */
         getAllCodes: function(d) {
-            if (!d) {
-                d = new Date().Format("yyyy-MM-dd");
-            }
             var defer = $.Deferred();
             var inx = layer.load(2);
-            $.post("cqall", { date: d, clientTime: new Date().Format("yyyy-MM-dd hh:mm:ss")}, function(data) {
+            $.post("cqall", { date: d, clientTime: new Date().Format("yyyy-MM-dd hh:mm:ss") }, function(data) {
                 defer.resolve(data);
                 layer.close(inx);
             }, 'json');
@@ -212,7 +209,7 @@ jQuery(document).ready(function($) {
                 if (oldpx > top) {
                     top = oldpx;
                 }
-                $(tipstar).show().css({ top: top });
+                $(tipstar).show().animate({ 'top': top }, 500) //css({ top: top });
                 if (text) {
                     $(tipstar).html(text);
                 }
@@ -277,7 +274,7 @@ jQuery(document).ready(function($) {
                                     cq.lockLittle();
                                     sessionStorage.setItem("loopreq", false);
                                     var nextTerm = cq.curterm + 1,
-                                        wating = 300;
+                                        wating = 500;
 
                                     if (cq.config.notification) {
                                         if (!cq.notiMedia) {
@@ -321,7 +318,7 @@ jQuery(document).ready(function($) {
                          * [0-2] > [10-24]
                          */
                         if ((hour >= 22 && hour <= 23) || (hour >= 0 && hour < 2)) {
-                            if(cq.curterm==119) {
+                            if (cq.curterm == 119) {
                                 console.log('last term')
                             }
                             if (((min.endsWith("4") || (min.endsWith("5") && seconds <= 50)) && !cq.syned) || ((min.endsWith("9") || min.endsWith("0") && seconds <= 50) && !cq.syned)) {
@@ -470,8 +467,8 @@ jQuery(document).ready(function($) {
                         cq.anlycol[item].count = 0;
                     } else if (item.endsWith("2")) {
                         cq.anlycol[item].duizi = 0,
-                        cq.anlycol[item].shun = 0
-                    } else if(item.endsWith("wqbsg_")) {
+                            cq.anlycol[item].shun = 0
+                    } else if (item.endsWith("wqbsg_")) {
                         cq.anlycol[item]["_*"].curmiss = 0;
                         cq.anlycol[item]["_*"].maxmiss = 0;
                         cq.anlycol[item]["_*"].lasterm = 0;
@@ -487,7 +484,7 @@ jQuery(document).ready(function($) {
                     }
                 }
             }
-             $(".opened [data-inx]").find(".columns").empty();
+            $(".opened [data-inx]").find(".columns").empty();
         },
 
         /**
@@ -836,7 +833,7 @@ jQuery(document).ready(function($) {
 
         cnecusLast7: function(re) {
             // 获取近7日开奖号码形态统计
-            $.post('cqcencusLast7', {reload: re}, function(data, textStatus, xhr) {
+            $.post('cqcencusLast7', { reload: re }, function(data, textStatus, xhr) {
                 /*optional stuff to do after success */
                 for (var i = 0; i < data.length; i++) {
                     var target = $(".curcencus .cenlast" + i);
@@ -867,11 +864,12 @@ jQuery(document).ready(function($) {
         if (arg.msg) {
             layer.alert(arg.msg);
         } else {
-            var seconds = parseInt(arg.syntime), rdnsec = 0;
-            if(seconds <= 0 || seconds > 5) {
-                rdnsec = Math.random()*5;
+            var seconds = parseInt(arg.syntime),
+                rdnsec = 0;
+            if (seconds <= 0 || seconds > 5) {
+                rdnsec = Math.random() * 5;
             }
-            if(seconds > 0) {
+            if (seconds > 0) {
                 seconds -= rdnsec;
             } else {
                 seconds = Math.abs(seconds) + rdnsec;
@@ -1153,43 +1151,45 @@ jQuery(document).ready(function($) {
         $("#online").remove();
     }
 
-    if (!utils.getParams("tools")) {
-        $('.side,.holdhg').remove();
-    } else {
-        var inx = -1;
-        $(".dr-menu").find('.dr-tool').click(function(event) {
-            /* Act on the event */
-            if(inx > 0) {
-                layer.close(inx);
-            }
-            if($(this).hasClass('dr-wait')) {
-                inx = layer.msg("敬请期待..");
-            }
-        });
+    // if (!utils.getParams("tools")) {
+    //     $('.side,.holdhg').remove();
+    // } else {
+    var inx = -1;
+    $(".dr-menu").find('.dr-tool').click(function(event) {
+        /* Act on the event */
+        if (inx > 0) {
+            layer.close(inx);
+        }
+        if ($(this).hasClass('dr-wait')) {
+            inx = layer.msg("敬请期待..");
+        } else {
+            $(".side>.dr-menu").removeClass('dr-menu-open');
+        }
+    });
 
-        $("#startCalculate").click(function(event) {
-            /* Act on the event */
-            $("#doublereckon .doubleterm").remove();
-            var amount = parseInt($("#amount").val());   //本金
-            var start = 1;        //第一期
-            var every = parseInt($("#every").val());        //起始金额
-            var nextam = every;    //下一期的金额
-            var dobule = parseInt($("#dobule").val());
-            var next = 1;
-            while (amount > 0) {
-                nextam = every * next;
-                amount = amount - nextam;
-                $("#doublereckon").append("<p class='doubleterm'>第" + start + "期, 倍数：" + next + ", 金额：" + nextam + ", 剩余：" + amount + "</p>");
-                next = next * dobule;
-                start++;
-            }
-        });
-        $("#doublereckon").on("closed.zf.reveal", function() {
-            $("#doublereckon .doubleam").val("");
-            $("#doublereckon .dbdb").val(2);
-            $("#doublereckon .doubleterm").remove();
-        });
-    }
+    $("#startCalculate").click(function(event) {
+        /* Act on the event */
+        $("#doublereckon .doubleterm").remove();
+        var amount = parseInt($("#amount").val()); //本金
+        var start = 1; //第一期
+        var every = parseInt($("#every").val()); //起始金额
+        var nextam = every; //下一期的金额
+        var dobule = parseInt($("#dobule").val());
+        var next = 1;
+        while (amount > 0) {
+            nextam = every * next;
+            amount = amount - nextam;
+            $("#doublereckon").append("<p class='doubleterm'>第" + start + "期, 倍数：" + next + ", 金额：" + nextam + ", 剩余：" + amount + "</p>");
+            next = next * dobule;
+            start++;
+        }
+    });
+    $("#doublereckon").on("closed.zf.reveal", function() {
+        $("#doublereckon .doubleam").val("");
+        $("#doublereckon .dbdb").val(2);
+        $("#doublereckon .doubleterm").remove();
+    });
+    // }
 
     /**
      * 用户退出页面更新在线人数
