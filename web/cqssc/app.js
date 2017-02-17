@@ -291,12 +291,13 @@ jQuery(document).ready(function($) {
                                     if (nextTerm == 120) {
                                         wating = 0;
                                         clearInterval(cq.interval);
-                                        layer.msg("6秒后将清空今天的数据");
+                                        layer.msg("6秒后将清空数据");
                                         $('.tips').hide();
                                         var renovate = setTimeout(function() {
                                             cq.init();
                                             cq.cnecusLast7(1);
                                             clearTimeout(renovate);
+                                            cq.start();
                                         }, 6000);
                                     } else {
                                         cq.setTipsPos(nextTerm, null, { 'color': '#f183d3' });
@@ -464,6 +465,7 @@ jQuery(document).ready(function($) {
          */
         init: function() {
             $(".tips").hide();
+            cq.synlock = false;
             cq.beforeterm = 0;
             cq.curterm = 0;
             for (item in cq.anlycol) {
