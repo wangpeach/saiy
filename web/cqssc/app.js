@@ -377,6 +377,11 @@ jQuery(document).ready(function($) {
                                         lastMin = parseInt(min.length == 1 ? 9 : (min.charAt(0) + "9"));
                                     }
                                     stopTime.setMinutes(lastMin);
+                                    /**
+                                     * 最后一期数据剩投注时钟莫名会加一小时，所以设置和投注时钟相同
+                                     */
+                                    stopTime.setHours(date.getHours());
+
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
@@ -1162,8 +1167,6 @@ jQuery(document).ready(function($) {
         }
         if ($(this).hasClass('dr-wait')) {
             inx = layer.msg("敬请期待..");
-        } else {
-            $(".side>.dr-menu").removeClass('dr-menu-open');
         }
     });
 
