@@ -73,20 +73,27 @@ public class CqsscController extends BaseController {
             Map<String, String> map = gson.fromJson(curTerm.toString(), Map.class);
             String _expect = map.get("expect");
             int expect = Integer.parseInt(_expect.substring(_expect.length() - 3));
-            if(expect < term) {
-                Map<String, Object> code = cqsscService.getLastTerm();
-                _expect = code.get("expect").toString();
-                expect = Integer.parseInt(_expect.substring(_expect.length() - 3));
-                if(expect == term) {
-                    result = gson.toJson(code);
-                    context.setAttribute("curterm", result);
-                } else {
-                    map = new HashMap<String, String>();
-                    map.put("warning", "no syn");
-                    result = gson.toJson(map, Map.class);
-                }
+
+            if(expect - term > 1) {
+                map = new HashMap<String, String>();
+                map.put("warning", "no syn");
+                context.removeAttribute("curterm");
             } else {
-                result = gson.toJson(map);
+                if(expect < term) {
+                    Map<String, Object> code = cqsscService.getLastTerm();
+                    _expect = code.get("expect").toString();
+                    expect = Integer.parseInt(_expect.substring(_expect.length() - 3));
+                    if(expect == term) {
+                        result = gson.toJson(code);
+                        context.setAttribute("curterm", result);
+                    } else {
+                        map = new HashMap<String, String>();
+                        map.put("warning", "no syn");
+                        result = gson.toJson(map, Map.class);
+                    }
+                } else {
+                    result = gson.toJson(map);
+                }
             }
         }
         output(result);

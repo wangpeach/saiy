@@ -75,7 +75,7 @@ public class CqsscService extends BaseService {
             }
             day = dateFormat.format(cal.getTime());
         }
-        codes = this.readCodes(day);
+        codes = this.readCodes(day, false);
         List<Map<String, Object>> _codes = gson.fromJson(codes, List.class);
 
         if(codes.startsWith("-*-")) {
@@ -138,17 +138,20 @@ public class CqsscService extends BaseService {
      * @param day
      * @return
      */
-    public String readCodes(String day) {
+    public String readCodes(String day, boolean judgeDay) {
         String codes = null;
         String path = savePath + day + ".json";
         if (FileOperate.isExists(path)) {
             codes = FileOperate.readfile(path);
-            // 如果不是读取今天的数据，检查数据是否完整，不完整则重新请求数据
-            curDay = dateFormat.format(Calendar.getInstance().getTime());
-            if(!curDay.equals(day)) {
-                int codeSize = gson.fromJson(codes, List.class).size();
-                if(codeSize < 120) {
-                     codes = this.holdCodes(day);
+            // 是否判断日期，在凌晨获取 120 期数据时候不需要判断是否是今天
+            if(judgeDay) {
+                // 如果不是读取今天的数据，检查数据是否完整，不完整则重新请求数据
+                curDay = dateFormat.format(Calendar.getInstance().getTime());
+                if(!curDay.equals(day)) {
+                    int codeSize = gson.fromJson(codes, List.class).size();
+                    if(codeSize < 120) {
+                        codes = this.holdCodes(day);
+                    }
                 }
             }
         } else {
@@ -169,7 +172,7 @@ public class CqsscService extends BaseService {
             cal.add(Calendar.DAY_OF_MONTH, - 1);
         }
         curDay = dateFormat.format(cal.getTime());
-        String codesStr = this.readCodes(curDay);
+        String codesStr = this.readCodes(curDay, false);
         List<Map<String, Object>> codes =  gson.fromJson(codesStr, List.class);
         return codes.get(0);
     }
@@ -311,7 +314,7 @@ public class CqsscService extends BaseService {
         for (int i = 1; i < 8; i++) {
             cal.add(Calendar.DAY_OF_MONTH, -1);
             String day = dateFormat.format(cal.getTime());
-            String codes = this.readCodes(day);
+            String codes = this.readCodes(day, true);
 
             Map<String, Object> res = null;
             if(!codes.startsWith("-*-")) {

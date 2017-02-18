@@ -381,13 +381,14 @@ jQuery(document).ready(function($) {
                                     /**
                                      * 最后一期数据剩投注时钟莫名会加一小时，所以设置和投注时钟相同
                                      */
+                                    stopTime.setDate(date.getDate());
                                     stopTime.setHours(date.getHours());
 
                                     stopTime.setSeconds(0);
                                     surplusSeconds = cal.dateDiff(stopTime, date);
                                 }
 
-                                console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
+                                //console.log(stopTime.getFullYear() + "-" + stopTime.getMonth() + "-" + stopTime.getDay() + " " + stopTime.getHours() + ":" + stopTime.getMinutes() + ":" + stopTime.getSeconds());
                                 if (surplusSeconds > 240) {
                                     surplusSeconds = 0;
                                     loopreq = true;
