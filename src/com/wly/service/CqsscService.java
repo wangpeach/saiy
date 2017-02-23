@@ -66,22 +66,24 @@ public class CqsscService extends BaseService {
         int seconds = 0;
         String codes = null;
         Map<String, Object> map = new HashMap<String, Object>();
+        boolean judgeDay = true;
         // 获取历史数据
         if (!Utils.isNotNullOrEmpty(day)) {
             System.out.println("synchronize, 系统自动设置日期..");
             Calendar cal = Calendar.getInstance();
             if(cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) <= 46 || !lastNoSyn) {
+                judgeDay = false;
                 cal.add(Calendar.DAY_OF_MONTH, -1);
             }
             day = dateFormat.format(cal.getTime());
         }
-        codes = this.readCodes(day, false);
-        List<Map<String, Object>> _codes = gson.fromJson(codes, List.class);
+        codes = this.readCodes(day, judgeDay);
 
         if(codes.startsWith("-*-")) {
             codes = codes.replace("-*-", "");
             map.put("msg", codes);
         } else {
+            List<Map<String, Object>> _codes = gson.fromJson(codes, List.class);
             map.put("codes", _codes);
         }
 
