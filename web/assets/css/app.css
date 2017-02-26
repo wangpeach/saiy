@@ -351,6 +351,14 @@ footer {
 footer a, footer a:hover {
 	color: #e0e0e0;
 }
+footer p.friend {
+	width: 80%;
+    margin: 0px auto;
+    color: antiquewhite;
+}
+footer p.friend a {
+	color: antiquewhite;
+}
 
 .card {
     margin-bottom: 0px;
