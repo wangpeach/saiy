@@ -359,6 +359,9 @@ footer p.friend {
 footer p.friend a {
 	color: antiquewhite;
 }
+footer p.friend span {
+	padding: 0px 6px;
+}
 
 .card {
     margin-bottom: 0px;
