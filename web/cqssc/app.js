@@ -1206,4 +1206,22 @@ jQuery(document).ready(function($) {
             console.log("cuted")
         });
     });
+
+    layer.open({
+      type: 1
+      ,title: false //不显示标题栏
+      ,closeBtn: true
+      ,area: '300px;'
+      ,shade: false
+      ,time: 16000
+      ,offset: 'rb'
+      ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+      ,resize: false
+      // ,btn: ['关闭']
+      ,btnAlign: 'c'
+      ,moveType: 1 //拖拽模式，0或者1
+      ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300; font-size: 14px;">感谢各位彩友能够使用我们的网站，诚恳的邀请您进我们的QQ群，群号：464919389，群主和管理会不定期发送人工稳定计划供各位参考。</div>'
+      ,success: function(layero){
+      }
+    });
 });
