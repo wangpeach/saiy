@@ -573,6 +573,8 @@ jQuery(document).ready(function($) {
 
                 }
 
+                cq.codeKT();
+
                 // 分析已选中形态
                 var An1Res = cq.analysis(cq.curAnlAction[0], codes.join(""));
                 if (An1Res) {
@@ -853,6 +855,26 @@ jQuery(document).ready(function($) {
                     $(target).find('.shun').text(data[i].shun);
                 }
             }, 'json');
+        },
+
+        /**
+         * 号码二码和三码分开
+         * @return {[type]} [description]
+         */
+        codeKT: function() {
+            var _codekt = null;
+            if (cq.lastAnlAction) {
+                _codekt = $(cq.lastAnlAction).data('val');
+            } else {
+                _codekt = "H2";
+            }
+            if(_codekt == 'H2' || _codekt == "H3") {
+                $(".opened>.col .data-row .columns").find('span:gt(1)').removeClass('h3_active');
+                $(".opened>.col .data-row .columns").find('span:lt(3)').addClass('q3_active');
+            } else {
+                $(".opened>.col .data-row .columns").find('span:lt(3)').removeClass('q3_active');
+                $(".opened>.col .data-row .columns").find('span:gt(1)').addClass('h3_active');
+            }
         }
     }
 
@@ -992,6 +1014,8 @@ jQuery(document).ready(function($) {
         $(this).addClass('active');
         cq.lastAnlAction = this;
 
+        cq.codeKT();
+
         cq.curAnlAction[(cq.lastAnlRank == "AN1" ? 0 : 1)] = $(this).data("val");
 
         /**
@@ -1130,13 +1154,41 @@ jQuery(document).ready(function($) {
     /**
      * 高亮数字
      */
-    $(".cencus > .row").mouseenter(function(event) {
+    $(".curcencus fieldset .row:first div:gt(0)").mouseenter(function(event) {
         /* Act on the event */
-        $('.opened span[data-val="' + $(this).data('val') + '"]').addClass('active');
+        $('.opened span[data-val="' + $(this).text() + '"]').addClass('active');
     }).mouseleave(function(event) {
         /* Act on the event */
-        $('.opened span[data-val="' + $(this).data('val') + '"]').removeClass('active');
+        $('.opened span[data-val="' + $(this).text() + '"]').removeClass('active');
     });
+
+    $(".opened .row > .columns").delegate('span', 'mouseenter', function(event) {
+        $('.opened span[data-val="' + $(this).text() + '"]').addClass('active');
+    }).delegate('span', 'mouseleave', function(event) {
+        $('.opened span[data-val="' + $(this).text() + '"]').removeClass('active');
+    });
+
+    /**
+     * 遗漏提示
+     * @type {Number}
+     */
+    var tipsInx = -1;
+    $(".curcencus > .row > .small-6:first div").mouseenter(function(event) {
+        /* Act on the event */
+        var target = $(this).children().first();
+        var title = $(target).attr("title");
+        if(title) {
+            tipsInx = layer.tips(title, $(target), {
+                time: 8000,
+                tips: [1, '#2A8EF8'] //还可配置颜色
+            });
+        }
+    }).mouseleave(function(event) {
+        /* Act on the event */
+        if(tipsInx > -1) {
+            layer.close(tipsInx);
+        }
+    });;
 
     /**
      * 在线人数
@@ -1159,9 +1211,6 @@ jQuery(document).ready(function($) {
         $("#online").remove();
     }
 
-    // if (!utils.getParams("tools")) {
-    //     $('.side,.holdhg').remove();
-    // } else {
     var inx = -1;
     $(".dr-menu").find('.dr-tool').click(function(event) {
         /* Act on the event */
@@ -1204,6 +1253,16 @@ jQuery(document).ready(function($) {
         console.log("cut")
         $.post('cqcutOnline', {}, function(data, textStatus, xhr) {
             console.log("cuted")
+        });
+    });
+
+    $(".friend a").click(function(event) {
+        /* Act on the event */
+        var data = $(this).data(), that = $(this);
+        var template = "<a target='block' href='"+ data.sigHref +"' style='color: #464646;'>登录</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target='block' href='"+ data.regHref +"' style='color: #464646;'>注册</a>"
+        var tipsInx = layer.tips(template, $(that), {
+            time: 4000,
+            tips: [1, '#faebd7'] //还可配置颜色
         });
     });
 

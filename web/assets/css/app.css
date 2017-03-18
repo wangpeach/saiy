@@ -2,6 +2,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 	min-height: 860px;
+	cursor: default;
 	background-color: #464646;
 }
 
@@ -233,6 +234,14 @@ hr {
 	border-top: 0px;
 	text-align: center;
 }
+
+.cq>.container>.code>.opened>.col .data-row .columns span {
+	padding-right: 1px;
+}
+.cq>.container>.code>.opened>.col .data-row .columns span.q3_active, .cq>.container>.code>.opened>.col .data-row .columns span.h3_active {
+	color: lightblue;
+}
+
 .cq>.container>.code>.opened>.col .data-row .columns:first-child {
 	color: #dedede;
 	border-left: 0px;
@@ -351,7 +360,7 @@ footer {
 footer a, footer a:hover {
 	color: #e0e0e0;
 }
-footer p.friend {
+footer p {
 	width: 80%;
     margin: 0px auto;
     color: antiquewhite;
