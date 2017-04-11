@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="springbase:war exploded">
+    <output-path>D:/Program Files/apache-tomcat-7.0.73/webapps/springbase</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="springbase" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Custom: spring.mvc" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="springbase/web/Web" />
+      <element id="dir-copy" path="$PROJECT_DIR$/../springbase/out/production/springbase/web" />
+    </root>
+  </artifact>
+</component>

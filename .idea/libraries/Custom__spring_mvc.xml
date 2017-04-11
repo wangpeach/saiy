@@ -1,0 +1,40 @@
+<component name="libraryTable">
+  <library name="Custom: spring.mvc">
+    <CLASSES>
+      <root url="jar://E:/Libs/spring-mvc/aopalliance-1.0.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/commons-logging-1.2.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/jackson-annotations-2.8.5.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/jackson-core-2.8.5.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/jackson-databind-2.8.5.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/jstl-1.2.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/mybatis-3.2.8.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/mybatis-generator-core-1.3.2.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/mybatis-spring-1.2.2.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/mysql-bin.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/proxool-0.9.1.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/proxool-cglib.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-aop-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-aspects-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-beans-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-context-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-context-support-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-core-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-expression-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-instrument-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-instrument-tomcat-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-jdbc-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-jms-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-messaging-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-orm-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-oxm-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-test-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-tx-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-web-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-webmvc-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-webmvc-portlet-4.3.4.RELEASE.jar!/" />
+      <root url="jar://E:/Libs/spring-mvc/spring-websocket-4.3.4.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
