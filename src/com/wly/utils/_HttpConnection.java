@@ -144,6 +144,7 @@ public class _HttpConnection {
             URLConnection _urlcon = null;
             if (httpType == HttpType.http) {
                 HttpURLConnection connect = (HttpURLConnection) url.openConnection();
+                connect.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
                 connect.setRequestMethod(this.httpMethod);
                 _urlcon = connect;
             } else {
