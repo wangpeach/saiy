@@ -19,7 +19,7 @@ import static com.wly.utils.Utils.properties;
 @Service
 public class CqsscService extends BaseService {
 
-    private static final String url = "http://c.apiplus.net/%s.do?token=937f08385b8734c6&code=cqssc&format=json";
+    private static String url = "";
     private String savePath = "";
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -29,6 +29,10 @@ public class CqsscService extends BaseService {
 
     public CqsscService() {
         this.savePath = properties().getProperty("holdPath");
+    }
+
+    static {
+        url = properties().getProperty("requrl");
     }
 
     /**
